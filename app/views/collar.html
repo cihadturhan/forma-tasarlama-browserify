@@ -1,0 +1,22 @@
+<!-- Card -->
+<div class="ui celled centered link cards">
+    <a ui-sref="uniform" class="blue card" ng-repeat="collar in collars">
+        <div class="image">
+            <img ng-src="{{'img/yakalar/'+collar.src}}.png">
+        </div>
+        <div class="content">
+            <div class="header">{{collar.description}}</div>
+            <div class="meta">
+                <span>Minimum: {{collar.minimum}} adet</span>
+            </div>
+            <div class="description"></div>
+        </div>
+        <div class="extra content">
+            <button class="ui primary button">
+                <i class="checkmark icon"></i>
+                Devam Et
+            </button>
+        </div>
+    </a>
+</div>
+<!-- End Card -->

@@ -1,0 +1,25 @@
+<div class="ten wide right aligned column">
+    <div id="pixi-scene" class="ui stacked center aligned segment"></div>
+</div>
+
+<div class="six wide column">
+    <div class="ui styled fluid accordion">
+
+        <div ng-repeat="section in content">
+            <div class="title" ng-click="accordion.index = $index" ng-class="(accordion.index == $index) && 'active'">
+                <i class="dropdown icon"></i>
+                {{section.title}}
+            </div>
+            <div class="content" ng-class="(accordion.index == $index) && 'active'">
+                <form class="ui form transition" ng-class="(accordion.index == $index)?'visible': 'hidden'">
+                    <div class="field" ng-repeat="color in section.colors"><colorpicker color="color.value" on-change="changeTint(color.layers, newColor)" class="input" color-language="en"></colorpicker></div>
+                    <div class="field" ng-repeat="text in section.texts"><input ng-model="text.value" ng-change="changeText(text.layers, text.value)" class="input" color-language="en"></colorpicker></div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="">
+    </div>
+
+</div>
