@@ -9,3 +9,4 @@ app/ngAnnotate
 app/dist
 /.idea
 /semantic
+/app/css/semantic

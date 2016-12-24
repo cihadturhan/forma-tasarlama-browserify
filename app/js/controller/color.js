@@ -1,83 +1,105 @@
 var PIXI = require('pixi.js');
 var TWEEN = require('tween.js');
-var {sizes, absScale} = require('../util/constants');
-var Texture = require('../util/textures');
 
-module.exports = function ($scope, $stateParams, containerService, focusService, uniformService) {
+var constants = require('../util/constants');
+var textureUtil = require('../util/textures');
+var focus = require('../util/focus');
 
-    var logo = 'adidas.png';
-    $scope.logoTexture = PIXI.Texture.fromImage('logos/' + logo);
+var sizes = constants.sizes;
+var absScale = constants.absScale;
+var containerSize = constants.container;
 
-    var focus = focusService.get();
+var front, back;
+var smarts_body = [], smarts_shorts = [], socks = [], smarts_parts = [];
+var backTexts = [];
+var logos = [];
+var renderer, stage;
+
+
+module.exports = function ($scope, $stateParams, containerService, uniformService) {
 
     $scope.uniforms = uniformService.get();
 
-    var uniform = $scope.uniforms[$stateParams.id];
-
-    var bodyTexture = PIXI.Texture.fromImage('models/' + uniform.name + '/front_body.png');
-    var shortsTexture = PIXI.Texture.fromImage('models/' + uniform.name + '/front_shorts.png');
-
-    bodyTexture.onBaseTextureLoaded(function () {
-        console.log(arguments);
-    });
-
-
     $scope.accordion = {index: 0};
+    $scope.faces = constants.faces;
+    $scope.face = $scope.faces.FRONT;
 
-    var smarts_body, smarts_shorts, smarts_parts, socks, backNumber;
+    $scope.$watch('face', function(newValue){
+
+        var x = newValue == $scope.faces.FRONT ? 0 : -containerService.getBack().position.x + containerSize.wHalf;
+        new TWEEN
+            .Tween({x: stage.position.x})
+            .to({x: x}, 2000)
+            .onUpdate(function () {
+                stage.position.x = this.x;
+            })
+            .easing(TWEEN.Easing.Exponential.Out)
+            .start();
+    });
 
     function initVars() {
 
         $scope.content = [
             {
                 title: 'Genel Görünüm',
-                key: 'body',
+                focus: focus.body,
                 colors: []
             }, {
                 title: 'TShirt',
-                key: 'tshirt',
+                focus: focus.tshirt,
                 colors: [
-                    {value: '#3B1F4E', layers: [smarts_body]},
-                    {value: '#FFFFFF', layers: [smarts_parts]}
+                    {value: '#3B1F4E', layers: smarts_body},
+                    {value: '#FFFFFF', layers: smarts_parts}
                 ]
             }, {
                 title: 'Şort',
-                key: 'shorts',
+                focus: focus.shorts,
                 colors: [
-                    {value: '#3B1F4E', layers: [smarts_shorts]},
+                    {value: '#3B1F4E', layers: smarts_shorts},
                     /*{value: '#FFFFFF', layers: []}*/
                 ]
             }, {
                 title: 'Çoraplar',
-                key: 'socks',
+                focus: focus.socks,
                 colors: [
-                    {value: '#FFFFFF', layers: [socks]}
+                    {value: '#FFFFFF', layers: socks}
                 ]
             },
             {
                 title: 'Logo',
-                key: 'logo',
+                focus: focus.logo,
+                movables: [{value: function(){return $scope.accordion.index == 4}, layers: logos}],
                 colors: []
             },
             {
                 title: 'Numara',
-                key: 'tshirt',
+                focus: focus.backNumber,
                 texts: [
-                    {value: '9', layers: [backNumber]}
                 ],
                 colors: [
-                    {value: '#FFFFFF', layers: [backNumber]}
                 ]
             }
         ];
 
+
+
+
         $scope.$watch('accordion.index', function (newValue, oldValue) {
-            return () => {
-                if (newValue == oldValue)
-                    return;
-                var key = $scope.content[newValue].key;
-                tweenTo(focus[key]);
-            }
+            var oldContent = $scope.content[oldValue];
+            var content = $scope.content[newValue];
+
+            if(content.movables)
+                content.movables.forEach(function (movable) {
+                    $scope.changeInteraction(movable.layers, true);
+                });
+            else if(oldContent && oldContent.movables)
+                oldContent.movables.forEach(function (movable) {
+                    $scope.changeInteraction(movable.layers, false);
+                });
+
+            var _focus = content.focus;
+
+            tweenTo(_focus);
         });
 
         //Change Texture
@@ -85,28 +107,25 @@ module.exports = function ($scope, $stateParams, containerService, focusService,
 
 
         $scope.changeTint = function (layers, newColor) {
-            layers.forEach(function (layer) {
+            layers && layers.forEach(function (layer) {
                 if (layer)
                     layer.tint = toNumber(newColor);
             });
         };
 
         $scope.changeText = function (layers, newText) {
-            layers.forEach(function (layer) {
+            layers && layers.forEach(function (layer) {
                 if (layer)
                     layer.text = newText;
             });
         };
 
-
-        $scope.content.forEach(function (parts) {
-            parts.colors && parts.colors.forEach(function (color) {
-                $scope.changeTint(color.layers, color.value);
+        $scope.changeInteraction = function(layers, isInteractive){
+            layers && layers.forEach(function (layer) {
+                if (layer)
+                    layer.interactive = isInteractive
             });
-            parts.texts && parts.texts.forEach(function (text) {
-                $scope.changeText(text.layers, text.value);
-            });
-        });
+        };
     }
 
 
@@ -118,35 +137,44 @@ module.exports = function ($scope, $stateParams, containerService, focusService,
         if (typeof duration == 'undefined')
             duration = 1000;
 
+        if(part.face)
+            $scope.face = part.face;
+
         var cons = absScale * part.scale;
 
         var transform = {
             x: sizes.wHalf * absScale + (sizes.wHalf - part.transform.x) * cons,
             y: sizes.hHalf * absScale + (sizes.hHalf - part.transform.y) * cons
         };
-        //transform = {x: 200, y: 577};
+
         var scale = {x: part.scale, y: part.scale};
 
         var tweenTrans = new TWEEN
-            .Tween(front.position)
+            .Tween({x: front.position.x, y: front.position.y})
             .to(transform, duration)
+            .onUpdate(function () {
+                back.position.x = front.position.x = this.x;
+                back.position.y = front.position.y = this.y;
+            })
             .easing(TWEEN.Easing.Exponential.Out)
             .start();
 
+
         var tweenScale = new TWEEN
-            .Tween(front.scale)
+            .Tween({x: front.scale.x, y: front.scale.y})
             .to(scale, duration)
+            .onUpdate(function () {
+                back.scale.x = front.scale.x = this.x;
+                back.scale.y = front.scale.y = this.y;
+            })
             .easing(TWEEN.Easing.Exponential.Out)
             .start();
     }
 
-    var front;
-    var back;
 
-    var renderer, stage;
 
     function initScene() {
-        renderer = PIXI.autoDetectRenderer(800, 1153);
+        renderer = PIXI.autoDetectRenderer(containerSize.width, containerSize.height);
         renderer.backgroundColor = 0xFFFFFF;
         document.querySelector("#pixi-scene").appendChild(renderer.view);
 
@@ -154,23 +182,55 @@ module.exports = function ($scope, $stateParams, containerService, focusService,
         stage = new PIXI.Container();
     }
 
+    function prepareVars(){
+        $scope.content.forEach(function (parts) {
+            parts.colors && parts.colors.forEach(function (color) {
+                $scope.changeTint(color.layers, color.value);
+            });
+            parts.texts && parts.texts.forEach(function (text) {
+                $scope.changeText(text.layers, text.value);
+            });
+            parts.movables && parts.movables.forEach(function (movable) {
+                $scope.changeInteraction(movable.layers, movable.value());
+            });
+        });
+    }
+
+
     function initContainer(options) {
 
+        var uniform = $scope.uniforms[$stateParams.id];
+
+        var mainContainer = new PIXI.Container();
+        mainContainer.position.x = options.position.x - containerSize.wHalf;
+        mainContainer.position.y = options.position.y - containerSize.hHalf;
+
+
         var container = new PIXI.Container();
-        container.pivot.x = options.position.x;
-        container.pivot.y = options.position.y;
-        container.position.x = options.position.x;
-        container.position.y = options.position.y;
-        stage.addChild(container);
+        container.pivot.x = containerSize.wHalf;
+        container.pivot.y = containerSize.hHalf;
+        container.position.x = containerSize.wHalf;
+        container.position.y = containerSize.hHalf;
+
+        mainContainer.addChild(container);
+        stage.addChild(mainContainer);
 
         // create a new background sprite
         var base = new PIXI.Sprite.fromImage(options.layers.base);
-        smarts_parts = new PIXI.Sprite.fromImage(options.layers.smarts);
+        var _smarts_parts = new PIXI.Sprite.fromImage(options.layers.smarts);
+        smarts_parts.push(_smarts_parts);
 
+        var bodyTexture = PIXI.Texture.fromImage('models/' + uniform.name + '/' + options.name + '_body.png');
+        var shortsTexture = PIXI.Texture.fromImage('models/' + uniform.name + '/' + options.name + '_shorts.png');
 
-        smarts_body = new PIXI.Sprite(bodyTexture);
-        smarts_shorts = new PIXI.Sprite(shortsTexture);
-        socks = new PIXI.Sprite.fromImage(options.layers.socks);
+        var _smarts_body = new PIXI.Sprite(bodyTexture);
+        smarts_body.push(_smarts_body);
+
+        var _smarts_shorts = new PIXI.Sprite(shortsTexture);
+        smarts_shorts.push(_smarts_shorts);
+
+        var _socks = new PIXI.Sprite.fromImage(options.layers.socks);
+        socks.push(_socks);
 
         var uniform_highlights = new PIXI.Sprite.fromImage(options.layers.uniformHighlights);
         uniform_highlights.blendMode = PIXI.BLEND_MODES.SCREEN;
@@ -181,96 +241,43 @@ module.exports = function ($scope, $stateParams, containerService, focusService,
         var uniform = new PIXI.Sprite.fromImage(options.layers.uniform);
         container.addChild(base);
 
-        container.addChild(smarts_parts);
-        container.addChild(smarts_body);
-        container.addChild(smarts_shorts);
-        container.addChild(socks);
+        container.addChild(_smarts_parts);
+        container.addChild(_smarts_body);
+        container.addChild(_smarts_shorts);
+        container.addChild(_socks);
 
-        options.extras && options.extras.texts.forEach(function (text) {
-            var textLayer = createText(text);
-            container.addChild(textLayer);
-        });
+        if (options.extras && options.extras.texts.length) {
+            var index = 5;
+            var content = $scope.content[index];
+            var color = options.extras.textColor || '#333';
+            var layers = [];
 
+            options.extras.texts.forEach(function (text) {
+                var textLayer = textureUtil.createText(text);
+
+                content.texts.push({value: text.value, layers: [textLayer]});
+                layers.push(textLayer);
+
+                container.addChild(textLayer);
+            });
+
+            content.colors.push({value: color, layers: layers});
+        }
 
         container.addChild(uniform_shadows);
         container.addChild(uniform_highlights);
         container.addChild(uniform);
 
+        $scope.testData = {x: 0, y: 0};
+
         options.extras && options.extras.logos.forEach(function (logo) {
-            var logoLayer = createLogo(logo);
+            var logoLayer = textureUtil.createLogo(logo, $scope.testData);
+            logos.push(logoLayer);
             container.addChild(logoLayer);
         });
 
 
         return container;
-    }
-
-    function createText(text) {
-        var style = {
-            fontFamily: 'Arial',
-            fontSize: '70px',
-            fontWeight: 'bold',
-            fill: '#F7EDCA',
-            align: 'center'
-        };
-
-        var textLayer = new PIXI.Text(text.value, style);
-        textLayer.x = text.position.x;
-        textLayer.y = text.position.y;
-        return textLayer;
-    }
-
-    function createLogo(logo) {
-        var logoTexture = new PIXI.Texture.fromImage(logo.image);
-        var logoLayer = new PIXI.Sprite(logoTexture);
-        logoLayer.interactive = true;
-        logoLayer.buttonMode = true;
-        logoLayer.x = logo.position.x * absScale;
-        logoLayer.y = logo.position.y * absScale;
-        logoLayer.scale.x = logoLayer.scale.y = 0.2;
-        logoLayer.alpha = 0.8;
-        logoLayer.anchor.set(0.5);
-
-        logoLayer
-        // events for drag start
-            .on('mousedown', onDragStart)
-            .on('touchstart', onDragStart)
-            // events for drag end
-            .on('mouseup', onDragEnd)
-            .on('mouseupoutside', onDragEnd)
-            .on('touchend', onDragEnd)
-            .on('touchendoutside', onDragEnd)
-            // events for drag move
-            .on('mousemove', onDragMove)
-            .on('touchmove', onDragMove);
-
-        function onDragStart(event) {
-            // store a reference to the data
-            // the reason for this is because of multitouch
-            // we want to track the movement of this particular touch
-            this.data = event.data;
-            this.alpha = 0.5;
-            this.dragging = true;
-        }
-
-        function onDragEnd() {
-            this.alpha = 0.8;
-
-            this.dragging = false;
-
-            // set the interaction data to null
-            this.data = null;
-        }
-
-        function onDragMove() {
-            if (this.dragging) {
-                var newPosition = this.data.getLocalPosition(this.parent);
-                this.position.x = newPosition.x;
-                this.position.y = newPosition.y;
-            }
-        }
-
-        return logoLayer;
     }
 
     function animate() {
@@ -282,17 +289,19 @@ module.exports = function ($scope, $stateParams, containerService, focusService,
         requestAnimationFrame(animate);
     }
 
+    initVars();
+
     initScene();
     front = initContainer(containerService.getFront());
-    front.alpha = 0.2;
     back = initContainer(containerService.getBack());
-    back.alpha = 0.3;
+
+    prepareVars();
 
     requestAnimationFrame(animate);
 
+
     tweenTo(focus.infinity, 0);
-    setTimeout(function () {
+    /*setTimeout(function () {
         tweenTo(focus.body)
-    }, 2000);
-    initVars();
+    }, 4000);*/
 };

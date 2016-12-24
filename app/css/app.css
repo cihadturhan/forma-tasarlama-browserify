@@ -22,23 +22,6 @@ canvas{
   height: 577px;
 }
 
-#canvas-container{
-  position: relative;
-}
-
-/*Test*/
-div#pixi-scene:after {
-  content: "";
-  position: absolute;
-  width: 8px;
-  height: 8px;
-  background: red;
-  top: 288px;
-  left: 200px;
-  z-index: 2;
-  margin-left: -4px;
-  margin-top: -4px;
-}
 #pixi-scene{
   position: relative;
 }
