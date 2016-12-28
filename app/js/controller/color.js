@@ -16,9 +16,10 @@ var logos = [];
 var renderer, stage;
 
 
-module.exports = function ($scope, $stateParams, containerService, uniformService) {
+module.exports = function ($scope, $stateParams, containerService, uniformService, collarService) {
 
-    $scope.uniforms = uniformService.get();
+    var selectedUniform = uniformService.get($stateParams.uniform);//$scope.uniforms[$stateParams.uniform];
+    var selectedCollar = collarService.get($stateParams.collar);//
 
     $scope.accordion = {index: 0};
     $scope.faces = constants.faces;
@@ -199,8 +200,6 @@ module.exports = function ($scope, $stateParams, containerService, uniformServic
 
     function initContainer(options) {
 
-        var uniform = $scope.uniforms[$stateParams.id];
-
         var mainContainer = new PIXI.Container();
         mainContainer.position.x = options.position.x - containerSize.wHalf;
         mainContainer.position.y = options.position.y - containerSize.hHalf;
@@ -220,8 +219,8 @@ module.exports = function ($scope, $stateParams, containerService, uniformServic
         var _smarts_parts = new PIXI.Sprite.fromImage(options.layers.smarts);
         smarts_parts.push(_smarts_parts);
 
-        var bodyTexture = PIXI.Texture.fromImage('models/' + uniform.name + '/' + options.name + '_body.png');
-        var shortsTexture = PIXI.Texture.fromImage('models/' + uniform.name + '/' + options.name + '_shorts.png');
+        var bodyTexture = PIXI.Texture.fromImage('models/' + selectedCollar.src +  '/tshirt/' + selectedUniform.name + '/' + options.name + '.png');
+        var shortsTexture = PIXI.Texture.fromImage('models/'+ selectedCollar.src + '/shorts/' + 1 +  '/' + options.name + '.png');
 
         var _smarts_body = new PIXI.Sprite(bodyTexture);
         smarts_body.push(_smarts_body);
@@ -292,8 +291,8 @@ module.exports = function ($scope, $stateParams, containerService, uniformServic
     initVars();
 
     initScene();
-    front = initContainer(containerService.getFront());
-    back = initContainer(containerService.getBack());
+    front = initContainer(containerService.getFront(selectedCollar.name));
+    back = initContainer(containerService.getBack(selectedCollar.name));
 
     prepareVars();
 

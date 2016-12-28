@@ -1,18 +1,6 @@
-module.exports = function ($scope) {
-    $scope.uniforms = [
-        {
-            description: 'Point',
-            src: 'forma'
-        },
-        {
-            description: 'Splash',
-            src: 'forma'
-        },
-        {
-            description: 'Atlas',
-            src: 'forma'
-        }
-    ];
+module.exports = function ($scope, $stateParams, uniformService) {
+    $scope.collar = $stateParams.collar;
+    $scope.uniforms = uniformService.getAll();
 
     var i = 0;
     while (i++ < 10)

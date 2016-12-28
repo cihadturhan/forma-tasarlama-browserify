@@ -43,7 +43,7 @@
   </div>
 </div>
 
-<div class="ui one column centered grid">
+<div class="ui one column centered grid" ng-controller="navCtrl">
   <div class="aligned column">
     <div class="ui small steps">
       <a ui-sref="collar" ui-sref-active="active" class="step">
@@ -53,21 +53,21 @@
           <div class="description">Choose your shipping options</div>
         </div>
       </a>
-      <a ui-sref="uniform" ui-sref-active="active"  class="step">
+      <a ui-sref="uniform({collar: sp.collar})" ng-class="{disabled: !sp.collar}" ui-sref-active="active"  class="step">
         <i class="cloth icon"></i>
         <div class="content">
           <div class="title">Forma Seçimi</div>
           <div class="description">Enter billing information</div>
         </div>
       </a>
-      <a ui-sref="color" ui-sref-active="active"  class="step">
+      <a ui-sref="color({collar: sp.collar, uniform: sp.uniform})" ng-class="{disabled: !sp.uniform}" ui-sref-active="active"  class="step">
         <i class="cloth icon"></i>
         <div class="content">
           <div class="title">Renk Seçimi</div>
           <div class="description">Enter billing information</div>
         </div>
       </a>
-      <a ui-sref="payment" ui-sref-active="active"  class="step">
+      <a ui-sref="payment" ui-sref-active="active" ng-class="{disabled: !sp.color}"  class="step">
         <i class="payment icon"></i>
         <div class="content">
           <div class="title">Satın Alma</div>

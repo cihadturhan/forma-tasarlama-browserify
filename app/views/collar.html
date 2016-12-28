@@ -1,6 +1,6 @@
 <!-- Card -->
-<div class="ui celled centered link cards">
-    <a ui-sref="uniform" class="blue card" ng-repeat="collar in collars">
+<div class="ui four celled centered link cards">
+    <a ui-sref="uniform({collar: collar.name})" class="blue card" ng-repeat="collar in collars">
         <div class="image">
             <img ng-src="{{'img/yakalar/'+collar.src}}.png">
         </div>

@@ -61,10 +61,10 @@ function handleError(err) {
 var liveReload = true;
 
 gulp.task('clean', function () {
-    return gulp
+    /*return gulp
         .src([paths.root + 'ngAnnotate', paths.dist + '/*.js'], {read: false})
         .pipe(vinylPaths(del))
-        .on('error', handleError)
+        .on('error', handleError)*/
 });
 
 gulp.task('lint', function () {
@@ -164,11 +164,20 @@ gulp.task('e2e', ['server'], function () {
 
 gulp.task('watch', function () {
     gulp.start('server');
-    gulp.watch([
+    var watcher = gulp.watch([
         paths.src + '**/*.js',
         '!' + paths.src + 'third-party/**',
         paths.test + '**/*.js'
     ], ['fast']);
+
+    watcher.on('change', function(event) {
+        gutil.log(
+            'File ' ,
+            gutil.colors.yellow(event.path),
+            ' was ',
+            gutil.colors.blue(event.type)
+        );
+    });
 });
 
 gulp.task('fast', ['clean'], function () {

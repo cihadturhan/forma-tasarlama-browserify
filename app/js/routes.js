@@ -12,13 +12,13 @@ app.config(function($stateProvider, $urlRouterProvider) {
         },
         {
             name: 'uniform',
-            url: '/forma-secimi',
+            url: '/:collar/forma-secimi',
             controller: 'uniformCtrl',
             templateUrl: 'views/uniform.html'
         },
         {
             name: 'color',
-            url: '/renk-secimi/:id',
+            url: '/:collar/:uniform/renk-secimi',
             controller: 'colorCtrl',
             templateUrl: 'views/color.html'
         },

@@ -16,3 +16,4 @@ app.constant('VERSION', require('../../package.json').version);
 require('./service');
 require('./controller');
 require('./routes');
+
