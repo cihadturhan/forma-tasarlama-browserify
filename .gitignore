@@ -4,6 +4,9 @@ node_modules
 *.swp
 *.un~
 
+.htaccess
+.htpasswd
+
 app/ngmin
 app/ngAnnotate
 app/dist
