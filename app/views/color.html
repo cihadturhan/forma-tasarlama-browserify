@@ -18,9 +18,11 @@
 
             <div class="content" ng-class="(accordion.index == $index) && 'active'">
                 <form class="ui form transition" ng-class="(accordion.index == $index)?'visible': 'hidden'">
-                    <div class="field" ng-repeat="color in section.colors"><colorpicker color="color.value" on-change="changeTint(color.layers, newColor)" class="input" color-language="en"></colorpicker></div>
+                    <div class="field" ng-repeat="color in section.colors">
+                        <color-picker colors="['#333', '#ddd']" selected-color="color.value" on-change="changeTint(color.layers, newColor)"></color-picker>
+                    </div>
                     <div class="field" ng-repeat="text in section.texts">
-                        <input ng-model="text.value" ng-change="changeText(text.layers, text.value)" class="input" color-language="en"></colorpicker>
+                        <input ng-model="text.value" ng-change="changeText(text.layers, text.value)" class="input"/>
                     </div>
                     <div class="field" ng-repeat="movable in section.movables">
                         {{testData.x}}

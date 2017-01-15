@@ -1,7 +1,7 @@
 var app = require('angular').module('main');
 
 app.config(function($stateProvider, $urlRouterProvider) {
-    $urlRouterProvider.otherwise('/');
+    $urlRouterProvider.otherwise('/yaka-secimi');
     // An array of state definitions
     var states = [
         {

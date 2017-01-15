@@ -7,9 +7,10 @@ window.$ = window.jQuery = require('jquery');
 var angular = require('angular');
 
 require('angular-ui-router');
-require('./lib/angular-colorpicker');
 
-var app = angular.module('main', [ 'ui.colorpicker', 'ui.router' ]);
+var app = angular.module('main', [ 'ui.router' ]);
+
+require('./lib/angular.colorpicker')
 
 app.constant('VERSION', require('../../package.json').version);
 
