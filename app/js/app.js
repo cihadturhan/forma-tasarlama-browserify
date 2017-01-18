@@ -7,10 +7,11 @@ window.$ = window.jQuery = require('jquery');
 var angular = require('angular');
 
 require('angular-ui-router');
+require('ng-file-upload');
 
-var app = angular.module('main', [ 'ui.router' ]);
+var app = angular.module('main', [ 'ui.router', 'ngFileUpload' ]);
 
-require('./lib/angular.colorpicker')
+require('./lib/angular.colorpicker');
 
 app.constant('VERSION', require('../../package.json').version);
 

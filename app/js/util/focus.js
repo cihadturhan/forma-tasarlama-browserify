@@ -26,7 +26,7 @@ module.exports = {
         scale: 2
     },
     logo: {
-        transform: {x: 2300, y: 1200},
+        transform: {x: sizes.wHalf, y: 1200},
         scale: 3,
         face: faces.FRONT
     },

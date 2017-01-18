@@ -19,18 +19,38 @@
             <div class="content" ng-class="(accordion.index == $index) && 'active'">
                 <form class="ui form transition" ng-class="(accordion.index == $index)?'visible': 'hidden'">
                     <div class="field" ng-repeat="color in section.colors">
-                        <color-picker colors="['#333', '#ddd']" selected-color="color.value" on-change="changeTint(color.layers, newColor)"></color-picker>
+                        <color-picker selected-color="color.value"
+                                      on-change="changeTint(color.layers, newColor)"></color-picker>
                     </div>
                     <div class="field" ng-repeat="text in section.texts">
                         <input ng-model="text.value" ng-change="changeText(text.layers, text.value)" class="input"/>
                     </div>
                     <div class="field" ng-repeat="movable in section.movables">
-                        {{testData.x}}
-                        {{testData.y}}
+
+                        <div class="drop-box"
+                             ngf-select
+                             ngf-drop
+                             ngf-change="select($file)"
+                             ng-model="file"
+                             name="file"
+                             ngf-pattern="'image/*'"
+                             ngf-accept="'image/*'"
+                             ngf-max-size="20MB"
+                             ngf-min-height="100"
+                             ngf-resize="{width: 100, height: 100}"
+                             ng-drag-over-class="{accept:'dragover', reject:'dragover-err', pattern:'image/*,audio/*,video/*,text/*'}"
+                        >Logo  Yükleyiniz
+                        </div>
                     </div>
                 </form>
             </div>
+
+
         </div>
+            <a href="" class="ui right labeled primary icon button" ui-sref="payment({collar: sp.collar, uniform: sp.uniform, uuid: uuid})">
+            <i class="right arrow icon"></i>
+            Next
+        </a>
     </div>
 
     <div class="">

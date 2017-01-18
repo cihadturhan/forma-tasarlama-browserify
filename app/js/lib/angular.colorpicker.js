@@ -7,16 +7,15 @@ require('angular')
             selectedColor: "=",
             onChange: '&'
         },
-        template: `<div class="ui compact menu">
-                        <div class="ui bottom left simple dropdown button" ng-style="{backgroundColor: selectedColor}">
-                          &nbsp;
-                          <div class="menu">
-                            <div class="item" ng-repeat="colorChunk in colorChunks">
-                                <div class="color-box"  ng-repeat="color in colors" ng-style="{backgroundColor: color.value}" ng-click="setColor(color)">&nbsp;&nbsp;&nbsp;</div>
+        template: `<div class="ui">
+                        <div class="ui compact bottom color-box left simple dropdown icon button" ng-style="{backgroundColor: selectedColor}">
+                            <div class="menu">
+                                <div class="item" ng-repeat="colorChunk in colorChunks">
+                                    <div class="ui color-box icon button"  ng-repeat="color in colorChunk" ng-style="{backgroundColor: color.value, 'width': 40, 'height': 40}" ng-click="setColor(color)"></div>        
+                                </div>
                             </div>
-                          </div>
                         </div>
-                      </div>`,
+                  </div>`,
         link: function (scope, elem, attrs) {
             scope.colors = [
                 {name: 'siyah', value: '#000000'},
@@ -36,12 +35,12 @@ require('angular')
                 {name: 'mor', value: '#5c167e'}
             ];
 
-            scope.colorChunks = colors.reduce(function(p, c, i){
+            scope.colorChunks = scope.colors.reduce(function(p, c, i){
                 var rem = i % 3;
-                var den = ~~(i/3)
-                if(rem == 0)
-                    p[rem]
-                p[i%3].push
+
+                p[rem] || (p[rem] = []);
+                p[rem].push(c);
+                return p;
             },[]);
 
             scope.setColor = function (color) {

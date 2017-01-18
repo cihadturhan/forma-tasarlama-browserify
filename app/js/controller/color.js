@@ -16,10 +16,22 @@ var logos = [];
 var renderer, stage;
 
 
-module.exports = function ($scope, $stateParams, containerService, uniformService, collarService) {
+module.exports = function ($scope, $stateParams, containerService, uniformService, collarService, uuidService) {
+
+    $scope.sp = $stateParams;
+    $scope.uuid = uuidService.generate();
+    $scope.logoBlob;
+    $scope.select = function(blob){
+        $scope.logoBlob = blob;
+        var urlCreator = window.URL || window.webkitURL;
+        var logoUrl = urlCreator.createObjectURL(blob);
+        var logoTexture = new PIXI.Texture.fromImage(logoUrl);
+        logos[0].texture = logoTexture;
+    };
 
     var selectedUniform = uniformService.get($stateParams.uniform);//$scope.uniforms[$stateParams.uniform];
     var selectedCollar = collarService.get($stateParams.collar);//
+    $scope.testData = {x: 0, y: 0};
 
     $scope.accordion = {index: 0};
     $scope.faces = constants.faces;
@@ -198,6 +210,8 @@ module.exports = function ($scope, $stateParams, containerService, uniformServic
     }
 
 
+
+
     function initContainer(options) {
 
         var mainContainer = new PIXI.Container();
@@ -267,10 +281,10 @@ module.exports = function ($scope, $stateParams, containerService, uniformServic
         container.addChild(uniform_highlights);
         container.addChild(uniform);
 
-        $scope.testData = {x: 0, y: 0};
-
         options.extras && options.extras.logos.forEach(function (logo) {
-            var logoLayer = textureUtil.createLogo(logo, $scope.testData);
+            var logoLayer = textureUtil.createLogo(logo, $scope.testData, function(){
+                $scope.$apply();
+            });
             logos.push(logoLayer);
             container.addChild(logoLayer);
         });

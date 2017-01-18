@@ -24,7 +24,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
         },
         {
             name: 'payment',
-            url: '/odeme',
+            url: '/:collar/:uniform/:uuid/satin-alma',
             controller: 'paymentCtrl',
             templateUrl: 'views/payment.html'
         },
