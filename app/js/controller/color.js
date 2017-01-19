@@ -19,7 +19,7 @@ var renderer, stage;
 module.exports = function ($scope, $stateParams, containerService, uniformService, collarService, uuidService) {
 
     $scope.sp = $stateParams;
-    $scope.uuid = uuidService.generate();
+    $scope.colorUuid = uuidService.generate();
     $scope.logoBlob;
     $scope.select = function(blob){
         $scope.logoBlob = blob;

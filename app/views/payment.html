@@ -1,1 +1,61 @@
-Ödeme
+<div class="twelve wide center aligned column">
+    <div class="ui stacked center aligned segment">
+        <table class="ui very basic selectable celled table">
+            <thead>
+            <tr>
+                <th>#</th>
+                <th>Sırt İsmi</th>
+                <th>Sırt Numarası</th>
+                <th>Kaleci</th>
+                <th>Beden</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="d in [1,2,3,4,6,7]">
+                <td>{{$index}}</td>
+                <td>
+                    <h4 class="ui image header">
+                        <div class="ui input">
+                            <input type="text" placeholder="Oyuncu İsmi">
+                        </div>
+                    </h4>
+                </td>
+                <td>
+                    <div class="ui input" style="max-width: 100px">
+                        <input type="number" placeholder="Numara">
+                    </div>
+                </td>
+                <td>
+                    <button class="ui blue basic button">Kaleci Yap</button>
+                </td>
+                <td>
+                    <div class="field">
+                        <select class="ui fluid dropdown">
+                            <option>XS</option>
+                            <option>S</option>
+                            <option>M</option>
+                            <option>L</option>
+                            <option>XL</option>
+                            <option>XXL</option>
+                        </select>
+                    </div>
+                </td>
+            </tr>
+
+            </tbody>
+            <tfoot>
+            <tr>
+                <th>1 Kaleci</th>
+                <th>4 Oyuncu</th>
+                <th></th>
+                <th></th>
+                <th></th>
+            </tr>
+            </tfoot>
+        </table>
+        <a href="" class="ui right labeled primary icon button" ui-sref="summary({collar: sp.collar, uniform: sp.uniform, colorUuid: sp.colorUuid, paymentUuid: paymentUuid})">
+            <i class="right arrow icon"></i>
+            Siparis Ekrani
+        </a>
+    </div>
+</div>

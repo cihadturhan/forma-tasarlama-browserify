@@ -43,51 +43,52 @@
   </div>
 </div>
 
-<div class="ui one column centered grid" ng-controller="navCtrl">
+<div class="ui centered grid" ng-controller="navCtrl">
   <div class="aligned column">
     <div class="ui small steps">
       <a ui-sref="collar" ui-sref-active="active" class="step">
-        <i class="truck icon"></i>
+        <i class="chevron down icon"></i>
         <div class="content">
-          <div class="title">Yaka Seçimi</div>
-          <div class="description">Choose your shipping options</div>
+          <div class="title">1. Yaka Seçimi</div>
+          <div class="description">Giyimi en rahat olan yakayı seçin</div>
         </div>
       </a>
       <a ui-sref="uniform(sp)" ng-class="{disabled: !sp.collar}" ui-sref-active="active"  class="step">
-        <i class="cloth icon"></i>
+        <i class="filter icon"></i>
         <div class="content">
-          <div class="title">Forma Seçimi</div>
-          <div class="description">Enter billing information</div>
+          <div class="title">2. Model Seçimi</div>
+          <div class="description">Takımınızı en iyi yansıtan modeli seçin</div>
         </div>
       </a>
       <a ui-sref="color(sp)" ng-class="{disabled: !sp.uniform}" ui-sref-active="active"  class="step">
-        <i class="cloth icon"></i>
+        <i class="street view icon"></i>
         <div class="content">
-          <div class="title">Renk Seçimi</div>
-          <div class="description">Enter billing information</div>
+          <div class="title">3. Forma Detayları</div>
+          <div class="description">Renk, şort ve fazlası</div>
         </div>
       </a>
-      <a ui-sref="payment(sp)" ui-sref-active="active" ng-class="{disabled: !sp.uuid}"  class="step">
-        <i class="payment icon"></i>
+      <a ui-sref="payment(sp)" ui-sref-active="active" ng-class="{disabled: !sp.colorUuid}"  class="step">
+        <i class="list layout icon"></i>
         <div class="content">
-          <div class="title">Satın Alma</div>
-          <div class="description">Enter billing information</div>
+          <div class="title">4. Oyuncu Bilgileri</div>
+          <div class="description">Oyuncu bilgileri ve fazlası</div>
         </div>
       </a>
-      <a ui-sref="summary" ui-sref-active="active"  class="disabled step">
-        <i class="info icon"></i>
+      <a ui-sref="summary" ui-sref-active="active" ng-class="{disabled: !sp.paymentUuid}" class="disabled step">
+        <i class="shop icon icon"></i>
         <div class="content">
-          <div class="title">Sipariş</div>
-          <div class="description">Verify order details</div>
+          <div class="title">5. Sipariş</div>
+          <div class="description">Sipariş detayını onaylayın</div>
         </div>
       </a>
     </div>
   </div>
 </div>
 
-<ui-view class="ui two column stackable centered grid container">
+<ui-view class="ui stackable two column centered equal width grid container">
 
 </ui-view>
+
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/4.3.0/min/dropzone.min.js"></script>
 <script src="dist/app.js" type="text/javascript"></script>

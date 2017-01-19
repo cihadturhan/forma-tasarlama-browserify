@@ -24,13 +24,13 @@ app.config(function($stateProvider, $urlRouterProvider) {
         },
         {
             name: 'payment',
-            url: '/:collar/:uniform/:uuid/satin-alma',
+            url: '/:collar/:uniform/:colorUuid/satin-alma',
             controller: 'paymentCtrl',
             templateUrl: 'views/payment.html'
         },
         {
             name: 'summary',
-            url: '/ozet',
+            url: '/:collar/:uniform/:colorUuid/:paymentUuid/siparis',
             controller: 'summaryCtrl',
             templateUrl: 'views/summary.html'
         }

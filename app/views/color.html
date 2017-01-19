@@ -5,7 +5,7 @@
 <div class="six wide column">
     <div class="ui styled fluid accordion">
 
-        <div class="ui buttons">
+        <div class="ui fluid buttons">
             <button class="ui button" ng-click="face = faces.FRONT" ng-class="{blue: face == faces.FRONT}">Ön</button>
             <button class="ui button" ng-click="face = faces.BACK" ng-class="{blue: face == faces.BACK}">Arka</button>
         </div>
@@ -39,7 +39,7 @@
                              ngf-min-height="100"
                              ngf-resize="{width: 100, height: 100}"
                              ng-drag-over-class="{accept:'dragover', reject:'dragover-err', pattern:'image/*,audio/*,video/*,text/*'}"
-                        >Logo  Yükleyiniz
+                        > Resim sürükleyin veya buraya tıklayın.
                         </div>
                     </div>
                 </form>
@@ -47,7 +47,8 @@
 
 
         </div>
-            <a href="" class="ui right labeled primary icon button" ui-sref="payment({collar: sp.collar, uniform: sp.uniform, uuid: uuid})">
+
+        <a href="" class="ui right labeled primary icon button" ui-sref="payment({collar: sp.collar, uniform: sp.uniform, colorUuid: colorUuid})">
             <i class="right arrow icon"></i>
             Next
         </a>
