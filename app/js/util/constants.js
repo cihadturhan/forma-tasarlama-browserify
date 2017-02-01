@@ -26,4 +26,7 @@ constants.faces = {
     BOTH: 'BOTH'
 };
 
+constants.backendHost = 'http://localhost/denemeWP'
+
+
 module.exports = constants;

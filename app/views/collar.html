@@ -1,14 +1,11 @@
 <!-- Card -->
 <div class="ui four celled centered link cards">
-    <a ui-sref="uniform({collar: collar.name})" class="blue card" ng-repeat="collar in collars">
+    <a ui-sref="uniform({collar: collar.yaka_tipi.value})" class="blue card" ng-repeat="collar in collars">
         <div class="image">
-            <img ng-src="{{'img/yakalar/'+collar.src}}.png">
+            <img ng-src="{{collar.yaka_resmi.url}}">
         </div>
         <div class="content">
-            <div class="header">{{collar.description}}</div>
-            <div class="meta">
-                <span>Minimum: {{collar.minimum}} adet</span>
-            </div>
+            <div class="header">{{collar.yaka_tipi.label}}</div>
             <div class="description"></div>
         </div>
         <div class="extra content">

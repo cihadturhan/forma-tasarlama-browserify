@@ -1,8 +1,10 @@
 'use strict';
 
-
 module.exports = function ($scope, collarService) {
-    $scope.collars = collarService.getAll();
+    collarService.getAll().then(function successCallback(response){
+        $scope.collars = response.data;
+    });
+
 };
 
 

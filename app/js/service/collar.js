@@ -1,36 +1,28 @@
 'use strict';
 
-module.exports = function ($http) {
+var host = require('../util/constants').backendHost;
+
+module.exports = function ($http, $q, $timeout) {
 
     var collars = [
-        {
-            minimum: 7,
-            description: 'Bisiklet (Yuvarlak) Yaka Futbol Formasi',
-            src: 'yuvarlak',
-            name: 'yuvarlak'
-        },
-        {
-            minimum: 10,
-            description: 'Polo Futbol Formasi',
-            src: 'polo',
-            name: 'polo'
-        },
-        {
-            minimum: 9,
-            description: 'V Yaka Futbol Formasi',
-            src: 'v',
-            name: 'v'
-        },
-        {
-            minimum: 9,
-            description: 'Y Yaka Futbol Formasi',
-            src: 'y',
-            name: 'y'
-        }
+
     ];
 
     this.getAll = function () {
-        return collars;
+        if(collars.length){
+            var deferred = $q.defer();
+            $timeout(function () {
+                deferred.resolve({data:collars});
+            },1);
+            return deferred.promise;
+        }else {
+            var promise = $http.get(host + '/yaka-tipleri/');
+            promise.then(function (response) {
+                collars = response.data;
+            });
+            return promise;
+        }
+
     };
 
     this.get = function (name) {

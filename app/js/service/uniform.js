@@ -1,32 +1,26 @@
 'use strict';
+var host = require('../util/constants').backendHost;
 
-module.exports = function($http){
+module.exports = function($http, $q, $timeout){
 
     var uniforms = [
-        {
-            description: 'Point',
-            src: 'forma',
-            name: 'point'
-        },
-        {
-            description: 'Splash',
-            src: 'forma',
-            name: 'splash'
-        },
-        {
-            description: 'Atlas',
-            src: 'forma',
-            name: 'atlas'
-        },
-        {
-            description: 'Limbo',
-            src: 'forma',
-            name: 'limbo'
-        }
     ];
 
-    this.getAll = function() {
-        return uniforms;
+    this.getAll = function () {
+        if(uniforms.length){
+            var deferred = $q.defer();
+            $timeout(function () {
+                deferred.resolve({data:uniforms});
+            },1);
+            return deferred.promise;
+        }else {
+            var promise = $http.get(host + '/formalar/');
+            promise.then(function (response) {
+                uniforms = response.data;
+            });
+            return promise;
+        }
+
     };
 
     this.get = function (name) {

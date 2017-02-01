@@ -1,12 +1,15 @@
 <!-- Card -->
 <div class="ui celled centered link cards">
-    <a ui-sref="color({collar: collar, uniform: uniform.name})" class="red card" ng-repeat="uniform in uniforms">
+    <a ui-sref="color({collar: collar, uniform: uniform.formaIsmi})" class="red card" ng-repeat="uniform in uniforms | filter: {formaTipi:{value: collar}}">
         <div class="image">
-            <img ng-src="{{'img/formalar/'+uniform.src}}.png">
+            <img ng-src="{{uniform.formaResmi.url}}">
         </div>
         <div class="content">
-            <div class="header">{{uniform.description}}</div>
+            <div class="header">{{uniform.formaIsmi}}</div>
             <div class="description"></div>
+            <div class="meta">
+                <span>Minimum: {{uniform.minSiparisSayisi}} adet</span>
+            </div>
         </div>
         <div class="extra content">
             <button class="ui primary button">
