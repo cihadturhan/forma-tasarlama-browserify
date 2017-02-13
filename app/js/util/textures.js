@@ -1,8 +1,8 @@
-var PIXI = require('pixi.js');
+//var PIXI = require('pixi.js');
 var absScale = require('./constants').absScale;
 
 module.exports = {
-    createLogo: function (logo, position, onChange) {
+    createLogo: function (image, position, onChange) {
         var limits = [
             {x:404, y:232},
             {x:452, y:204},
@@ -15,12 +15,11 @@ module.exports = {
             return p;
         }, []));
 
-        var logoTexture = new PIXI.Texture.fromImage(logo.image);
+        var logoTexture = new PIXI.Texture.fromImage(image);
         var logoLayer = new PIXI.Sprite(logoTexture);
-        logoLayer.interactive = false;
-        logoLayer.buttonMode = true;
-        logoLayer.x = logo.position.x * absScale;
-        logoLayer.y = logo.position.y * absScale;
+
+        logoLayer.x = position.x * absScale;
+        logoLayer.y = position.y * absScale;
         logoLayer.scale.x = logoLayer.scale.y = 0.2;
         logoLayer.alpha = 0.8;
         logoLayer.anchor.set(0.5);
@@ -28,18 +27,24 @@ module.exports = {
         position.x = logoLayer.x;
         position.y = logoLayer.y;
 
-        logoLayer
-        // events for drag start
-            .on('mousedown', onDragStart)
-            .on('touchstart', onDragStart)
-            // events for drag end
-            .on('mouseup', onDragEnd)
-            .on('mouseupoutside', onDragEnd)
-            .on('touchend', onDragEnd)
-            .on('touchendoutside', onDragEnd)
-            // events for drag move
-            .on('mousemove', onDragMove)
-            .on('touchmove', onDragMove);
+
+        if(onChange) {
+            logoLayer.interactive = true;
+            logoLayer.buttonMode = true;
+
+            logoLayer
+            // events for drag start
+                .on('mousedown', onDragStart)
+                .on('touchstart', onDragStart)
+                // events for drag end
+                .on('mouseup', onDragEnd)
+                .on('mouseupoutside', onDragEnd)
+                .on('touchend', onDragEnd)
+                .on('touchendoutside', onDragEnd)
+                // events for drag move
+                .on('mousemove', onDragMove)
+                .on('touchmove', onDragMove);
+        }
 
         function onDragStart(event) {
             // store a reference to the data
@@ -103,18 +108,14 @@ module.exports = {
             var len = atob.x * atob.x + atob.y * atob.y;
             var dot = atop.x * atob.x + atop.y * atob.y;
             var t = Math.min( 1, Math.max( 0, dot / len ) );
-            var dist = Math.min(
-                (a.x - p.x)*(a.x - p.x) + (a.y - p.y)*(a.y - p.y),
-                (b.x - p.x)*(b.x - p.x) + (b.y - p.y)*(b.y - p.y)
-            );
-
-            dot = ( b.x - a.x ) * ( p.y - a.y ) - ( b.y - a.y ) * ( p.x - a.x );
+            var point = {
+                x: a.x + atob.x * t,
+                y: a.y + atob.y * t
+            };
+            var dist =  (point.x - p.x)*(point.x - p.x) + (point.y - p.y)*(point.y - p.y);
 
             return {
-                point: {
-                    x: a.x + atob.x * t,
-                    y: a.y + atob.y * t
-                },
+                point: point,
                 dot: dot,
                 dist: dist
             };

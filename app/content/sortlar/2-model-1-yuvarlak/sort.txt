@@ -1,0 +1,25 @@
+Gallerygrid: 
+
+----
+
+Title: Model 1 - Yuvarlak
+
+----
+
+Type: bisiklet
+
+----
+
+Image: degrade.png
+
+----
+
+Short-front: front.png
+
+----
+
+Short-back: back.png
+
+----
+
+Price: 10

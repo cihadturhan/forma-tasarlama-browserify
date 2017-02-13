@@ -1,0 +1,93 @@
+title: Forma Tipi
+files: png
+pages: false
+options:
+  preview: false
+
+fields:
+  gallerygrid:
+    type: gallerygrid
+  title:
+    label: Başlık
+    type:  text
+  type:
+    label: Tip
+    type: select
+    required: true
+    options: query
+    query:
+      page: yaka-tipleri
+      value: '{{uid}}'
+      text: '{{text}}'
+
+  base_front:
+      label: Base (On)
+      required: true
+      type: image
+      width: 1/2
+
+  base_back:
+      label: Base (Arka)
+      required: true
+      type: image
+      width: 1/2
+
+  smarts_bg_front:
+      label: Smarts Bg (On)
+      required: true
+      type: image
+      width: 1/2
+
+  smarts_bg_back:
+    label: Smarts Bg (Arka)
+    required: true
+    type: image
+    width: 1/2
+
+  uniform_front:
+      label: Uniform (Ön)
+      required: true
+      type: image
+      width: 1/2
+
+  uniform_back:
+      label: Uniform (Arka)
+      required: true
+      type: image
+      width: 1/2
+
+  uniform_highlights_front:
+      label: Uniform Highlights (Ön)
+      required: true
+      type: image
+      width: 1/2
+
+  uniform_highlights_back:
+      label: Uniform Highlights (Arka)
+      required: true
+      type: image
+      width: 1/2
+
+  uniform_shadows_front:
+      label: Uniform Shadows (Ön)
+      required: true
+      type: image
+      width: 1/2
+
+  uniform_shadows_back:
+      label: Uniform Shadows (Arka)
+      required: true
+      type: image
+      width: 1/2
+
+  socks_front:
+      label: Çoraplar (Ön)
+      required: true
+      type: image
+      width: 1/2
+
+  socks_back:
+      label: Çoraplar (Arka)
+      required: true
+      type: image
+      width: 1/2

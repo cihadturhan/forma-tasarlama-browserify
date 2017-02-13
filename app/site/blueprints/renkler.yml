@@ -1,0 +1,29 @@
+title: Renkler
+files: false
+pages: false
+deletable: false
+options:
+  preview: false
+  status: false
+  url: false
+  delete: false
+
+fields:
+  colors:
+    label: Renk
+    type: snippetfield
+    style: table
+    fields:
+      name:
+        label: Renk Ismi
+        type: text
+        snippet: table/value
+        placeholder: Gri
+        required: true
+      hex:
+        label: HEX Kodu
+        type:  color
+        snippet: table/color
+        required: true
+        placeholder: #aabbcc
+        default: #aabbcc

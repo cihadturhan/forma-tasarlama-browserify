@@ -1,0 +1,25 @@
+Title: Point - Polo
+
+----
+
+Type: polo
+
+----
+
+Image: siyah-beyaz-hook.png
+
+----
+
+Tshirt-front: front.png
+
+----
+
+Tshirt-back: back.png
+
+----
+
+Min: 6
+
+----
+
+Price: 50

@@ -1,19 +1,21 @@
 <!-- Card -->
-<div class="ui four celled centered link cards">
-    <a ui-sref="uniform({collar: collar.yaka_tipi.value})" class="blue card" ng-repeat="collar in collars">
-        <div class="image">
-            <img ng-src="{{collar.yaka_resmi.url}}">
+<div class="col-md-12">
+    <div class="row">
+        <div class="col-sm-3" ng-repeat="collar in collars">
+            <a ui-sref="uniform({collar: collar.uid})" class="thumbnail text-center">
+
+                <img ng-src="{{getUrl(collar,'image')}}">
+
+                <h3 class="header">{{collar.content.text}}</h3>
+
+                <p>
+                    <button class="btn btn-labeled btn-primary btn-block">
+                        Devam Et&nbsp;<i class="glyphicon glyphicon-chevron-right"></i>
+                    </button>
+                </p>
+
+            </a>
         </div>
-        <div class="content">
-            <div class="header">{{collar.yaka_tipi.label}}</div>
-            <div class="description"></div>
-        </div>
-        <div class="extra content">
-            <button class="ui primary button">
-                <i class="checkmark icon"></i>
-                Devam Et
-            </button>
-        </div>
-    </a>
+    </div>
 </div>
 <!-- End Card -->

@@ -8,6 +8,8 @@ module.exports = function ($http, $q, $timeout) {
 
     ];
 
+
+
     this.getAll = function () {
         if(collars.length){
             var deferred = $q.defer();
@@ -16,7 +18,7 @@ module.exports = function ($http, $q, $timeout) {
             },1);
             return deferred.promise;
         }else {
-            var promise = $http.get(host + '/yaka-tipleri/');
+            var promise = $http.get(host + '/yaka-tipleri');
             promise.then(function (response) {
                 collars = response.data;
             });
@@ -25,9 +27,9 @@ module.exports = function ($http, $q, $timeout) {
 
     };
 
-    this.get = function (name) {
+    this.get = function (uid) {
         return collars.find(function (c) {
-            return c.name == name
+            return c.uid == uid;
         });
     }
 };

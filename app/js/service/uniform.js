@@ -14,7 +14,7 @@ module.exports = function($http, $q, $timeout){
             },1);
             return deferred.promise;
         }else {
-            var promise = $http.get(host + '/formalar/');
+            var promise = $http.get(host + '/formalar');
             promise.then(function (response) {
                 uniforms = response.data;
             });
@@ -23,9 +23,9 @@ module.exports = function($http, $q, $timeout){
 
     };
 
-    this.get = function (name) {
+    this.get = function (uid) {
         return uniforms.find(function (c) {
-            return c.name == name
+            return c.uid == uid
         });
     }
 };

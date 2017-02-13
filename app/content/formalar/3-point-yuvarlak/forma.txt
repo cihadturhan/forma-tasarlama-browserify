@@ -1,0 +1,29 @@
+Gallerygrid: 
+
+----
+
+Title: Point - Yuvarlak
+
+----
+
+Type: bisiklet
+
+----
+
+Image: forma.png
+
+----
+
+Tshirt-front: front.png
+
+----
+
+Tshirt-back: back.png
+
+----
+
+Min: 6
+
+----
+
+Price: 50

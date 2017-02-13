@@ -1,0 +1,20 @@
+title: Siparişler
+files: false
+deletable: false
+pages: siparis
+
+options:
+  preview: false
+  status: false
+  url: false
+  delete: false
+  update: false
+
+fields:
+  title:
+    label: Başlık
+    type:  text
+
+  title:
+      label: Açıklama
+      type:  text

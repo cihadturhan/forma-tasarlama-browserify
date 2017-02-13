@@ -1,0 +1,4 @@
+# /site/blueprints/fields/imageselect.yml
+label: Select an image
+type: select
+options: images

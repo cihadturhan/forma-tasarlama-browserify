@@ -1,0 +1,21 @@
+title: Forma Modeli
+files: false
+pages: forma
+options:
+  preview: false
+
+fields:
+  title:
+    label: Forma İsmi
+    required: true
+    type:  text
+
+  min:
+    label: Minimum Sipariş Sayısı
+    type: number
+    min: 1
+    max: 200
+
+  text:
+    label: Açıklama
+    type: text

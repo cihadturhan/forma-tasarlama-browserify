@@ -1,5 +1,3 @@
-var PIXI = require('pixi.js');
-var TWEEN = require('tween.js');
 
 var constants = require('../util/constants');
 var textureUtil = require('../util/textures');
@@ -9,111 +7,169 @@ var sizes = constants.sizes;
 var absScale = constants.absScale;
 var containerSize = constants.container;
 
-var front, back;
-var smarts_body = [], smarts_shorts = [], socks = [], smarts_parts = [];
-var backTexts = [];
-var logos = [];
-var renderer, stage;
+
+module.exports = function ($q, $scope, $rootScope, $stateParams, cacheService, collarTypesService, uniformService, shortService, uniformTypesService, collarService, uuidService, logoService) {
+
+    var front, back;
+    var smarts_body = [], smarts_shorts = [], socks = [], smarts_parts = [];
+    var backTexts = [];
+    var logos = [];
+    var chestLogos = [];
+    var renderer, stage;
 
 
-module.exports = function ($scope, $stateParams, containerService, uniformService, collarService, uuidService) {
+    $scope.opts = {activeShort: undefined};
+
+    logoService.getAll().then(function (response) {
+        $scope.logos = response.data;
+    });
 
     $scope.sp = $stateParams;
-    $scope.colorUuid = uuidService.generate();
-    $scope.logoBlob;
-    $scope.select = function(blob){
-        $scope.logoBlob = blob;
+    $scope.colorUuid = $stateParams.colorUuid;
+    $scope.paymentUuid = uuidService.generate();
+
+    $scope.selectLogo = function(blob){
+        var clogo = $scope.content.logo;
+        clogo.enabled = true;
+        clogo.data = blob;
+        clogo.type = 'blob';
+
         var urlCreator = window.URL || window.webkitURL;
         var logoUrl = urlCreator.createObjectURL(blob);
         var logoTexture = new PIXI.Texture.fromImage(logoUrl);
         logos[0].texture = logoTexture;
+
+        logoService.set('logo', blob);
+    };
+
+    $scope.selectLogoFromLibrary = function(index){
+        $scope.logoIndex = index;
+        var logo = $scope.logos[index];
+
+        var clogo = $scope.content.logo;
+        clogo.enabled = true;
+        clogo.data = logo.url;
+        clogo.type = 'url';
+        clogo.movables[0].layers[0].texture = new PIXI.Texture.fromImage(logo.url);
+    };
+
+    $scope.selectChestLogo = function(blob){
+        var cchestLogo = $scope.content.chestLogo;
+        cchestLogo.enabled = true;
+        cchestLogo.data = blob;
+        cchestLogo.type = 'blob';
+
+        var urlCreator = window.URL || window.webkitURL;
+        var logoUrl = urlCreator.createObjectURL(blob);
+        var logoTexture = new PIXI.Texture.fromImage(logoUrl);
+        chestLogos[0].texture = logoTexture;
+
+        logoService.set('chestLogo', blob);
+    };
+
+    $scope.selectChestLogoFromLibrary = function(index){
+        $scope.chestLogoIndex = index;
+        var logo = $scope.logos[index];
+
+        var cchestLogo = $scope.content.chestLogo;
+        cchestLogo.enabled = true;
+        cchestLogo.data = logo.url;
+        cchestLogo.type = 'url';
+        cchestLogo.movables[0].layers[0].texture = new PIXI.Texture.fromImage(logo.url);
     };
 
     var selectedUniform = uniformService.get($stateParams.uniform);//$scope.uniforms[$stateParams.uniform];
     var selectedCollar = collarService.get($stateParams.collar);//
-    $scope.testData = {x: 0, y: 0};
+    var selectedUniformType = uniformTypesService.get(selectedUniform.content.type);
 
-    $scope.accordion = {index: 0};
+
+
+    var shortPromise = shortService.getAll().then(function(response){
+        $scope.shorts = response.data.filter(function(short){
+            return short.content.type == selectedCollar.uid;
+        }).map(function(s, i){
+            s.id = i;
+            return s;
+        });
+
+        $scope.currentShort = null;
+
+    });
+
+    $scope.logoPosition = {x: 0, y: 0};
+
+    $scope.accordion = {index: 'general'};
     $scope.faces = constants.faces;
     $scope.face = $scope.faces.FRONT;
 
-    $scope.$watch('face', function(newValue){
-
-        var x = newValue == $scope.faces.FRONT ? 0 : -containerService.getBack().position.x + containerSize.wHalf;
-        new TWEEN
-            .Tween({x: stage.position.x})
-            .to({x: x}, 2000)
-            .onUpdate(function () {
-                stage.position.x = this.x;
-            })
-            .easing(TWEEN.Easing.Exponential.Out)
-            .start();
-    });
-
     function initVars() {
 
-        $scope.content = [
-            {
-                title: 'Genel Görünüm',
+        $scope.content = {
+            general: {
+                title: 'Ana Renk Seçimi',
                 focus: focus.body,
-                colors: []
-            }, {
-                title: 'TShirt',
-                focus: focus.tshirt,
                 colors: [
-                    {value: '#3B1F4E', layers: smarts_body},
                     {value: '#FFFFFF', layers: smarts_parts}
                 ]
-            }, {
+            },
+            tshirt: {
+                title: 'TShirt Rengi',
+                focus: focus.tshirt,
+                colors: [
+                    {value: '#3B1F4E', layers: smarts_body}
+                ]
+            },
+            short: {
                 title: 'Şort',
                 focus: focus.shorts,
                 colors: [
-                    {value: '#3B1F4E', layers: smarts_shorts},
-                    /*{value: '#FFFFFF', layers: []}*/
+                    {value: '#3B1F4E', layers: smarts_shorts}
                 ]
-            }, {
+            },
+            socks: {
                 title: 'Çoraplar',
                 focus: focus.socks,
+                enabled: false,
                 colors: [
                     {value: '#FFFFFF', layers: socks}
                 ]
             },
-            {
-                title: 'Logo',
+            logo: {
+                title: 'Göğüs Logosu',
                 focus: focus.logo,
-                movables: [{value: function(){return $scope.accordion.index == 4}, layers: logos}],
+                enabled: false,
+                type: 'url',
+                data: '',
+                position: angular.copy(focus.logo.transform),
+                movables: [{
+                    value: function () {
+                        return $scope.accordion.index == 4
+                    }, layers: logos
+                }],
                 colors: []
             },
-            {
+            chestLogo: {
+                title: 'Sponsor Logosu',
+                focus: focus.tshirt,
+                enabled: false,
+                type: 'url',
+                data: '',
+                movable: false,
+                position: {x: focus.logo.transform.x, y: 1800},
+                movables: [{
+                    value: function () {
+                        return $scope.accordion.index == 4
+                    }, layers: chestLogos
+                }],
+                colors: []
+            },
+            number: {
                 title: 'Numara',
                 focus: focus.backNumber,
-                texts: [
-                ],
-                colors: [
-                ]
+                texts: [],
+                colors: []
             }
-        ];
-
-
-
-
-        $scope.$watch('accordion.index', function (newValue, oldValue) {
-            var oldContent = $scope.content[oldValue];
-            var content = $scope.content[newValue];
-
-            if(content.movables)
-                content.movables.forEach(function (movable) {
-                    $scope.changeInteraction(movable.layers, true);
-                });
-            else if(oldContent && oldContent.movables)
-                oldContent.movables.forEach(function (movable) {
-                    $scope.changeInteraction(movable.layers, false);
-                });
-
-            var _focus = content.focus;
-
-            tweenTo(_focus);
-        });
+        };
 
         //Change Texture
         //smarts_body.texture = PIXI.Texture.fromImage('img2/smarts_body_'+newValue+'.png');
@@ -139,6 +195,85 @@ module.exports = function ($scope, $stateParams, containerService, uniformServic
                     layer.interactive = isInteractive
             });
         };
+
+        $scope.changeSockStatus = function(){
+            var socks = $scope.content.socks;
+            var enabled = socks.enabled;
+            if(enabled){
+                $scope.changeTint(socks.colors[0].layers, socks.colors[0].value)
+            }else{
+                $scope.changeTint(socks.colors[0].layers, '#FFFFFF')
+            }
+        };
+
+        $scope.changeLogoStatus = function(section){
+            var logoLayer;
+            var movableLayers = section.movables[0].layers;
+            if(section.enabled){
+                if(movableLayers.length == 0){
+                    var callback = function(){ $scope.$apply();};
+                    if(section.movable == false){
+                        callback = false;
+                    }
+                    logoLayer = textureUtil.createLogo($scope.logos[0].url, section.position, callback);
+                    movableLayers.push(logoLayer);
+                    front.addChild(logoLayer);
+                }else{
+                    movableLayers[0].renderable = true;
+                }
+
+            }else{
+                if(movableLayers.length > 0){
+                    movableLayers[0].renderable = false;
+                }else{
+
+                }
+            }
+        }
+    }
+
+    function initWatchers(){
+
+        $scope.$watch('face', function(newValue){
+
+            var x = newValue == $scope.faces.FRONT ? 0 : -collarTypesService.getBack(selectedUniformType).position.x + containerSize.wHalf;
+            new TWEEN
+                .Tween({x: stage.position.x})
+                .to({x: x}, 1000)
+                .onUpdate(function () {
+                    stage.position.x = this.x;
+                })
+                .easing(TWEEN.Easing.Exponential.Out)
+                .start();
+        });
+
+        var accordionIndex = function(){
+            var sag = $scope.accordion.groups;
+            return sag.indexOf(sag.find(function(g){return g.isOpen}));
+        };
+
+        $scope.$watchCollection(accordionIndex, function (index, oldIndex) {
+            var sc = $scope.content;
+
+            if(typeof index == 'undefined' || index == -1)
+                return;
+
+            var content = sc[Object.keys(sc)[index]];
+            var oldContent = sc[Object.keys(sc)[oldIndex]];
+
+            if(content.movables)
+                content.movables.forEach(function (movable) {
+                    $scope.changeInteraction(movable.layers, true);
+                });
+            else if(oldContent && oldContent.movables)
+                oldContent.movables.forEach(function (movable) {
+                    $scope.changeInteraction(movable.layers, false);
+                });
+
+            var _focus = content.focus;
+
+            tweenTo(_focus);
+        }, true);
     }
 
 
@@ -187,8 +322,8 @@ module.exports = function ($scope, $stateParams, containerService, uniformServic
 
 
     function initScene() {
-        renderer = PIXI.autoDetectRenderer(containerSize.width, containerSize.height);
-        renderer.backgroundColor = 0xFFFFFF;
+        renderer = PIXI.autoDetectRenderer(containerSize.width, containerSize.height, {antialias: false, transparent: true, resolution: 1});
+
         document.querySelector("#pixi-scene").appendChild(renderer.view);
 
         // create the root of the scene graph
@@ -196,7 +331,7 @@ module.exports = function ($scope, $stateParams, containerService, uniformServic
     }
 
     function prepareVars(){
-        $scope.content.forEach(function (parts) {
+        angular.forEach($scope.content, function (parts) {
             parts.colors && parts.colors.forEach(function (color) {
                 $scope.changeTint(color.layers, color.value);
             });
@@ -233,7 +368,7 @@ module.exports = function ($scope, $stateParams, containerService, uniformServic
         var _smarts_parts = new PIXI.Sprite.fromImage(options.layers.smarts);
         smarts_parts.push(_smarts_parts);
 
-        var bodyTexture = PIXI.Texture.fromImage('models/' + selectedCollar.src +  '/tshirt/' + selectedUniform.name + '/' + options.name + '.png');
+        var bodyTexture = PIXI.Texture.fromImage($scope.getUrl(selectedUniform, 'tshirt_' + options.name));
         var shortsTexture = PIXI.Texture.fromImage('models/'+ selectedCollar.src + '/shorts/' + 1 +  '/' + options.name + '.png');
 
         var _smarts_body = new PIXI.Sprite(bodyTexture);
@@ -260,8 +395,8 @@ module.exports = function ($scope, $stateParams, containerService, uniformServic
         container.addChild(_socks);
 
         if (options.extras && options.extras.texts.length) {
-            var index = 5;
-            var content = $scope.content[index];
+
+            var content = $scope.content.number;
             var color = options.extras.textColor || '#333';
             var layers = [];
 
@@ -281,15 +416,6 @@ module.exports = function ($scope, $stateParams, containerService, uniformServic
         container.addChild(uniform_highlights);
         container.addChild(uniform);
 
-        options.extras && options.extras.logos.forEach(function (logo) {
-            var logoLayer = textureUtil.createLogo(logo, $scope.testData, function(){
-                $scope.$apply();
-            });
-            logos.push(logoLayer);
-            container.addChild(logoLayer);
-        });
-
-
         return container;
     }
 
@@ -302,18 +428,44 @@ module.exports = function ($scope, $stateParams, containerService, uniformServic
         requestAnimationFrame(animate);
     }
 
-    initVars();
+    var collarTypePromise = collarTypesService.getAll().then(function(response){
+        initVars();
 
-    initScene();
-    front = initContainer(containerService.getFront(selectedCollar.name));
-    back = initContainer(containerService.getBack(selectedCollar.name));
+        initScene();
+        front = initContainer(collarTypesService.getFront(selectedUniformType));
+        back = initContainer(collarTypesService.getBack(selectedUniformType));
 
-    prepareVars();
+        prepareVars();
+        initWatchers();
 
-    requestAnimationFrame(animate);
+        requestAnimationFrame(animate);
 
 
-    tweenTo(focus.infinity, 0);
+        tweenTo(focus.infinity, 0);
+    }).catch(function (e) {
+        console.error(e);
+    });
+
+    $q.all([shortPromise, collarTypePromise]).then(function () {
+        $scope.$watch('opts.activeShort', function(newIndex){
+            if(typeof newIndex != 'undefined'){
+                $scope.currentShort = $scope.shorts[newIndex];
+                if(smarts_shorts.length > 1){
+                    smarts_shorts[0].texture = new PIXI.Texture.fromImage($rootScope.getUrl($scope.currentShort, 'short_front'));
+                    smarts_shorts[1].texture = new PIXI.Texture.fromImage($rootScope.getUrl($scope.currentShort, 'short_back'));
+                }
+            }
+        });
+        $scope.opts.activeShort = 0;
+    });
+
+    $scope.$on('$stateChangeStart', function(){
+        cacheService.set($scope.colorUuid, {
+            content: $scope.content
+        });
+    });
+
+
     /*setTimeout(function () {
         tweenTo(focus.body)
     }, 4000);*/

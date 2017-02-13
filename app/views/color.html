@@ -1,16 +1,156 @@
-<div class="ten wide right aligned column">
-    <div id="pixi-scene" class="ui stacked center aligned segment"></div>
+<div class="col-md-8">
+    <div id="pixi-scene" class="center-block"></div>
+
+    <button ng-hide="face == faces.FRONT" ng-click="face = faces.FRONT" class="btn btn-default btn-labeled"  style="
+    position: absolute;
+    left: 30px;
+    bottom: 50px;"><i class="glyphicon glyphicon-share-alt" style="transform:scaleX(-1)"></i> Önü Çevir
+    </button>
+
+    <button ng-hide="face == faces.BACK" ng-click="face = faces.BACK" class="btn btn-default btn-labeled" style="
+    position: absolute;
+    right: 30px;
+    bottom: 50px;"><i class="glyphicon glyphicon-share-alt"></i> Arkayı Çevir
+    </button>
 </div>
 
-<div class="six wide column">
-    <div class="ui styled fluid accordion">
+<div class="col-md-4">
 
-        <div class="ui fluid buttons">
-            <button class="ui button" ng-click="face = faces.FRONT" ng-class="{blue: face == faces.FRONT}">Ön</button>
-            <button class="ui button" ng-click="face = faces.BACK" ng-class="{blue: face == faces.BACK}">Arka</button>
+        <div class="btn-group btn-block">
+            <label class="btn btn-primary col-xs-6" ng-model="face" uib-btn-radio="faces.FRONT" uncheckable>Ön</label>
+            <label class="btn btn-primary col-xs-6" ng-model="face" uib-btn-radio="faces.BACK" uncheckable>Arka</label>
         </div>
 
-        <div ng-repeat="section in content">
+
+        <uib-accordion close-others="true">
+
+        <!--General-->
+        <div uib-accordion-group class="panel-default" is-open="true" heading="{{content.general.title}}">
+            <div class="field" ng-repeat="color in content.general.colors">
+                <color-picker selected-color="color.value" class="color-picker" on-change="changeTint(color.layers, newColor)"></color-picker> Ana Renk
+            </div>
+        </div>
+
+        <!--Tshirt-->
+        <div uib-accordion-group class="panel-default" heading="{{content.tshirt.title}}">
+            <div class="field" ng-repeat="color in content.tshirt.colors">
+                <color-picker selected-color="color.value" class="color-picker" on-change="changeTint(color.layers, newColor)"></color-picker> Tshirt Rengi
+            </div>
+        </div>
+
+        <!--Shorts-->
+        <div uib-accordion-group class="panel-default" heading="{{content.short.title}}">
+            <div style="height: 200px">
+                <div uib-carousel active="opts.activeShort">
+                    <div uib-slide ng-repeat="short in shorts track by short.id" index="short.id">
+                        <img ng-src="{{getUrl(short, 'image')}}" style="margin:auto; height: 100px;" class="img-responsive">
+                        <div>
+                            <h4>{{short.content.title}}</h4>
+                            <p class="text-muted">Fiyat: {{short.content.price}}₺</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="field" ng-repeat="color in content.short.colors">
+                <color-picker selected-color="color.value" class="color-picker" on-change="changeTint(color.layers, newColor)"></color-picker> Şort Desen Rengi
+            </div>
+        </div>
+
+        <!--socks-->
+        <div uib-accordion-group class="panel-default" heading="{{content.socks.title}}">
+            <div class="form-control">
+                <label><input type="checkbox" ng-model="content.socks.enabled" ng-change="changeSockStatus()"/> Çorap İstiyorum</label>
+            </div>
+            <div class="field" ng-class="{disabled: !content.socks.enabled}" ng-repeat="color in content.socks.colors">
+                <color-picker selected-color="color.value" class="color-picker" on-change="changeTint(color.layers, newColor)"></color-picker> Çorap Rengi
+            </div>
+        </div>
+
+        <!-- Logo -->
+        <div uib-accordion-group class="panel-default" heading="{{content.logo.title}}">
+            <div class="form-control">
+                <label><input type="checkbox" ng-model="content.logo.enabled" ng-change="changeLogoStatus(content.logo)"/> Göğüs Logosu İstiyorum</label>
+            </div>
+
+            <div uib-alert style="background-color: #90A4AE; color: white;" ng-if="!opts.logoDragAlert" close="opts.logoDragAlert = true">Logoyu fare ile istediginiz yere sürükleyebilirsiniz.</div>
+
+            <div class="field" ng-class="{disabled: !content.logo.enabled}" ng-repeat="movable in content.logo.movables">
+
+                <uib-tabset active="0">
+                    <uib-tab index="0" heading="Kütüphaneden Seç">
+
+                        <div class="logo-library">
+                            <a class="logo-container" ng-repeat="logo in logos" href="javascript:void(0)" ng-click="selectLogoFromLibrary($index)" ng-class="{active: logoIndex == $index}"><img ng-src="{{logo.url}}" style="max-width: 60px;" class=""/></a>
+                        </div>
+
+                    </uib-tab>
+                    <uib-tab index="1" heading="Resim Yükle">
+                        <div class="drop-box"
+                             ngf-select
+                             ngf-drop
+                             ngf-change="selectLogo($file)"
+                             ng-model="file"
+                             name="file"
+                             ngf-pattern="'image/*'"
+                             ngf-accept="'image/*'"
+                             ngf-max-size="20MB"
+                             ngf-min-height="100"
+                             ngf-resize="{width: 100, height: 100}"
+                             ng-drag-over-class="{accept:'dragover', reject:'dragover-err', pattern:'image/*,audio/*,video/*,text/*'}">
+                            Resim sürükleyin veya buraya tıklayın.
+                        </div>
+                    </uib-tab>
+                </uib-tabset>
+
+
+            </div>
+        </div>
+
+
+        <!-- Chest Logo -->
+        <div uib-accordion-group class="panel-default" heading="{{content.chestLogo.title}}">
+            <div class="form-control">
+                <label><input type="checkbox" ng-model="content.chestLogo.enabled" ng-change="changeLogoStatus(content.chestLogo)"/> Sponsor Logosu İstiyorum</label>
+            </div>
+
+            <div class="field" ng-class="{disabled: !content.chestLogo.enabled}" ng-repeat="movable in content.logo.movables">
+
+                <uib-tabset active="0">
+                    <uib-tab index="0" heading="Kütüphaneden Seç">
+
+                        <div class="logo-library">
+                            <a class="logo-container" ng-repeat="logo in logos" href="javascript:void(0)"
+                               ng-click="selectChestLogoFromLibrary($index)"
+                               ng-class="{active: chestLogoIndex == $index}">
+                                <img ng-src="{{logo.url}}" style="max-width: 60px;"/>
+                            </a>
+                        </div>
+                    </uib-tab>
+
+                    <uib-tab index="1" heading="Resim Yükle">
+
+
+                        <div class="drop-box"
+                             ngf-select
+                             ngf-drop
+                             ngf-change="selectChestLogo($file)"
+                             ng-model="file"
+                             name="file"
+                             ngf-pattern="'image/*'"
+                             ngf-accept="'image/*'"
+                             ngf-max-size="20MB"
+                             ngf-min-height="100"
+                             ngf-resize="{width: 100, height: 100}"
+                             ng-drag-over-class="{accept:'dragover', reject:'dragover-err', pattern:'image/*,audio/*,video/*,text/*'}">
+                            Resim sürükleyin veya buraya tıklayın.
+                        </div>
+                    </uib-tab>
+                </uib-tabset>
+            </div>
+        </div>
+
+       <!--<div ng-repeat="section in content">
             <div class="title" ng-click="accordion.index = $index" ng-class="(accordion.index == $index) && 'active'">
                 <i class="dropdown icon"></i>
                 {{section.title}}
@@ -26,6 +166,12 @@
                         <input ng-model="text.value" ng-change="changeText(text.layers, text.value)" class="input"/>
                     </div>
                     <div class="field" ng-repeat="movable in section.movables">
+
+                        <div>
+                            <div ng-repeat="logo in logos">
+                                <img ng-src="{{logo.url}}" style="max-width: 60px;" class=""/>
+                            </div>
+                        </div>
 
                         <div class="drop-box"
                              ngf-select
@@ -46,13 +192,14 @@
             </div>
 
 
-        </div>
+        </div>-->
 
-        <a href="" class="ui right labeled primary icon button" ui-sref="payment({collar: sp.collar, uniform: sp.uniform, colorUuid: colorUuid})">
-            <i class="right arrow icon"></i>
-            Next
+        </uib-accordion>
+
+        <a href="" class="btn btn-labeled btn-primary btn-block" ui-sref="payment({collar: sp.collar, uniform: sp.uniform, colorUuid: sp.colorUuid, paymentUuid: paymentUuid})">
+            Devam Et&nbsp;<i class="glyphicon glyphicon-chevron-right"></i>
         </a>
-    </div>
+
 
     <div class="">
     </div>

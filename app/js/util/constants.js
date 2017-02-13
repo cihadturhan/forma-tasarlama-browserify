@@ -26,7 +26,7 @@ constants.faces = {
     BOTH: 'BOTH'
 };
 
-constants.backendHost = 'http://localhost/denemeWP'
+constants.backendHost = 'http://formatasarlama';
 
 
 module.exports = constants;

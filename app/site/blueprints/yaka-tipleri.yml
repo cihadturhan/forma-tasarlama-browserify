@@ -1,0 +1,15 @@
+title: Yaka Tipleri
+files: false
+deletable: false
+pages: yaka-tipi
+options:
+  preview: false
+  status: false
+  url: false
+  delete: false
+  update: false
+
+fields:
+  title:
+    label: İsim
+    type:  text

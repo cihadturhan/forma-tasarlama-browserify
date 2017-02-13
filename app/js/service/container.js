@@ -19,10 +19,6 @@ module.exports = function ($http) {
                 uniformHighlights: "img/" + model + "/front/uniform_highlights.png",
                 uniformShadows: "img/" + model + "/front/uniform_shadows.png",
                 uniform: "img/" + model + "/front/uniform.png"
-            },
-            extras: {
-                texts: [],
-                logos: [{image: 'logos/adidas.png', position: focus.logo.transform}]
             }
         };
     };

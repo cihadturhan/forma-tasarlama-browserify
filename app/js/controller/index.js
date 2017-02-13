@@ -1,6 +1,6 @@
 'use strict';
 
-var app = require('angular').module('main');
+var app = angular.module('main');
 
 app.controller('collarCtrl', require('./collar'));
 app.controller('colorCtrl', require('./color'));

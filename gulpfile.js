@@ -163,7 +163,7 @@ gulp.task('e2e', ['server'], function () {
 });
 
 gulp.task('watch', function () {
-    gulp.start('server');
+    gulp.start('browserify');
     var watcher = gulp.watch([
         paths.src + '**/*.js',
         '!' + paths.src + 'third-party/**',

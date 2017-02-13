@@ -1,61 +1,90 @@
 <div class="twelve wide center aligned column">
-    <div class="ui stacked center aligned segment">
-        <table class="ui very basic selectable celled table">
-            <thead>
-            <tr>
-                <th>#</th>
-                <th>Sırt İsmi</th>
-                <th>Sırt Numarası</th>
-                <th>Kaleci</th>
-                <th>Beden</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr ng-repeat="d in [1,2,3,4,6,7]">
-                <td>{{$index}}</td>
-                <td>
-                    <h4 class="ui image header">
-                        <div class="ui input">
-                            <input type="text" placeholder="Oyuncu İsmi">
-                        </div>
-                    </h4>
-                </td>
-                <td>
-                    <div class="ui input" style="max-width: 100px">
-                        <input type="number" placeholder="Numara">
-                    </div>
-                </td>
-                <td>
-                    <button class="ui blue basic button">Kaleci Yap</button>
-                </td>
-                <td>
-                    <div class="field">
-                        <select class="ui fluid dropdown">
-                            <option>XS</option>
-                            <option>S</option>
-                            <option>M</option>
-                            <option>L</option>
-                            <option>XL</option>
-                            <option>XXL</option>
-                        </select>
-                    </div>
-                </td>
-            </tr>
+    <table class="table table-striped table-hover">
+        <thead>
+        <tr>
+            <th>#</th>
+            <th>Sırt İsmi</th>
+            <th>Sırt Numarası</th>
+            <th>Kaleci</th>
+            <th>Beden</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="player in players">
+            <td>{{$index + 1}}</td>
+            <td>
+                <input type="text" class="form-control" style="max-width: 150px" ng-model="player.name" placeholder="Oyuncu İsmi">
+            </td>
+            <td>
+                <input type="number" class="form-control" style="max-width: 80px" ng-model="player.number"
+                       placeholder="Numara">
+            </td>
+            <td>
+                <label>Kaleci Yap
+                    <input id="goal-keeper{{$index}}" class="simple-switch-input" type="checkbox"
+                           ng-model="player.goalkeeper">
+                    <span class="simple-switch dark"></span>
+                </label>
 
-            </tbody>
-            <tfoot>
-            <tr>
-                <th>1 Kaleci</th>
-                <th>4 Oyuncu</th>
-                <th></th>
-                <th></th>
-                <th></th>
-            </tr>
-            </tfoot>
-        </table>
-        <a href="" class="ui right labeled primary icon button" ui-sref="summary({collar: sp.collar, uniform: sp.uniform, colorUuid: sp.colorUuid, paymentUuid: paymentUuid})">
-            <i class="right arrow icon"></i>
-            Siparis Ekrani
-        </a>
-    </div>
+                <div uib-collapse="!player.goalkeeper">
+
+                    <div style="height: 200px">
+                        <div uib-carousel active="opts.activeShort">
+                            <div uib-slide ng-repeat="short in [0,1,2,3,4,5] track by short" index="short">
+                                <img src="http://www.formayaptirma.net/forma/uploads/Black-Keeper-UST-MODEL1.png" style="margin:auto; height: 100px;" class="img-responsive">
+                                <div>
+                                    <h4>{{short}}</h4>
+                                    <p class="text-muted">Fiyat: {{short}}₺</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </td>
+            <td>
+                <select class="form-control" ng-model="player.size">
+                    <option value="XXS">XXS</option>
+                    <option value="XS">XS</option>
+                    <option value="S">S</option>
+                    <option value="M">M</option>
+                    <option value="L">L</option>
+                    <option value="XL">XL</option>
+                    <option value="XXL">XXL</option>
+                </select>
+            </td>
+            <td>
+                <button ng-click="removePlayer(player)" class="btn btn-labeled btn-default">
+                    <i class="glyphicon glyphicon-trash text-danger"></i>
+                    Sil
+                </button>
+            </td>
+        </tr>
+
+        </tbody>
+        <tfoot>
+        <tr>
+            <th>{{goalkeeperCount()}} Kaleci</th>
+            <th>{{players.length}} Oyuncu</th>
+            <th colspan="2" class="">
+                <button class="btn btn-labeled" ng-click="pushPlayer()">
+                <i class="glyphicon glyphicon-plus text-primary"></i>
+                Oyuncu Ekle
+            </button>
+            </th>
+            <th></th>
+            <th></th>
+        </tr>
+        </tfoot>
+    </table>
+
+    <hr>
+
+    <a href="#" class="btn btn-labeled btn-primary col-xs-4 col-xs-offset-4"
+       ui-sref="summary({collar: sp.collar, uniform: sp.uniform, colorUuid: sp.colorUuid, paymentUuid: sp.paymentUuid, summaryUuid: summaryUuid})">
+        Sipariş Ekranı&nbsp;<i class="glyphicon glyphicon-chevron-right"></i>
+    </a>
+
 </div>

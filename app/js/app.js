@@ -3,13 +3,10 @@
 require('es5-shim');
 require('es5-sham');
 
-window.$ = window.jQuery = require('jquery');
-var angular = require('angular');
-
 require('angular-ui-router');
 require('ng-file-upload');
 
-var app = angular.module('main', [ 'ui.router', 'ngFileUpload' ]);
+var app = angular.module('main', [ 'ui.router', 'ngFileUpload', 'ngAnimate', 'ui.bootstrap']);
 
 require('./lib/angular.colorpicker');
 

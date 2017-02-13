@@ -1,0 +1,9 @@
+Title: Polo
+
+----
+
+Text: Polo Yaka Futbolcu Forması
+
+----
+
+Image: polo.png

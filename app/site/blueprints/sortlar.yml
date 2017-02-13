@@ -1,0 +1,17 @@
+title: Şortlar
+files: false
+deletable: false
+pages: sort
+
+options:
+  preview: false
+  status: false
+  url: false
+  delete: false
+  update: false
+
+fields:
+  title:
+    label: Başlık
+    type:  text
+    default: Şortlar

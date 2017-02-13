@@ -1,0 +1,25 @@
+Gallerygrid: 
+
+----
+
+Title: Model 1 - Polo
+
+----
+
+Type: polo-yaka
+
+----
+
+Image: kraliyet.png
+
+----
+
+Short-front: front_shorts.png
+
+----
+
+Short-back: back.png
+
+----
+
+Price: 10

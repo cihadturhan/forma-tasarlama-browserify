@@ -1,51 +1,372 @@
+body{
+    background-image: linear-gradient(white 40%, rgba(255, 255, 255, 0.2) 90%), url(/img/bg/background.png);
+    background-size: 100%;
+    background-repeat: no-repeat;
+    min-height: 100vh;
+    background-position: center bottom;
+}
+
+/*Breadcrumbs */
+
+.breadcrumb>li:not(:last-child):after {
+    padding: 0;
+    position: absolute;
+    content: "\e258";
+    color: rgba(38, 50, 56, 0.1);
+    top: 0;
+    right: 0;
+    font-family: 'Glyphicons Halflings';
+    line-height: 1;
+    font-size: 40px;
+}
+
+.breadcrumb>li+li:before{
+    display: none !important;
+}
+
+.breadcrumb>li {
+    position: relative;
+    padding-right: 40px;
+    padding-left: 0px;
+}
+
+.breadcrumb>.active a {
+    color: #37474F;
+}
+
+.breadcrumb>li.disabled a {
+    color: #90A4AE;
+    cursor: default;
+    pointer-events: none;
+    user-select: none;
+}
+
+
+.breadcrumb>li a {
+    color: #2ad097;
+    display: flex;
+    align-items: center;
+}
+
+.breadcrumb>li a:hover{
+    text-decoration: none;
+}
+
+.breadcrumb>li a i {
+    font-size: 18px;
+    padding: 10px;
+    background: white;
+    border-radius: 50%;
+    margin-right: 5px;
+    border: 1px solid;
+}
+
 .inputs{
-  vertical-align: top;
+    vertical-align: top;
 }
 
 .inputs, .input{
-  display: inline-block;
+    display: inline-block;
 }
 
 .wrapper {
-  position: relative;
-  display: inline-block;
-  vertical-align: top;
+    position: relative;
+    display: inline-block;
+    vertical-align: top;
 }
 
 .svg2{
-  margin-left: 145px;
-  margin-top: 190px;
+    margin-left: 145px;
+    margin-top: 190px;
 }
 
 canvas{
-  width: 400px;
-  height: 577px;
+    width: 400px;
+    height: 577px;
 }
 
 #pixi-scene{
-  position: relative;
-}
-
-.ui.color-box{
-  width: 30px;
-  height: 30px;
-  box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.40);
-  border-radius: 3px;
+    position: relative;
+    display: flex;
+    justify-content: center;
 }
 
 .drop-box {
-  background: #F8F8F8;
-  border: 5px dashed #DDD;
-  text-align: center;
-  padding: 50px 10px;
-  margin-left: 10px;
-  cursor: pointer;
+    background: #F8F8F8;
+    border: 5px dashed #DDD;
+    text-align: center;
+    padding: 50px 10px;
+    margin-left: 10px;
+    cursor: pointer;
 }
 
 .drop-box.dragover{
-  border-color: dodgerblue;
+    border-color: dodgerblue;
 }
 
 .drop-box.dragover-err{
-  border-color: tomato;
+    border-color: tomato;
+}
+
+
+/*ACCORDION*/
+
+uib-accordion .panel-default{
+    border: none;
+    box-shadow: 0px 1px 2px hsla(0,0%,0%,0.2);
+}
+
+uib-accordion .panel-default>.panel-heading {
+    padding: 0;
+    background: hsl(0,0%,97%);
+    border: none;
+}
+
+
+uib-accordion .panel-default>.panel-heading:hover{
+    background: white;
+}
+
+uib-accordion .panel-default>.panel-heading a {
+    padding: 10px 15px;
+    display: block;
+}
+
+uib-accordion .panel-default>.panel-heading a:hover{
+    text-decoration: none;
+}
+
+uib-accordion .alert {
+    margin: 10px 5px 0px 5px;
+
+}
+
+.field.disabled {
+    color: #a0a0a0;
+    opacity: 0.4;
+    pointer-events: none;
+}
+
+.field.disabled:after {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: -5px;
+    background: rgba(0, 0, 0, 0.08);
+}
+
+.field {
+    position: relative;
+    display: flex;
+    align-items: center;
+    padding: 5px;
+    color: #2196F3;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.field>* {
+    margin-right: 10px;
+}
+
+
+/*COLOPICKER */
+.color-picker, .color-box{
+    border-radius: 3px;
+    width: 36px;
+    height: 36px;
+    box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.3), 0px 2px 4px -2px rgba(0, 0, 0, 0.4);
+    margin-top: 2px;
+    display: inline-block;
+    overflow: hidden;
+    background-image: linear-gradient(rgba(255, 255, 255, 0.1), rgba(0, 0, 0, 0.1));
+    cursor: pointer;
+}
+
+.color-picker{
+    display: inline-flex;
+    align-items: stretch;
+    justify-content: space-around;
+}
+
+.color-picker>div{
+    flex: 1;
+}
+
+/* CAROUSEL */
+
+/*.carousel-inner > .item {
+  -webkit-transition: 0.3s ease-in-out left;
+  -moz-transition: 0.3s ease-in-out left;
+  -o-transition: 0.3s ease-in-out left;
+  transition: 0.3s ease-in-out left;
+}*/
+
+.carousel-control.left, .carousel-control.right {
+    background-image: none;
+}
+
+.carousel-control {
+    color: #2196F3;
+    box-shadow: none;
+    opacity: 1;
+    text-shadow: none;
+}
+
+.carousel-control:focus, .carousel-control:hover {
+    color: #03A9F4;
+}
+
+.carousel-indicators {
+    position: absolute;
+    bottom: -30px;
+}
+
+.carousel-indicators li {
+    border: 1px solid white;
+    background: #2196F3;
+    transition: all 0.6s ease;
+}
+
+.carousel-indicators .active {
+    background-color: #2196F3;
+}
+
+/* LOGO SELECT */
+.field .logo-container.active {
+    box-shadow: 0px 1px 1px 1px #1976D2;
+}
+
+.field .logo-library{
+    margin-top: 10px;
+}
+
+.field .logo-container {
+    display: inline-block;
+    margin-right: 5px;
+    margin-bottom: 5px;
+    padding: 5px;
+    border-radius: 3px;
+    background-image: linear-gradient(45deg, rgba(0, 0, 0, 0.10) 25%, transparent 25%,transparent 75%, rgba(0, 0, 0, 0.10) 75%, rgba(0, 0, 0, 0.10) 100%),            linear-gradient(45deg, rgba(0, 0, 0, 0.10) 25%, transparent 25%,transparent 75%, rgba(0, 0, 0, 0.10) 75%, rgba(0, 0, 0, 0.10) 100%);
+    background-size:20px 20px;
+    background-position:0 0, 10px 10px;
+    width: 70px;
+    height: 70px;
+    vertical-align: top;
+    display: inline-flex;
+    align-items: center;
+    box-shadow: 0px 1px 1px 0px rgba(0, 0, 0, 0.5);
+
+    -webkit-user-drag: none;
+    user-select: none;
+}
+
+.field .logo-container img{
+    -webkit-user-drag: none;
+    user-select: none;
+}
+
+
+/* SIMPLE SWITCH */
+.simple-switch-input {
+    position: absolute;
+    width: 0;
+    height: 0;
+    margin: 0;
+    padding: 0;
+    opacity: 0;
+    -ms-appearance: none;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    appearance: none;
+    border: none;
+}
+
+.simple-switch {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    -webkit-transition: .4s all;
+    transition: .4s all;
+    margin: 0 15px;
+    border-radius: 50px;
+    background: #bbb;
+    box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.1);
+    width: 36px;
+    height: 14px;
+    outline: 0;
+    cursor: pointer;
+    position: relative;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    user-select: none;
+    display: inline-block;
+    top: 3px;
+}
+
+/* switch background */
+.simple-switch-input:checked ~ .simple-switch {
+    background: #84B6D8;
+    box-shadow: inset 0 0 0 15px #84B6D8;
+    transition: .25s all;
+}
+.simple-switch-input:checked ~ .simple-switch.dark {
+    background: #0098FF;
+    box-shadow: inset 0 0 0 15px #0098FF;
+}
+.simple-switch-input:checked ~ .simple-switch::before {
+    transform: translate(18px, 0);
+    background: #006CB5;
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 0 0 16px rgba(0, 108, 181, 0);
+}
+.simple-switch-input:checked ~ .simple-switch.dark::before {
+    background: #99D6FF;
+}
+.simple-switch-input ~ .simple-switch::before {
+    content: '';
+    transition: .26s all;
+    position: absolute;
+    left: 0px;
+    top: -3px;
+    bottom: 2px;
+    right: auto;
+    transform: translate(0, 0);
+    display: block;
+    width: 20px;
+    height: 20px;
+    border-radius: 40px;
+    background: #fff;
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 0 0 16px rgba(0, 108, 181, 0);
+}
+
+/* switch circle */
+.simple-switch.dark:active::before {
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 0 0 5px rgba(89, 189, 255, 0.2);
+}
+
+/* TABLE */
+.table-striped{
+    background-color: rgba(255, 255, 255, 0.5);
+}
+
+.table-striped>tbody>tr:nth-of-type(odd) {
+    background-color: rgba(255, 255, 255, 0.7);
+}
+
+.table-striped>tbody>tr:nth-of-type(even) {
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+.table-hover>tbody>tr:hover {
+    background-color: rgba(255, 255, 255, 0.6);
+}
+
+.table>tfoot{
+    vertical-align: middle;
+    background-color: white;
+}
+
+.table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th, .table>thead>tr>td, .table>thead>tr>th{
+    vertical-align: middle;
 }

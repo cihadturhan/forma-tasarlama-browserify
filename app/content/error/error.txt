@@ -1,0 +1,9 @@
+Title: Hata Sayfası
+
+----
+
+Intro: Bu sayfa bulunamadı
+
+----
+
+Text: Lütfen aradığınız sayfayı kontrol edin.

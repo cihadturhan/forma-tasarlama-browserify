@@ -1,0 +1,57 @@
+Title: Polo
+
+----
+
+Text: 
+
+----
+
+Type: polo-yaka
+
+----
+
+Base-front: base-front.png
+
+----
+
+Base-back: base.png
+
+----
+
+Uniform-front: uniform-front.png
+
+----
+
+Uniform-back: uniform.png
+
+----
+
+Uniform-highlights-front: uniform_highlights-front.png
+
+----
+
+Uniform-highlights-back: uniform_highlights.png
+
+----
+
+Uniform-shadows-front: uniform_shadows-front.png
+
+----
+
+Uniform-shadows-back: uniform_shadows.png
+
+----
+
+Socks-front: socks-front.png
+
+----
+
+Socks-back: socks.png
+
+----
+
+Smarts-bg-front: smarts_bg-front.png
+
+----
+
+Smarts-bg-back: smart_bg.png

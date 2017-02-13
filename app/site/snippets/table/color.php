@@ -1,0 +1,1 @@
+<div style="float:left; width: 50px; min-height:30px; background-color:<?=$value?>"></div><div style="margin-left: 10px; float:left"><?=$value?></div>

@@ -1,0 +1,16 @@
+title: Forma Tipleri
+files: false
+deletable: false
+pages: forma-tipi
+
+options:
+  preview: false
+  status: false
+  url: false
+  delete: false
+  update: false
+
+fields:
+  title:
+    label: Başlık
+    type:  text

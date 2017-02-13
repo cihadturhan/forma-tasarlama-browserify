@@ -1,0 +1,25 @@
+Gallerygrid: 
+
+----
+
+Title: Model 2 - Polo
+
+----
+
+Type: polo-yaka
+
+----
+
+Image: yan_cizgiler.png
+
+----
+
+Short-front: front.png
+
+----
+
+Short-back: back.png
+
+----
+
+Price: 10

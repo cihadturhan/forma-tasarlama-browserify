@@ -1,0 +1,29 @@
+Gallerygrid: 
+
+----
+
+Title: Atlas - Yuvarlak
+
+----
+
+Type: bisiklet
+
+----
+
+Image: atlas-default-on.png
+
+----
+
+Tshirt-front: front.png
+
+----
+
+Tshirt-back: back.png
+
+----
+
+Min: 6
+
+----
+
+Price: 50

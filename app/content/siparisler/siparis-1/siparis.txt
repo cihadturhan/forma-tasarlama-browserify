@@ -1,0 +1,92 @@
+Gallerygrid: 
+
+----
+
+Title: Sipariş 1
+
+----
+
+Type: 
+
+----
+
+Image: 
+
+----
+
+Short-front: 
+
+----
+
+Short-back: 
+
+----
+
+Status: started
+
+----
+
+Datetime: 2017-02-01 15:00:00
+
+----
+
+Name: Mehmet
+
+----
+
+Surname: Yilmaz
+
+----
+
+Email: test@mail.com
+
+----
+
+Tel: 545423
+
+----
+
+Address: asdfasdf
+
+----
+
+Prices: 
+
+- 
+  name: asdfa
+  quantity: "23"
+  color: asdf
+  price: "23"
+  subtotal: "1"
+- 
+  name: adsfasd
+  color: 23asdf
+  quantity: "23"
+  price: "32"
+  subtotal: "1"
+- 
+  name: ad
+  color: asdfasdf
+  quantity: "23"
+  price: "32"
+  subtotal: "0"
+
+----
+
+Players: 
+
+- 
+  name: Ahmet
+  number: "1"
+  goalkeeper: 'false'
+  size: XS
+- 
+  name: asdfasd
+  number: "12"
+  goalkeeper: 'false'
+  size: XS
+- 
+  name: asdfasd
+  number: "232"
+  goalkeeper: 'false'
+  size: S

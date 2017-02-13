@@ -1,0 +1,157 @@
+title: Siparis
+files: png
+pages: false
+
+options:
+  preview: false
+
+files:
+  type: image
+  max: 1
+
+fields:
+  gallerygrid:
+    type: gallerygrid
+
+  orderInfo:
+    label: Sipariş Bilgileri
+    type: headline
+
+  status:
+    label: Durum
+    required: true
+    type:  select
+    options:
+      new: YENİ
+      in_progress: HAZIRLANIYOR
+      done: BİTTİ
+    width: 1/2
+
+  datetime:
+      label: Siparis Tarihi
+      type:  datetime
+      required: true
+      date:
+          format: DD MMM YYYY
+      time:
+          format: 24
+      default:
+          date: now
+      width: 1/2
+
+  userInfo:
+    label: Kişi Bilgileri
+    type: headline
+
+  name:
+    label: Ad
+    type: text
+    required: true
+    width: 1/2
+
+  surname:
+    label: Soyad
+    type: text
+    required: true
+    width: 1/2
+
+  email:
+    label: Email
+    type: email
+    autocomplete: false
+    required: true
+    width: 1/2
+
+  tel:
+    label: Telefon
+    type: tel
+    required: true
+    width: 1/2
+
+  address:
+    label: Teslimat Adresi
+    type: textarea
+    required: true
+
+  priceInfo:
+    label: Fiyat Bilgileri
+    type: headline
+
+  prices:
+    label: Fiyatlandırma
+    required: true
+    type: snippetfield
+    style: pricing
+    fields:
+      name:
+        label: Ürün Adı
+        type: text
+        required: true
+        snippet: table/value
+      color:
+        label: Renk
+        type: text
+        required: true
+        snippet: table/value
+      quantity:
+        label: Adet
+        type: number
+        step: 1
+        min: 0
+        max: 999
+        required: true
+        snippet: table/value
+
+      price:
+        label: Birim Fiyat
+        type: number
+        step: .1
+        min: 0
+        max: 999
+        required: true
+        snippet: table/value
+      subtotal:
+        label: Toplam
+        type: number
+        default: 0
+        min: 0
+        max: 0
+        snippet: table/subtotal
+
+  playerInfo:
+    label: Oyuncu Bilgileri
+    type: headline
+
+  players:
+      label: Oyuncular
+      type: snippetfield
+      style: table
+      fields:
+        name:
+          label: İsim
+          type: text
+          required: true
+          snippet: table/value
+        number:
+          label: Numara
+          type: number
+          required: true
+          snippet: table/value
+        goalkeeper:
+          label: Kaleci
+          type: toggle
+          required: true
+          snippet: table/bool
+        size:
+          label: Beden
+          type: select
+          required: true
+          options:
+            XXS: XXS
+            XS: XS
+            S: S
+            M: M
+            L: L
+            XL: XL
+            XXL: XXL
+

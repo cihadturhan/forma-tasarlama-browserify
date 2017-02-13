@@ -1,0 +1,24 @@
+title: Yaka Tipi
+files:
+  max: 1
+  min: 1
+  type: image
+
+pages: false
+options:
+  preview: false
+  url: false
+
+
+fields:
+  title:
+    label: Yaka İsmi
+    type:  text
+    required: true
+  image:
+    label: Yaka Görseli
+    type:  image
+    required: true
+  text:
+    label: Açıklama
+    type:  text

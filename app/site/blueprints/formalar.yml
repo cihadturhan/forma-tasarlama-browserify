@@ -1,0 +1,15 @@
+title: Formalar
+files: false
+deletable: false
+pages: forma
+options:
+  preview: false
+  status: false
+  url: false
+  delete: false
+  update: false
+
+fields:
+  title:
+    label: Başlık
+    type:  text

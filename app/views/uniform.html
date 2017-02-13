@@ -1,22 +1,30 @@
 <!-- Card -->
-<div class="ui celled centered link cards">
-    <a ui-sref="color({collar: collar, uniform: uniform.formaIsmi})" class="red card" ng-repeat="uniform in uniforms | filter: {formaTipi:{value: collar}}">
-        <div class="image">
-            <img ng-src="{{uniform.formaResmi.url}}">
+
+<!-- Card -->
+<div class="col-md-12">
+    <div class="row">
+        <div class="col-sm-3" ng-repeat="uniform in filteredUniforms">
+            <a ui-sref="color({collar: collar, uniform: uniform.uid, colorUuid: colorUuid})"
+               class="thumbnail text-center">
+
+                <img ng-src="{{getUrl(uniform, 'image')}}">
+
+
+                <h3>{{uniform.title}}</h3>
+
+                <p class="description"> Birim Ücreti: {{uniform.content.price}} ₺</p>
+
+                <p class="meta">
+                    <span>Minimum: {{uniform.content.min}} adet</span>
+                </p>
+
+                <div>
+                    <button class="btn btn-labeled btn-primary btn-block">
+                        Devam Et&nbsp;<i class="glyphicon glyphicon-chevron-right"></i>
+                    </button>
+                </div>
+            </a>
         </div>
-        <div class="content">
-            <div class="header">{{uniform.formaIsmi}}</div>
-            <div class="description"></div>
-            <div class="meta">
-                <span>Minimum: {{uniform.minSiparisSayisi}} adet</span>
-            </div>
-        </div>
-        <div class="extra content">
-            <button class="ui primary button">
-                <i class="checkmark icon"></i>
-                Devam Et
-            </button>
-        </div>
-    </a>
+    </div>
 </div>
 <!-- End Card -->
