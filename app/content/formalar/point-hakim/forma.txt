@@ -1,0 +1,29 @@
+Gallerygrid: 
+
+----
+
+Title: Point - Hakim
+
+----
+
+Type: hakim
+
+----
+
+Min: 6
+
+----
+
+Price: 50
+
+----
+
+Image: forma-resmi.png
+
+----
+
+Tshirt-front: front.png
+
+----
+
+Tshirt-back: back.png

@@ -7,6 +7,7 @@ module.exports = function($http, $q, $timeout){
     ];
 
     this.getAll = function () {
+        console.log('uniform started', performance.now());
         if(uniforms.length){
             var deferred = $q.defer();
             $timeout(function () {
@@ -17,6 +18,7 @@ module.exports = function($http, $q, $timeout){
             var promise = $http.get(host + '/formalar');
             promise.then(function (response) {
                 uniforms = response.data;
+                console.log('uniform ended', performance.now());
             });
             return promise;
         }

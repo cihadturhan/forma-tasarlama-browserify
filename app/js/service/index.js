@@ -4,6 +4,7 @@ var app = angular.module('main');
 
 app.service('containerService', require('./container'));
 app.service('uniformService', require('./uniform'));
+app.service('gkUniformService', require('./gkUniform'));
 app.service('shortService', require('./short'));
 app.service('collarService', require('./collar'));
 app.service('uuidService', require('./uuid'));

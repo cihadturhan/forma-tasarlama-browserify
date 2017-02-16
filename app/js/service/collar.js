@@ -11,6 +11,7 @@ module.exports = function ($http, $q, $timeout) {
 
 
     this.getAll = function () {
+        console.log('collar started', performance.now());
         if(collars.length){
             var deferred = $q.defer();
             $timeout(function () {
@@ -21,6 +22,7 @@ module.exports = function ($http, $q, $timeout) {
             var promise = $http.get(host + '/yaka-tipleri');
             promise.then(function (response) {
                 collars = response.data;
+                console.log('collar ended', performance.now());
             });
             return promise;
         }

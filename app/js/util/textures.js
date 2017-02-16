@@ -15,12 +15,13 @@ module.exports = {
             return p;
         }, []));
 
-        var logoTexture = new PIXI.Texture.fromImage(image);
+        var logoTexture = new PIXI.Texture.fromImage(image.url);
         var logoLayer = new PIXI.Sprite(logoTexture);
 
         logoLayer.x = position.x * absScale;
         logoLayer.y = position.y * absScale;
-        logoLayer.scale.x = logoLayer.scale.y = 0.2;
+        var scale = 30/Math.max(image.dimensions.width, image.dimensions.height);
+        logoLayer.scale.x = logoLayer.scale.y = scale;
         logoLayer.alpha = 0.8;
         logoLayer.anchor.set(0.5);
 

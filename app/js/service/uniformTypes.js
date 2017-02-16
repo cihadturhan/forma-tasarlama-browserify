@@ -7,6 +7,7 @@ module.exports = function($http, $q, $timeout){
     ];
 
     this.getAll = function () {
+        console.log('uniformtypes started', performance.now());
         if(uniformTypes.length){
             var deferred = $q.defer();
             $timeout(function () {
@@ -17,6 +18,7 @@ module.exports = function($http, $q, $timeout){
             var promise = $http.get(host + '/forma-tipleri');
             promise.then(function (response) {
                 uniformTypes = response.data;
+                console.log('uniformtypes ended', performance.now());
             });
             return promise;
         }

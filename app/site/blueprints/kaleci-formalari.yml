@@ -1,0 +1,15 @@
+title: Kaleci Formaları
+files: false
+deletable: false
+pages: kaleci-formasi
+options:
+  preview: false
+  status: false
+  url: false
+  delete: false
+  update: false
+
+fields:
+  title:
+    label: Başlık
+    type:  text

@@ -1,5 +1,5 @@
 <div class="ten wide left aligned column">
-    <form>
+    <form ng-submit="$event.preventDefault(); sendForm();">
         <div class="row">
             <div class="form-group col-md-6">
                 <label for="field-1">İsim Soyisim / Ünvan</label>
@@ -36,6 +36,13 @@
                 <textarea class="form-control" ng-required id="field-6" ng-model="fields.note" placeholder="Özel bir isteğiniz varsa buraya ekleyebilirsiniz."></textarea>
             </div>
         </div>
+
+        <hr>
+
+        <a href="#" class="btn btn-labeled btn-primary col-xs-4 col-xs-offset-4"
+           ui-sref="summary({collar: sp.collar, uniform: sp.uniform, colorUuid: sp.colorUuid, paymentUuid: sp.paymentUuid, summaryUuid: summaryUuid})">
+            Siparişi Ver&nbsp;<i class="glyphicon glyphicon-check"></i>
+        </a>
 
     </form>
 </div>

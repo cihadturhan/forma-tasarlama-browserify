@@ -1,4 +1,4 @@
-module.exports = function($scope, $rootScope, $stateParams, uuidService, uniformService, collarService, uniformTypesService, cacheService){
+module.exports = function($scope, $rootScope, $stateParams, uuidService, uniformService, gkUniformService, collarService, uniformTypesService, cacheService){
 
     $scope.players = [];
 
@@ -9,6 +9,24 @@ module.exports = function($scope, $rootScope, $stateParams, uuidService, uniform
     $scope.selectedUniformType = uniformTypesService.get($scope.selectedUniform.content.type);
     $scope.paymentUuid = $stateParams.paymentUuid;
     $scope.summaryUuid=  uuidService.generate();
+    $scope.gkUniforms = [];
+    $scope.opts = {activeGkUniform: 0, startCount: undefined};
+    $scope.numberOfPlayersArr = [];
+
+    for (var i = +$scope.selectedUniform.content.min; i < 30; i++) {
+        $scope.numberOfPlayersArr.push({
+            id: i,
+            index: i
+        })
+    }
+
+    console.log('gkuniform started', performance.now());
+    gkUniformService.getAll().then(function(response){
+        console.log('gkuniform ended', performance.now());
+       $scope.gkUniforms = response.data.filter(function(uniform){
+           return uniform.content.type ==  $scope.selectedUniformType.uid;
+       });
+    });
 
     var cache = cacheService.get($scope.paymentUuid);
 
@@ -19,6 +37,10 @@ module.exports = function($scope, $rootScope, $stateParams, uuidService, uniform
           size: 'M',
           goalkeeper: false
       }
+    };
+
+    $scope.toggleSize = function(player){
+        player.isBig = !player.isBig;
     };
 
 
@@ -45,18 +67,25 @@ module.exports = function($scope, $rootScope, $stateParams, uuidService, uniform
 
     if(cache){
         $scope.players = cache.players;
-    }else{
-        $scope.players = [];
-        while($scope.players.length < +$scope.selectedUniform.content.min){
-            $scope.pushPlayer();
-        }
+        $scope.opts.startCount = cache.players.length;
     }
+
+    $scope.onSlideChanged = function(player, next){
+        player.gkUniform = $scope.gkUniforms[next.slide.index];
+    };
+
+    $scope.$watch('opts.startCount', function(newVal){
+        if(newVal){
+            while($scope.players.length < newVal){
+                $scope.pushPlayer();
+            }
+        }
+    });
 
     $scope.$on('$stateChangeStart', function(){
         cacheService.set($scope.paymentUuid, {
             players: $scope.players
         });
     });
-
 
 };

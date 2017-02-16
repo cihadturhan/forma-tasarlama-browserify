@@ -16,7 +16,6 @@ module.exports = function ($http, $q, $rootScope, $timeout) {
         if(collarTypes.length){
             var deferred = $q.defer();
             $timeout(function () {
-                console.log('getAll', collarTypes);
                 deferred.resolve({data: collarTypes});
             },1);
             return deferred.promise;

@@ -9,7 +9,7 @@ app.run(['$rootScope', function($rootScope) {
     }]);
 
 app.config(function($stateProvider, $urlRouterProvider) {
-    $urlRouterProvider.otherwise('/yaka-secimi');
+    $urlRouterProvider.otherwise('/yaka-secimi/');
     // An array of state definitions
     var states = [
         {
@@ -48,7 +48,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
     states.forEach(function(state) {
         state.resolve = {
             __: function($q, collarService, uniformService, uniformTypesService){
-                return $q.when(collarService.getAll(), uniformService.getAll(), uniformTypesService.getAll());
+                return $q.all([collarService.getAll(), uniformService.getAll(), uniformTypesService.getAll()]);
             }
         };
         $stateProvider.state(state.name, state);

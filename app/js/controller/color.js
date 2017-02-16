@@ -11,6 +11,7 @@ var containerSize = constants.container;
 module.exports = function ($q, $scope, $rootScope, $stateParams, cacheService, collarTypesService, uniformService, shortService, uniformTypesService, collarService, uuidService, logoService) {
 
     var front, back;
+    var running = true;
     var smarts_body = [], smarts_shorts = [], socks = [], smarts_parts = [];
     var backTexts = [];
     var logos = [];
@@ -37,8 +38,16 @@ module.exports = function ($q, $scope, $rootScope, $stateParams, cacheService, c
         var urlCreator = window.URL || window.webkitURL;
         var logoUrl = urlCreator.createObjectURL(blob);
         var logoTexture = new PIXI.Texture.fromImage(logoUrl);
-        logos[0].texture = logoTexture;
+        var logoLayer = logos[0];
 
+        var img = new Image();
+        img.onload = function(){
+            var scale = 30/Math.max(img.width, img.height);
+            logoLayer.scale.x = logoLayer.scale.y = scale;
+        };
+        img.src = logoUrl;
+
+        logoLayer.texture = logoTexture;
         logoService.set('logo', blob);
     };
 
@@ -47,10 +56,15 @@ module.exports = function ($q, $scope, $rootScope, $stateParams, cacheService, c
         var logo = $scope.logos[index];
 
         var clogo = $scope.content.logo;
+
+        var scale = 30/Math.max(logo.dimensions.width, logo.dimensions.height);
+
         clogo.enabled = true;
         clogo.data = logo.url;
         clogo.type = 'url';
-        clogo.movables[0].layers[0].texture = new PIXI.Texture.fromImage(logo.url);
+        var logoLayer = logos[0];
+        logoLayer.texture = new PIXI.Texture.fromImage(logo.url);
+        logoLayer.scale.x = logoLayer.scale.y = scale;
     };
 
     $scope.selectChestLogo = function(blob){
@@ -215,7 +229,7 @@ module.exports = function ($q, $scope, $rootScope, $stateParams, cacheService, c
                     if(section.movable == false){
                         callback = false;
                     }
-                    logoLayer = textureUtil.createLogo($scope.logos[0].url, section.position, callback);
+                    logoLayer = textureUtil.createLogo($scope.logos[0], section.position, callback);
                     movableLayers.push(logoLayer);
                     front.addChild(logoLayer);
                 }else{
@@ -425,7 +439,7 @@ module.exports = function ($q, $scope, $rootScope, $stateParams, cacheService, c
         renderer.render(stage);
 
         // request another animation frame...
-        requestAnimationFrame(animate);
+        running && requestAnimationFrame(animate);
     }
 
     var collarTypePromise = collarTypesService.getAll().then(function(response){
@@ -463,6 +477,7 @@ module.exports = function ($q, $scope, $rootScope, $stateParams, cacheService, c
         cacheService.set($scope.colorUuid, {
             content: $scope.content
         });
+        running = false;
     });
 
 

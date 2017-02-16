@@ -1,5 +1,5 @@
 body{
-    background-image: linear-gradient(white 40%, rgba(255, 255, 255, 0.2) 90%), url(/img/bg/background.png);
+    background-image: linear-gradient(white 40%, rgba(255, 255, 255, 0.2) 90%), url(/beta/img/bg/background.png);
     background-size: 100%;
     background-repeat: no-repeat;
     min-height: 100vh;
@@ -369,4 +369,48 @@ uib-accordion .alert {
 
 .table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th, .table>thead>tr>td, .table>thead>tr>th{
     vertical-align: middle;
+}
+
+/* Carousel */
+.custom-carousel{
+    height: 200px;
+}
+
+.custom-carousel img{
+    height: 100px;
+}
+
+.custom-carousel.carousel-big{
+    height: 600px;
+}
+
+.custom-carousel.carousel-big img{
+    height: 500px;
+}
+
+a.zoom-button {
+    position: absolute;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background: radial-gradient(rgba(0, 0, 0, 0.1), rgba(255, 255, 255, 0.0) 60%);
+    width: 100%;
+    height: 100%;
+    font-size: 30px;
+    text-shadow: 0 1px 0 #0D47A1, 0 -1px 0 #BBDEFB;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    color: #2196F3;
+}
+
+.custom-carousel.carousel-big a.zoom-button{
+    font-size: 40px;
+}
+
+a.zoom-button:hover{
+    opacity: 1;
 }

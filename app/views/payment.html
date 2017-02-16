@@ -1,5 +1,12 @@
-<div class="twelve wide center aligned column">
-    <table class="table table-striped table-hover">
+<div class="">
+    <div class="alert alert-info" role="alert" ng-show="!opts.startCount">
+        Kaç Oyuncu İstiyorsun? <br/>
+        <select class="form-control ng-valid ng-not-empty ng-dirty ng-valid-parse ng-touched" ng-model="opts.startCount" ng-options="item.id as item.id for item in numberOfPlayersArr">
+            <option value="">Oyuncu Sayısı Seçiniz</option>
+        </select>
+    </div>
+
+    <table class="table table-striped table-hover" ng-show="!!opts.startCount">
         <thead>
         <tr>
             <th>#</th>
@@ -20,7 +27,7 @@
                 <input type="number" class="form-control" style="max-width: 80px" ng-model="player.number"
                        placeholder="Numara">
             </td>
-            <td>
+            <td class="text-center">
                 <label>Kaleci Yap
                     <input id="goal-keeper{{$index}}" class="simple-switch-input" type="checkbox"
                            ng-model="player.goalkeeper">
@@ -29,13 +36,18 @@
 
                 <div uib-collapse="!player.goalkeeper">
 
-                    <div style="height: 200px">
-                        <div uib-carousel active="opts.activeShort">
-                            <div uib-slide ng-repeat="short in [0,1,2,3,4,5] track by short" index="short">
-                                <img src="http://www.formayaptirma.net/forma/uploads/Black-Keeper-UST-MODEL1.png" style="margin:auto; height: 100px;" class="img-responsive">
+                    <div class="custom-carousel" ng-class="{'carousel-big': player.isBig}">
+                        <div uib-carousel active="player.activeGkUniform" on-carousel-change="onSlideChanged(player, nextSlide)">
+                            <div uib-slide ng-repeat="gkUniform in gkUniforms" index="$index">
+                                <a href="javascript:void(0)" class="zoom-button" ng-click="toggleSize(player)">
+                                    <i class="glyphicon glyphicon-zoom-in" ng-show="!player.isBig"></i>
+                                    <i class="glyphicon glyphicon-zoom-out" ng-show="player.isBig"></i>
+                                </a>
+
+                                <img ng-src="{{getUrl(gkUniform, 'image')}}" style="margin:auto;" class="img-responsive">
                                 <div>
-                                    <h4>{{short}}</h4>
-                                    <p class="text-muted">Fiyat: {{short}}₺</p>
+                                    <h4>{{gkUniform.content.title}}</h4>
+                                    <p class="text-muted">Fiyat: {{gkUniform.content.price}}₺</p>
                                 </div>
                             </div>
                         </div>

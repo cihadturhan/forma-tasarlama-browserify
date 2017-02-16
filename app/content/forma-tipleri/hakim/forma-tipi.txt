@@ -1,0 +1,57 @@
+Gallerygrid: 
+
+----
+
+Title: Hakim
+
+----
+
+Type: hakim
+
+----
+
+Base-front: base-front.png
+
+----
+
+Base-back: base-back.png
+
+----
+
+Smarts-bg-front: smarts_bg-front.png
+
+----
+
+Smarts-bg-back: smart_bg-back.png
+
+----
+
+Uniform-front: uniform-front.png
+
+----
+
+Uniform-back: uniform-back.png
+
+----
+
+Uniform-highlights-front: uniform_highlights-front.png
+
+----
+
+Uniform-highlights-back: uniform_highlights-back.png
+
+----
+
+Uniform-shadows-front: uniform_shadows-front.png
+
+----
+
+Uniform-shadows-back: uniform_shadows-back.png
+
+----
+
+Socks-front: socks-front.png
+
+----
+
+Socks-back: socks-back.png

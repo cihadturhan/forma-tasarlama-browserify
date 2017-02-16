@@ -27,6 +27,7 @@ constants.faces = {
 };
 
 constants.backendHost = 'http://formatasarlama';
+//constants.backendHost = 'http://formatasarla.org/beta';
 
 
 module.exports = constants;

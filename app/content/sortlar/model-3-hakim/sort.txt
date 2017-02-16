@@ -1,0 +1,25 @@
+Gallerygrid: 
+
+----
+
+Title: Model 3 - Hakim
+
+----
+
+Type: hakim
+
+----
+
+Price: 20
+
+----
+
+Image: sort-resmi.png
+
+----
+
+Short-front: front.png
+
+----
+
+Short-back: back.png
