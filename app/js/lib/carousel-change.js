@@ -8,7 +8,8 @@ app.directive('onCarouselChange', function ($parse) {
             var fn = $parse(attrs.onCarouselChange);
             var origSelect = carouselCtrl.select;
             carouselCtrl.select = function (nextSlide, direction) {
-                if (nextSlide !== this.currentSlide) {
+                var currentSlide = this.slides[this.getCurrentIndex()];
+                if (nextSlide && currentSlide && nextSlide !== currentSlide) {
                     fn(scope, {
                         nextSlide: nextSlide,
                         direction: direction,

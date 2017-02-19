@@ -1,6 +1,5 @@
 'use strict';
 var host = require('../util/constants').backendHost;
-var Upload = require('ng-file-upload');
 
 module.exports = function($http, $q, $timeout, Upload){
 

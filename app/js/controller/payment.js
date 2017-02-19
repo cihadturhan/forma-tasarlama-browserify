@@ -35,7 +35,8 @@ module.exports = function($scope, $rootScope, $stateParams, uuidService, uniform
           name: '',
           number: 0,
           size: 'M',
-          goalkeeper: false
+          goalkeeper: false,
+          goalkeeperSocks: false
       }
     };
 
@@ -73,6 +74,8 @@ module.exports = function($scope, $rootScope, $stateParams, uuidService, uniform
     $scope.onSlideChanged = function(player, next){
         player.gkUniform = $scope.gkUniforms[next.slide.index];
     };
+
+
 
     $scope.$watch('opts.startCount', function(newVal){
         if(newVal){

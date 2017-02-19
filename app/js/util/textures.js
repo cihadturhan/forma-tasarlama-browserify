@@ -2,7 +2,7 @@
 var absScale = require('./constants').absScale;
 
 module.exports = {
-    createLogo: function (image, position, onChange) {
+    createLogo: function (image, position, size, onChange) {
         var limits = [
             {x:404, y:232},
             {x:452, y:204},
@@ -20,7 +20,7 @@ module.exports = {
 
         logoLayer.x = position.x * absScale;
         logoLayer.y = position.y * absScale;
-        var scale = 30/Math.max(image.dimensions.width, image.dimensions.height);
+        var scale = size/Math.max(image.dimensions.width, image.dimensions.height);
         logoLayer.scale.x = logoLayer.scale.y = scale;
         logoLayer.alpha = 0.8;
         logoLayer.anchor.set(0.5);

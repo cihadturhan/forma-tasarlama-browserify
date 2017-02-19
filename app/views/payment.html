@@ -28,11 +28,22 @@
                        placeholder="Numara">
             </td>
             <td class="text-center">
-                <label>Kaleci Yap
-                    <input id="goal-keeper{{$index}}" class="simple-switch-input" type="checkbox"
-                           ng-model="player.goalkeeper">
-                    <span class="simple-switch dark"></span>
-                </label>
+                <div class="row">
+                    <label>Kaleci Yap
+                        <input id="goal-keeper{{$index}}" class="simple-switch-input" type="checkbox"
+                               ng-model="player.goalkeeper" ng-change="player.gkUniform = gkUniforms[player.activeGkUniform]">
+                        <span class="simple-switch dark"></span>
+                    </label>
+                </div>
+
+                <div class="row" ng-show="player.goalkeeper">
+                    <label>Kaleci Çorabı Ekle
+                        <input id="goal-keeper-sock{{$index}}" class="simple-switch-input" type="checkbox"
+                               ng-model="player.goalkeeperSocks">
+                        <span class="simple-switch dark"></span>
+                    </label>
+                </div>
+
 
                 <div uib-collapse="!player.goalkeeper">
 

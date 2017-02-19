@@ -195,6 +195,11 @@ uib-accordion .alert {
     flex: 1;
 }
 
+.color-picker.form-control {
+    display: block;
+    border: none;
+}
+
 /* CAROUSEL */
 
 /*.carousel-inner > .item {
@@ -413,4 +418,12 @@ a.zoom-button {
 
 a.zoom-button:hover{
     opacity: 1;
+}
+
+/* SUMMARY */
+form .logo{
+    max-width: 100px;
+    max-height: 100px;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.41);
+    border-radius: 3px;
 }

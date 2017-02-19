@@ -28,6 +28,7 @@ module.exports = function ($q, $scope, $rootScope, $stateParams, cacheService, c
     $scope.sp = $stateParams;
     $scope.colorUuid = $stateParams.colorUuid;
     $scope.paymentUuid = uuidService.generate();
+    var cache = cacheService.get($scope.colorUuid);
 
     $scope.selectLogo = function(blob){
         var clogo = $scope.content.logo;
@@ -42,13 +43,12 @@ module.exports = function ($q, $scope, $rootScope, $stateParams, cacheService, c
 
         var img = new Image();
         img.onload = function(){
-            var scale = 30/Math.max(img.width, img.height);
+            var scale = clogo.size/Math.max(img.width, img.height);
             logoLayer.scale.x = logoLayer.scale.y = scale;
         };
         img.src = logoUrl;
 
         logoLayer.texture = logoTexture;
-        logoService.set('logo', blob);
     };
 
     $scope.selectLogoFromLibrary = function(index){
@@ -57,13 +57,13 @@ module.exports = function ($q, $scope, $rootScope, $stateParams, cacheService, c
 
         var clogo = $scope.content.logo;
 
-        var scale = 30/Math.max(logo.dimensions.width, logo.dimensions.height);
-
         clogo.enabled = true;
         clogo.data = logo.url;
         clogo.type = 'url';
         var logoLayer = logos[0];
         logoLayer.texture = new PIXI.Texture.fromImage(logo.url);
+
+        var scale = clogo.size/Math.max(logo.dimensions.width, logo.dimensions.height);
         logoLayer.scale.x = logoLayer.scale.y = scale;
     };
 
@@ -76,9 +76,15 @@ module.exports = function ($q, $scope, $rootScope, $stateParams, cacheService, c
         var urlCreator = window.URL || window.webkitURL;
         var logoUrl = urlCreator.createObjectURL(blob);
         var logoTexture = new PIXI.Texture.fromImage(logoUrl);
-        chestLogos[0].texture = logoTexture;
+        var logoLayer = chestLogos[0];
+        logoLayer.texture = logoTexture;
 
-        logoService.set('chestLogo', blob);
+        var img = new Image();
+        img.onload = function(){
+            var scale = cchestLogo.size/Math.max(img.width, img.height);
+            logoLayer.scale.x = logoLayer.scale.y = scale;
+        };
+        img.src = logoUrl;
     };
 
     $scope.selectChestLogoFromLibrary = function(index){
@@ -89,7 +95,12 @@ module.exports = function ($q, $scope, $rootScope, $stateParams, cacheService, c
         cchestLogo.enabled = true;
         cchestLogo.data = logo.url;
         cchestLogo.type = 'url';
-        cchestLogo.movables[0].layers[0].texture = new PIXI.Texture.fromImage(logo.url);
+        var logoLayer = chestLogos[0];
+        logoLayer.texture = new PIXI.Texture.fromImage(logo.url);
+
+        var scale = cchestLogo.size/Math.max(logo.dimensions.width, logo.dimensions.height);
+        logoLayer.scale.x = logoLayer.scale.y = scale;
+
     };
 
     var selectedUniform = uniformService.get($stateParams.uniform);//$scope.uniforms[$stateParams.uniform];
@@ -117,73 +128,82 @@ module.exports = function ($q, $scope, $rootScope, $stateParams, cacheService, c
     $scope.face = $scope.faces.FRONT;
 
     function initVars() {
-
-        $scope.content = {
-            general: {
-                title: 'Ana Renk Seçimi',
-                focus: focus.body,
-                colors: [
-                    {value: '#FFFFFF', layers: smarts_parts}
-                ]
-            },
-            tshirt: {
-                title: 'TShirt Rengi',
-                focus: focus.tshirt,
-                colors: [
-                    {value: '#3B1F4E', layers: smarts_body}
-                ]
-            },
-            short: {
-                title: 'Şort',
-                focus: focus.shorts,
-                colors: [
-                    {value: '#3B1F4E', layers: smarts_shorts}
-                ]
-            },
-            socks: {
-                title: 'Çoraplar',
-                focus: focus.socks,
-                enabled: false,
-                colors: [
-                    {value: '#FFFFFF', layers: socks}
-                ]
-            },
-            logo: {
-                title: 'Göğüs Logosu',
-                focus: focus.logo,
-                enabled: false,
-                type: 'url',
-                data: '',
-                position: angular.copy(focus.logo.transform),
-                movables: [{
-                    value: function () {
-                        return $scope.accordion.index == 4
-                    }, layers: logos
-                }],
-                colors: []
-            },
-            chestLogo: {
-                title: 'Sponsor Logosu',
-                focus: focus.tshirt,
-                enabled: false,
-                type: 'url',
-                data: '',
-                movable: false,
-                position: {x: focus.logo.transform.x, y: 1800},
-                movables: [{
-                    value: function () {
-                        return $scope.accordion.index == 4
-                    }, layers: chestLogos
-                }],
-                colors: []
-            },
-            number: {
-                title: 'Numara',
-                focus: focus.backNumber,
-                texts: [],
-                colors: []
-            }
-        };
+        if (cache){
+            $scope.content = cache.content;
+            logos = cache.logos;
+            chestLogos = cache.chestLogos;
+        }else {
+            $scope.content = {
+                general: {
+                    title: 'Ana Renk Seçimi',
+                    focus: focus.body,
+                    colors: [
+                        {value: '#FFFFFF', layers: smarts_parts}
+                    ]
+                },
+                tshirt: {
+                    title: 'TShirt Rengi',
+                    focus: focus.tshirt,
+                    colors: [
+                        {value: '#3B1F4E', layers: smarts_body}
+                    ]
+                },
+                short: {
+                    title: 'Şort',
+                    focus: focus.shorts,
+                    colors: [
+                        {value: '#3B1F4E', layers: smarts_shorts}
+                    ]
+                },
+                socks: {
+                    title: 'Çoraplar',
+                    focus: focus.socks,
+                    enabled: false,
+                    colors: [
+                        {value: '#FFFFFF', layers: socks}
+                    ]
+                },
+                logo: {
+                    title: 'Göğüs Logosu',
+                    focus: focus.logo,
+                    enabled: false,
+                    type: 'url',
+                    data: '',
+                    position: angular.copy(focus.logo.transform),
+                    movables: [{
+                        value: function () {
+                            return $scope.accordion.index == 4
+                        },
+                        layers: logos
+                    }],
+                    size: 30,
+                    colors: []
+                },
+                chestLogo: {
+                    title: 'Sponsor Logosu',
+                    focus: focus.tshirt,
+                    enabled: false,
+                    type: 'url',
+                    data: '',
+                    movable: false,
+                    position: {x: focus.logo.transform.x, y: 1800},
+                    movables: [{
+                        value: function () {
+                            return $scope.accordion.index == 4
+                        },
+                        layers: chestLogos,
+                    }],
+                    size: 100,
+                    colors: []
+                },
+                number: {
+                    title: 'Numara',
+                    focus: focus.backNumber,
+                    texts: [],
+                    colors: []
+                }
+            };
+        }
 
         //Change Texture
         //smarts_body.texture = PIXI.Texture.fromImage('img2/smarts_body_'+newValue+'.png');
@@ -229,7 +249,7 @@ module.exports = function ($q, $scope, $rootScope, $stateParams, cacheService, c
                     if(section.movable == false){
                         callback = false;
                     }
-                    logoLayer = textureUtil.createLogo($scope.logos[0], section.position, callback);
+                    logoLayer = textureUtil.createLogo($scope.logos[0], section.position, section.size, callback);
                     movableLayers.push(logoLayer);
                     front.addChild(logoLayer);
                 }else{
@@ -475,7 +495,10 @@ module.exports = function ($q, $scope, $rootScope, $stateParams, cacheService, c
 
     $scope.$on('$stateChangeStart', function(){
         cacheService.set($scope.colorUuid, {
-            content: $scope.content
+            content: $scope.content,
+            logos: logos,
+            chestLogos: chestLogos,
+            currentShort: $scope.currentShort
         });
         running = false;
     });

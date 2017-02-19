@@ -1,38 +1,45 @@
 <?php
-$name = 'ahmet';
-$surname = 'yilmaz';
-$tel = '0564664654';
-$address = 'Bahcelievler Mah';
-$title = 'Siparis_' . date('YmdHis') . '_' . $name . '_' . $surname;
-$email = 'Hello';
-
 $r = kirby()->request();
 
-if ($r->method() == 'POST') {
+if (true || $r->method() == 'POST') {
+    $q = $r->data();
+
+    $title = 'Siparis ' . date('d/m/Y-H:i:s') . ' ' . ucfirst($q['name']);
+
 
     try {
-        $p = $page->create('siparisler/' . strtolower($title), 'siparis', array(
+        $pageData = array(
             'title' => $title,
             'status' => 'new',
             'datetime' => date('Y-m-d H:i:00'),
-            'name' => $name,
-            'surname' => $surname,
-            'email' => $email,
-            'tel' => $tel,
-            'address' => $address,
-
-        ));
-
-        //Create Structure
-        $priceData = array(
-            array(
-                'name' => '333333',
-                'quantity' => "33",
-                'color' => '#333333',
-                'price' => "33",
-                'subtotal' => '1'
-            )
+            'name' => $q['name'],
+            'email' => $q['email'],
+            'tel' => $q['tel'],
+            'address' => $q['address'],
+            'note' => $q['note'],
         );
+
+        $priceData = [];
+
+        $priceData
+
+
+         die(json_encode($q));
+
+         //Create Structure
+         $priceData = array(
+             array(
+                 'name' => '333333',
+                 'quantity' => "33",
+                 'color' => '#333333',
+                 'price' => "33",
+                 'subtotal' => '1'
+             )
+         );
+
+        $p = $page->create('siparisler/' . strtolower($title), 'siparis', $pageData);
+
+
         $priceData = yaml::encode($priceData);
         $prices = $p->update(array('prices' => $priceData));
 
@@ -45,7 +52,8 @@ if ($r->method() == 'POST') {
                 'name' => 'asdfa',
                 'number' => "23",
                 'goalkeeper' => 'true',
-                'size' => 'XL'
+                'size' => 'XL',
+                'socks' => 'true'
             )
         );
 

@@ -44,14 +44,14 @@ fields:
     type: headline
 
   name:
-    label: Ad
+    label: İsim Soyisim / Ünvan
     type: text
     required: true
     width: 1/2
 
-  surname:
-    label: Soyad
-    type: text
+  tc:
+    label: TC Kimlik No
+    type: number
     required: true
     width: 1/2
 
@@ -72,6 +72,12 @@ fields:
     label: Teslimat Adresi
     type: textarea
     required: true
+    width: 1/2
+
+  note:
+    label: Müşteri Notu
+    type: textarea
+    width: 1/2
 
   priceInfo:
     label: Fiyat Bilgileri
@@ -154,4 +160,13 @@ fields:
             L: L
             XL: XL
             XXL: XXL
+        socks:
+          label: Çorap
+          type: toggle
+          required: true
+          snippet: table/bool
+
+  playerInfo:
+    label: Ek Bilgiler
+    type: headline
 

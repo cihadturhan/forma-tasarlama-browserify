@@ -22,7 +22,7 @@ Short-back:
 
 ----
 
-Status: started
+Status: new
 
 ----
 
@@ -76,17 +76,28 @@ Prices:
 Players: 
 
 - 
-  name: Ahmet
-  number: "1"
+  name: asdfasd
+  number: "232"
   goalkeeper: 'false'
-  size: XS
+  size: S
+  socks: 'true'
 - 
   name: asdfasd
   number: "12"
   goalkeeper: 'false'
   size: XS
+  socks: 'true'
 - 
-  name: asdfasd
-  number: "232"
+  name: Ahmet
+  number: "1"
   goalkeeper: 'false'
-  size: S
+  size: XS
+  socks: 'true'
+
+----
+
+Tc: 1231231231
+
+----
+
+Note: 
