@@ -1,5 +1,37 @@
 <div class="ten wide left aligned column">
+
     <form ng-submit="$event.preventDefault(); sendForm();">
+        <h4 class="text-info">Ödeme Bilgileri</h4>
+        <table class="table table-striped table-xs table-condensed">
+            <thead>
+            <tr>
+                <th>Ürün Adı</th>
+                <th>Adet</th>
+                <th>Renk</th>
+                <th>Fiyat</th>
+            </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="product in products">
+                    <td>{{product.name}}</td>
+                    <td>{{product.quantity}}</td>
+                    <td>{{product.color}}</td>
+                    <td class="text-right">{{product.totalPrice}}₺</td>
+                </tr>
+
+            </tbody>
+
+            <tfoot>
+            <tr>
+                <th colspan="3">Toplam</th>
+                <th class="text-right">
+                    {{getTotalPrice()}}₺
+                </th>
+            </tr>
+            </tfoot>
+
+        </table>
+
         <h4 class="text-info">Teslimat Bilgileri</h4>
         <div class="row">
             <div class="form-group col-md-6">
@@ -40,100 +72,18 @@
 
         <hr>
 
-        <h4 class="text-info">Forma Bilgileri</h4>
-        <fieldset ng-alias="c as colorCache.content">
-            <div class="row">
-                <div class="form-group col-sm-2">
-                    <label>Ana Renk</label>
-                    <div class="color-picker form-control" ng-style="{backgroundColor: c.general.colors[0].value}"></div>
-                </div>
 
-                <div class="form-group col-sm-2">
-                    <label>Tshirt Modeli</label>
-                    <p class="form-control-static">{{selectedUniform.content.title}}</p>
-                </div>
-
-                <div class="form-group col-sm-2">
-                    <label>Tshirt Rengi</label>
-                    <div class="color-picker form-control" ng-style="{backgroundColor: c.tshirt.colors[0].value}"></div>
-                </div>
-
-                <div class="form-group col-sm-2">
-                    <label>Şort Modeli</label>
-                    <p class="form-control-static">{{colorCache.currentShort.content.title}}</p>
-                </div>
-
-                <div class="form-group col-sm-2">
-                    <label>Şort Rengi</label>
-                    <div class="color-picker form-control" ng-style="{backgroundColor: c.short.colors[0].value}"></div>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="form-group col-sm-2">
-                    <label>Çorap</label>
-                    <p class="form-control-static">
-                        <span ng-if="c.socks.enabled" class="text-success"><i class="glyphicon glyphicon-ok"></i> Eklendi</span>
-                        <span ng-if="!c.socks.enabled"> <i class="glyphicon glyphicon-remove"></i> Eklenmedi</span>
-                    </p>
-                </div>
-
-                <div class="form-group col-sm-2">
-                    <label>Çorap Rengi</label>
-                    <div class="color-picker form-control" ng-style="{backgroundColor: c.socks.colors[0].value}"></div>
-                </div>
-
-                <div class="form-group col-sm-2">
-                    <label>Göğüs Logosu</label>
-                    <p class="form-control-static">
-                        <span ng-if="c.logo.enabled" class="text-success"><i class="glyphicon glyphicon-ok"></i> Eklendi</span>
-                        <span ng-if="!c.logo.enabled" class="text-muted"> <i class="glyphicon glyphicon-remove"></i> Eklenmedi</span>
-                    </p>
-                </div>
-
-                <div class="form-group col-sm-2">
-                    <label>Göğüs Logo Görseli</label>
-                    <p class="form-control-static">
-                        <img class="logo" ng-if="c.logo.type == 'blob'" ngf-src="c.logo.data" alt="">
-                        <img class="logo" ng-if="c.logo.type == 'url'" ng-src="{{c.logo.data}}" alt="">
-                    </p>
-                </div>
-
-                <div class="form-group col-sm-2">
-                    <label>Sponsor Logosu</label>
-                    <p class="form-control-static">
-                        <span ng-if="c.chestLogo.enabled" class="text-success"><i class="glyphicon glyphicon-ok"></i> Eklendi</span>
-                        <span ng-if="!c.chestLogo.enabled" class="text-muted"> <i class="glyphicon glyphicon-remove"></i> Eklenmedi</span>
-                    </p>
-                </div>
-
-                <div class="form-group col-sm-2">
-                    <label>Sponsor Logo Görseli</label>
-                    <p class="form-control-static">
-                        <img class="logo" ng-if="c.chestLogo.type == 'blob'" ngf-src="c.chestLogo.data" alt="">
-                        <img class="logo" ng-if="c.chestLogo.type == 'url'" ng-src="{{c.chestLogo.data}}" alt="">
-                        <span ng-if="c.chestLogo.type == 'text'"
-                              class="form-control-static"> {{c.chestLogo.data}} </span>
-                    </p>
-                </div>
-            </div>
-        </fieldset>
-
-        <hr>
 
         <h4 class="text-info">Oyuncu Bilgileri</h4>
 
-        <table class="table table-striped table-xs table-condensed">
+        <table class="table table-striped table-condensed text-center summary-player-table">
             <thead>
             <tr>
                 <th>#</th>
                 <th>Oyuncu Adı</th>
-                <th>Numarası</th>
+                <th>Sırt Numarası</th>
                 <th>Kaleci</th>
-                <th>Forma İsmi</th>
                 <th>Forma Ölçüsü</th>
-                <th>Çorap</th>
-                <th>Fiyat</th>
             </tr>
             </thead>
             <tbody>
@@ -142,35 +92,19 @@
                 <td>{{player.name}}</td>
                 <td>{{player.number}}</td>
                 <td class="text-center"> <i class="glyphicon glyphicon-ok text-success" ng-if="player.goalkeeper"></i></td>
-                <td>{{player.goalkeeper ? player.gkUniform.content.title : selectedUniform.content.title}}</td>
                 <td class="text-center">{{player.size}}</td>
-                <td class="text-center">
-                    <span ng-if="player.goalkeeper">
-                        <i class="glyphicon glyphicon-ok text-success" ng-if="player.goalkeeperSocks"></i>
-                    </span>
-
-                    <span ng-if="!player.goalkeeper">
-                        <i class="glyphicon glyphicon-ok text-success" ng-if="colorCache.content.socks.enabled"></i>
-                    </span>
-                </td>
-                <td class="text-right">
-                    {{getPrice(player)}}₺
-                </td>
-            </tr>
-
-            <tr>
-                <td></td>
-                <td>Toplam</td>
-                <td>{{paymentCache.players.length}} Forma</td>
-                <td>{{goalkeeperCount()}} Kaleci</td>
-                <td></td>
-                <td><p ng-repeat="obj in sizeCount">{{obj.count}} adet {{obj.size}}</p></td>
-                <td>{{socksCount()}} Çorap</td>
-                <td>
-                    {{getTotalPrice()}}₺
-                </td>
             </tr>
             </tbody>
+
+            <tfoot>
+            <tr>
+                <th></th>
+                <th>Toplam</th>
+                <th>{{paymentCache.players.length}} Forma</th>
+                <th>{{goalkeeperCount()}} Kaleci</th>
+                <th></th>
+            </tr>
+            </tfoot>
 
         </table>
 

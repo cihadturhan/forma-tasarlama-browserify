@@ -26,8 +26,10 @@ constants.faces = {
     BOTH: 'BOTH'
 };
 
-constants.backendHost = 'http://formatasarlama';
-//constants.backendHost = 'http://formatasarla.org/beta';
+if (window.location.hostname == 'formatasarlama')
+    constants.backendHost = 'http://formatasarlama';
+else
+    constants.backendHost = 'http://formatasarla.org/beta';
 
 
 module.exports = constants;

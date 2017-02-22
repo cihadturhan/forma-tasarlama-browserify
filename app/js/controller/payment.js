@@ -1,4 +1,34 @@
-module.exports = function($scope, $rootScope, $stateParams, uuidService, uniformService, gkUniformService, collarService, uniformTypesService, cacheService){
+module.exports = function($uibModal, $scope, $rootScope, $stateParams, uuidService, uniformService, gkUniformService, collarService, uniformTypesService, cacheService){
+
+    $scope.open = function (player) {
+
+        console.log($scope.gkUniforms);
+
+        var modalInstance = $uibModal.open({
+            animation: true,
+            ariaLabelledBy: 'modal-title',
+            ariaDescribedBy: 'modal-body',
+            templateUrl: 'uniformModalContent.html',
+            controller: 'uniformModalCtrl',
+            size: 'lg',
+            resolve: {
+                gkUniforms: function () {
+                    return $scope.gkUniforms;
+                },
+                selectedGlIndex: function () {
+                    if(!player.gkUniform)
+                        return 0;
+                    return $scope.gkUniforms.indexOf(player.gkUniform);
+                }
+            }
+        });
+
+        modalInstance.result.then(function (gkUniform) {
+            player.gkUniform = gkUniform;
+        }, function () {
+            console.info('Modal dismissed at: ' + new Date());
+        });
+    };
 
     $scope.players = [];
 
@@ -36,7 +66,7 @@ module.exports = function($scope, $rootScope, $stateParams, uuidService, uniform
           number: 0,
           size: 'M',
           goalkeeper: false,
-          goalkeeperSocks: false
+          goalkeeperSocks: true
       }
     };
 
@@ -70,12 +100,6 @@ module.exports = function($scope, $rootScope, $stateParams, uuidService, uniform
         $scope.players = cache.players;
         $scope.opts.startCount = cache.players.length;
     }
-
-    $scope.onSlideChanged = function(player, next){
-        player.gkUniform = $scope.gkUniforms[next.slide.index];
-    };
-
-
 
     $scope.$watch('opts.startCount', function(newVal){
         if(newVal){

@@ -8,3 +8,4 @@ app.controller('paymentCtrl', require('./payment'));
 app.controller('summaryCtrl', require('./summary'));
 app.controller('uniformCtrl', require('./uniform'));
 app.controller('navCtrl', require('./nav'));
+app.controller('uniformModalCtrl', require('./uniformModal'));

@@ -19,6 +19,83 @@ module.exports = function ($q, $scope, $rootScope, $stateParams, cacheService, c
     $scope.colorCache = cacheService.get($scope.colorUuid);
     $scope.paymentCache = cacheService.get($scope.paymentUuid);
 
+    $scope.getProducts = function(){
+        var c = $scope.colorCache.content;
+
+        var tshirts = {
+            name: $scope.selectedUniform.content.title+ ' - Üst',
+            quantity: $scope.playerCount(),
+            color: c.general.colors[0].value + ' ' +c.tshirt.colors[0].value,
+            totalPrice: $scope.playerCount() * parseInt($scope.selectedUniform.content.price)
+        };
+
+        var shorts = {
+            name: $scope.colorCache.currentShort.content.title + ' - Şort',
+            quantity: $scope.playerCount(),
+            color: c.short.colors[0].value,
+            totalPrice: $scope.playerCount() * parseInt($scope.colorCache.currentShort.content.price)
+        };
+
+        var socks = !c.socks.enabled ?
+            []:
+        {
+            name: 'Çorap',
+            quantity: $scope.playerCount(),
+            color: c.socks.colors[0].value,
+            totalPrice: 5 * $scope.playerCount()
+        };
+
+
+        var gkUniforms = $scope.paymentCache.players.filter(function (p) {
+            return p.goalkeeper;
+        }).map(function(p){
+            return p.gkUniform;
+        }).reduce(function (p, c) {
+            var obj = p.find(function (o) {
+                return o.uniform.uid == c.uid;
+            });
+
+            if (obj) {
+                obj.count++;
+            } else {
+                p.push({
+                    count: 1,
+                    uniform: c
+                });
+            }
+            return p;
+        }, []).map(function(o){
+            return {
+                name: o.uniform.content.title + ' - Kaleci Forması',
+                quantity: o.count,
+                color: '',
+                totalPrice: o.count * parseInt(o.uniform.content.price)
+            }
+        });
+
+        var products = [].concat(tshirts, shorts, socks, gkUniforms);
+
+        var subTotal = products.reduce(function(p,c){
+            return p + c.totalPrice;
+        },0);
+
+        var tax = {
+            name: 'KDV Tutari %8',
+            quantity: '',
+            color: '',
+            totalPrice: subTotal * 0.08
+        };
+
+        return products.concat(tax);
+    };
+
+    $scope.getTotalPrice = function(){
+        return $scope.products
+            .reduce(function (p, c) {
+                return p + c.totalPrice;
+            }, 0);
+    };
+
     $scope.getSizeCount = function(){
         var sizeObj = $scope.paymentCache.players.reduce(function (p, c) {
             if(typeof p[c.size] != 'undefined')
@@ -40,8 +117,6 @@ module.exports = function ($q, $scope, $rootScope, $stateParams, cacheService, c
         return sizeArr;
     };
 
-
-    $scope.sizeCount = $scope.getSizeCount();
     $scope.getPrice = function(player){
         var price = 0;
       if(player.goalkeeper){
@@ -60,17 +135,17 @@ module.exports = function ($q, $scope, $rootScope, $stateParams, cacheService, c
         }).length;
     };
 
+    $scope.playerCount = function() {
+        return $scope.paymentCache.players.filter(function (p) {
+            return !p.goalkeeper;
+        }).length;
+    };
+
 
     $scope.socksCount = function(){
         return $scope.paymentCache.players.filter(function(p){
             return p.goalkeeper ? p.goalkeeperSocks : $scope.colorCache.content.socks.enabled;
         }).length;
-    };
-
-    $scope.getTotalPrice = function(){
-        return $scope.paymentCache.players.reduce(function(p, c){
-            return p + $scope.getPrice(c);
-        }, 0);
     };
 
     $scope.sendForm = function(){
@@ -109,5 +184,8 @@ module.exports = function ($q, $scope, $rootScope, $stateParams, cacheService, c
             console.error(arguments);
         });
     }
+
+    $scope.products = $scope.getProducts();
+    $scope.sizeCount = $scope.getSizeCount();
 
 };

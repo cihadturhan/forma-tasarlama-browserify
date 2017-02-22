@@ -1,5 +1,5 @@
 body{
-    background-image: linear-gradient(white 40%, rgba(255, 255, 255, 0.2) 90%), url(/beta/img/bg/background.png);
+    background-image: linear-gradient(white 40%, rgba(255, 255, 255, 0.2) 90%), url(/beta/img/bg/background.jpg);
     background-size: 100%;
     background-repeat: no-repeat;
     min-height: 100vh;
@@ -426,4 +426,39 @@ form .logo{
     max-height: 100px;
     box-shadow: 0 1px 1px rgba(0, 0, 0, 0.41);
     border-radius: 3px;
+}
+
+.summary-player-table th{
+    text-align: center;
+}
+
+
+/*GK MODAL*/
+.gk-img-container{
+    display: block;
+    overflow: hidden;
+    border-radius: 4px;
+}
+
+.gk-img-container img{
+    height: 80px;
+}
+
+.gk-img-container.active{
+    box-shadow: 0 0px 3px #2196F3;
+    background: rgba(33, 150, 243, 0.04);
+
+}
+
+.gk-modal-pane-right{
+    padding-top: 3px;
+    padding-bottom: 3px;
+    max-height: 800px;
+    overflow: auto;
+}
+
+.gk-img-big{
+    margin: auto;
+    max-height: 70vh;
+    max-height: calc(100vh - 230px);
 }

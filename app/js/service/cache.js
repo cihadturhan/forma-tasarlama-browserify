@@ -8,6 +8,7 @@ module.exports = function ($http, $q, $timeout) {
 
     this.set = function (uid, data) {
         caches[uid] = data;
+        //window.localStorage.set(uid, JSON.stringify(data));
     };
 
     this.get = function (uid) {

@@ -1,4 +1,36 @@
 <div class="">
+
+    <script type="text/ng-template" id="uniformModalContent.html">
+        <div class="modal-header">
+            <h3 class="modal-title" id="modal-title">Kalecinizi Seçin</h3>
+        </div>
+        <div class="modal-body" id="modal-body">
+
+            <div class="row">
+                <div class="col-sm-9 text-center">
+                    <img class="gk-img-big" ng-src="{{getUrl(selected.gkUniform, 'image')}}" style="margin:auto;" class="img-responsive">
+                </div>
+                <div class="col-sm-3 gk-modal-pane-right">
+                    <a href="javascript:void(0)"
+                       class="text-center gk-img-container"
+                       ng-repeat="gkUniform in gkUniforms"
+                       ng-click="selected.gkUniform = gkUniform"
+                       ng-class="{active: selected.gkUniform == gkUniform}">
+                        <img ng-src="{{getUrl(gkUniform, 'image')}}" style="margin:auto;" class="img-responsive">
+                        <h4>{{gkUniform.content.title}}</h4>
+                        <p class="text-muted">Fiyat: {{gkUniform.content.price}}₺</p>
+                    </a>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="modal-footer">
+            <button class="btn btn-default" type="button" ng-click="cancel()">İptal</button>
+            <button class="btn btn-primary" type="button" ng-click="ok()"> <i class="fa fa-check"></i> Kabul Et</button>
+        </div>
+    </script>
+
     <div class="alert alert-info" role="alert" ng-show="!opts.startCount">
         Kaç Oyuncu İstiyorsun? <br/>
         <select class="form-control ng-valid ng-not-empty ng-dirty ng-valid-parse ng-touched" ng-model="opts.startCount" ng-options="item.id as item.id for item in numberOfPlayersArr">
@@ -36,35 +68,10 @@
                     </label>
                 </div>
 
-                <div class="row" ng-show="player.goalkeeper">
-                    <label>Kaleci Çorabı Ekle
-                        <input id="goal-keeper-sock{{$index}}" class="simple-switch-input" type="checkbox"
-                               ng-model="player.goalkeeperSocks">
-                        <span class="simple-switch dark"></span>
-                    </label>
-                </div>
-
-
-                <div uib-collapse="!player.goalkeeper">
-
-                    <div class="custom-carousel" ng-class="{'carousel-big': player.isBig}">
-                        <div uib-carousel active="player.activeGkUniform" on-carousel-change="onSlideChanged(player, nextSlide)">
-                            <div uib-slide ng-repeat="gkUniform in gkUniforms" index="$index">
-                                <a href="javascript:void(0)" class="zoom-button" ng-click="toggleSize(player)">
-                                    <i class="glyphicon glyphicon-zoom-in" ng-show="!player.isBig"></i>
-                                    <i class="glyphicon glyphicon-zoom-out" ng-show="player.isBig"></i>
-                                </a>
-
-                                <img ng-src="{{getUrl(gkUniform, 'image')}}" style="margin:auto;" class="img-responsive">
-                                <div>
-                                    <h4>{{gkUniform.content.title}}</h4>
-                                    <p class="text-muted">Fiyat: {{gkUniform.content.price}}₺</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
+                <a href="javascript:void(0)" ng-show="player.goalkeeper" ng-click="open(player)" >
+                    <span ng-if="player.gkUniform">{{player.gkUniform.content.title}}</span>
+                    <span ng-if="!player.gkUniform">Forma Seç</span>
+                </a>
 
             </td>
             <td>
