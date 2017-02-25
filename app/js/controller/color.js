@@ -75,6 +75,7 @@ module.exports = function ($q, $scope, $rootScope, $stateParams, cacheService, c
 
         var urlCreator = window.URL || window.webkitURL;
         var logoUrl = urlCreator.createObjectURL(blob);
+        console.log(logoUrl);
         var logoTexture = new PIXI.Texture.fromImage(logoUrl);
         var logoLayer = chestLogos[0];
         logoLayer.texture = logoTexture;

@@ -59,6 +59,7 @@ class Upload {
 
     // get the correct file out of multiple based on the "index" option
     if($source && is_int($this->options['index']) && is_array($source['name'])) {
+      var_dump($source);
       $allSources = $source;
       $source = array();
       
@@ -76,6 +77,8 @@ class Upload {
     if($source && f::name($source['name']) == 'image' && detect::ios()) {
       $source['name'] = 'image-' . uniqid() . '.' . ltrim(f::extension($source['name']), '.');
     }
+
+
 
     return $source;
 

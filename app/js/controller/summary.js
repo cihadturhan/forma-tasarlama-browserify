@@ -23,6 +23,8 @@ module.exports = function ($q, $scope, $rootScope, $stateParams, cacheService, c
         var c = $scope.colorCache.content;
 
         var tshirts = {
+            uid: $scope.selectedUniform.uid,
+            type: 'tshirt',
             name: $scope.selectedUniform.content.title+ ' - Üst',
             quantity: $scope.playerCount(),
             color: c.general.colors[0].value + ' ' +c.tshirt.colors[0].value,
@@ -30,6 +32,8 @@ module.exports = function ($q, $scope, $rootScope, $stateParams, cacheService, c
         };
 
         var shorts = {
+            uid: $scope.colorCache.currentShort.uid,
+            type: 'shorts',
             name: $scope.colorCache.currentShort.content.title + ' - Şort',
             quantity: $scope.playerCount(),
             color: c.short.colors[0].value,
@@ -40,6 +44,8 @@ module.exports = function ($q, $scope, $rootScope, $stateParams, cacheService, c
             []:
         {
             name: 'Çorap',
+            type: 'socks',
+            uid: 'socks',
             quantity: $scope.playerCount(),
             color: c.socks.colors[0].value,
             totalPrice: 5 * $scope.playerCount()
@@ -67,6 +73,8 @@ module.exports = function ($q, $scope, $rootScope, $stateParams, cacheService, c
         }, []).map(function(o){
             return {
                 name: o.uniform.content.title + ' - Kaleci Forması',
+                uid: o.uniform.uid,
+                type: 'gkUniform',
                 quantity: o.count,
                 color: '',
                 totalPrice: o.count * parseInt(o.uniform.content.price)
@@ -82,6 +90,7 @@ module.exports = function ($q, $scope, $rootScope, $stateParams, cacheService, c
         var tax = {
             name: 'KDV Tutari %8',
             quantity: '',
+            type: 'tax',
             color: '',
             totalPrice: subTotal * 0.08
         };
@@ -151,20 +160,29 @@ module.exports = function ($q, $scope, $rootScope, $stateParams, cacheService, c
     $scope.sendForm = function(){
         var content = $scope.colorCache.content;
 
-        if(content.logo.enabled && content.logo.type == 'blob'){
-            $scope.fields.logoFile = content.logo.data;
+        if(content.logo.enabled){
+            $scope.fields.logoInfo = {
+                type: content.logo.type,
+                position: content.logo.position
+            };
+            $scope.fields.logoData = content.logo.data
         }
 
-        if(content.chestLogo.enabled && content.chestLogo.type == 'blob'){
-            $scope.fields.chestLogoFile = content.chestLogo.data;
+        if(content.chestLogo.enabled){
+            $scope.fields.chestLogoInfo = {
+                type: content.chestLogo.type,
+                position: content.chestLogo.position
+            };
+            $scope.fields.chestLogoData = content.chestLogo.data
         }
 
-        $scope.fields.models = {
-            uniform: $scope.selectedUniform.uid,
-            short: $scope.colorCache.currentShort.uid
-        };
+        $scope.fields.models = $scope.products.reduce(function(p, c){
+            if(c.type)
+                p[c.type] = c.uid;
 
-        var content = $scope.colorCache.content;
+            return p;
+        }, {});
+
 
         $scope.fields.colors = {
             general: content.general.colors[0].value,
@@ -173,7 +191,9 @@ module.exports = function ($q, $scope, $rootScope, $stateParams, cacheService, c
             socks: content.socks.colors[0].value
         };
 
-        $scope.fields.players = $scope.paymentCache;
+        $scope.fields.products = $scope.getProducts();
+
+        $scope.fields.players = $scope.paymentCache.players;
 
         Upload.upload({
             url: host + '/siparisler',//host + '/wp-admin/admin-ajax.php',
@@ -183,7 +203,7 @@ module.exports = function ($q, $scope, $rootScope, $stateParams, cacheService, c
         }).catch(function(){
             console.error(arguments);
         });
-    }
+    };
 
     $scope.products = $scope.getProducts();
     $scope.sizeCount = $scope.getSizeCount();

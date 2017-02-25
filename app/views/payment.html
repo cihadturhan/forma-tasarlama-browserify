@@ -63,12 +63,12 @@
                 <div class="row">
                     <label>Kaleci Yap
                         <input id="goal-keeper{{$index}}" class="simple-switch-input" type="checkbox"
-                               ng-model="player.goalkeeper" ng-change="player.gkUniform = gkUniforms[player.activeGkUniform]">
+                               ng-model="player.goalkeeper" ng-change="changeGkStatus(player)">
                         <span class="simple-switch dark"></span>
                     </label>
                 </div>
 
-                <a href="javascript:void(0)" ng-show="player.goalkeeper" ng-click="open(player)" >
+                <a href="javascript:void(0)" ng-show="player.goalkeeper" ng-click="openModal(player)" >
                     <span ng-if="player.gkUniform">{{player.gkUniform.content.title}}</span>
                     <span ng-if="!player.gkUniform">Forma Seç</span>
                 </a>

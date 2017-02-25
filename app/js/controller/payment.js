@@ -1,8 +1,7 @@
 module.exports = function($uibModal, $scope, $rootScope, $stateParams, uuidService, uniformService, gkUniformService, collarService, uniformTypesService, cacheService){
 
-    $scope.open = function (player) {
+    $scope.openModal = function (player) {
 
-        console.log($scope.gkUniforms);
 
         var modalInstance = $uibModal.open({
             animation: true,
@@ -94,6 +93,12 @@ module.exports = function($uibModal, $scope, $rootScope, $stateParams, uuidServi
         var index = $scope.players.indexOf(player);
         if(index > -1)
             $scope.players.splice(index, 1);
+    };
+
+    $scope.changeGkStatus = function(player){
+        player.gkUniform = $scope.gkUniforms[player.activeGkUniform];
+        if(player.goalkeeper)
+            $scope.openModal(player)
     };
 
     if(cache){

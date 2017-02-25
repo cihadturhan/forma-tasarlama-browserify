@@ -107,7 +107,7 @@ gulp.task('ngAnnotate', ['lint', 'unit'], function () {
         '!' + paths.src + 'third-party/**',
     ])
         .on('error', handleError)
-        .pipe(gulpPlugins.ngAnnotate())
+        .pipe(gulpPlugins.ngAnnotate({add: true}))
         .pipe(gulp.dest(paths.root + 'ngAnnotate'));
 });
 
@@ -116,7 +116,7 @@ gulp.task('browserify-min', ['ngAnnotate'], function () {
         .bundle()
         .on('error', handleError)
         .pipe(source('app.min.js'))
-        .pipe(gulpPlugins.streamify(gulpPlugins.uglify({mangle: false})))
+        .pipe(gulpPlugins.streamify(gulpPlugins.uglify({mangle: true})))
         .pipe(gulp.dest(paths.dist));
 });
 

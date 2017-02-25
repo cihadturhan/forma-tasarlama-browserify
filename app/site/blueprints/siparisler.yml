@@ -1,7 +1,11 @@
 title: Siparişler
 files: false
 deletable: false
-pages: siparis
+pages:
+  template: siparis
+  sort: date desc time desc
+  format: YmdHi
+
 
 options:
   preview: false

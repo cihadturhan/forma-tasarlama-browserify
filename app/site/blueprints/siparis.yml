@@ -7,7 +7,7 @@ options:
 
 files:
   type: image
-  max: 1
+  max: 2
 
 fields:
   gallerygrid:
@@ -130,6 +130,7 @@ fields:
 
   players:
       label: Oyuncular
+      required: true
       type: snippetfield
       style: table
       fields:
@@ -147,11 +148,13 @@ fields:
           label: Kaleci
           type: toggle
           required: true
+          default: false
           snippet: table/bool
         size:
           label: Beden
           type: select
           required: true
+          default: M
           options:
             XXS: XXS
             XS: XS
@@ -160,13 +163,8 @@ fields:
             L: L
             XL: XL
             XXL: XXL
-        socks:
-          label: Çorap
-          type: toggle
-          required: true
-          snippet: table/bool
 
-  playerInfo:
+  additionalInfo:
     label: Ek Bilgiler
     type: headline
 
