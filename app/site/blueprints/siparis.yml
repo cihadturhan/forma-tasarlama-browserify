@@ -168,3 +168,6 @@ fields:
     label: Ek Bilgiler
     type: headline
 
+  extra:
+    label: Ek Bilgiler
+    type: textarea

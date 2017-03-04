@@ -10,6 +10,11 @@
     <link rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="css/app.css">
+    <link rel="stylesheet" type="text/css" href="css/bootstrap-nav-wizard.css">
+    <link rel="stylesheet" type="text/css" href="css/balloon.css">
+
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,700&amp;subset=latin-ext" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Mada|Noto+Sans|Roboto" rel="stylesheet">
     <!--<base href="/">-->
 </head>
 
@@ -18,7 +23,7 @@
 <div class="container">
     <div class="row" ng-controller="navCtrl">
         <div class="col-xs-12 text-center">
-            <ol class="breadcrumb" >
+            <ol class="nav nav-wizard breadcrumb" >
                 <li ui-sref-active="active">
                     <a ui-sref="collar">
                         <i class="glyphicon glyphicon-menu-down"></i>

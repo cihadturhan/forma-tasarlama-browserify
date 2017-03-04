@@ -3,6 +3,6 @@
     foreach($entries as $entry){
         $total += (floatval($entry->quantity) * floatval($entry->price));
     }
-    echo $total*1.08;
+    echo $total;
 
 ?>

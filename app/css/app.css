@@ -1,39 +1,59 @@
-body{
-    background-image: linear-gradient(white 40%, rgba(255, 255, 255, 0.2) 90%), url(/beta/img/bg/background.jpg);
+body {
+    background:url('../img/back.jpg');
     background-size: 100%;
     background-repeat: no-repeat;
     min-height: 100vh;
     background-position: center bottom;
+    /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#8fc400+0,72b500+100 */
+    /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#f2f9fe+0,d6f0fd+100;White+3D+%232 */
+}
+
+@font-face {
+    font-family: 'Bernadette Rough';
+    src: url('font/BernadetteRough.eot');
+    src: url('font/BernadetteRough.eot?#iefix') format('embedded-opentype'),
+    url('font/BernadetteRough.woff') format('woff'),
+    url('font/BernadetteRough.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
 }
 
 /*Breadcrumbs */
-
-.breadcrumb>li:not(:last-child):after {
-    padding: 0;
-    position: absolute;
-    content: "\e258";
-    color: rgba(38, 50, 56, 0.1);
-    top: 0;
-    right: 0;
-    font-family: 'Glyphicons Halflings';
-    line-height: 1;
-    font-size: 40px;
+.table-striped thead {
+    border: 3px solid #56acc4;
+    background: #56acc4;
+    color: #fff;
 }
+table.tablehead.table.table-striped.table-xs.table-condensed {
+    border: 3px solid #56acc4;
+}
+table.tablehead.table.table-striped.table-condensed.text-center.summary-player-table {
+    border: 3px solid #56acc4;
+}
+table.table.table-striped.table-hover {
+    border: 3px solid #56acc4;
+}
+.breadcrumb {
+    padding: 8px 15px;
+    margin-bottom: 5px;
+    list-style: none;
+    background-color: transparent;
+    border-radius: 4px;
+}
+.breadcrumb>.active i {
+    color: #3c879c;
+}
+.breadcrumb>.active i {
 
+    border: none;
+}
 .breadcrumb>li+li:before{
     display: none !important;
 }
 
-.breadcrumb>li {
-    position: relative;
-    padding-right: 40px;
-    padding-left: 0px;
-}
-
 .breadcrumb>.active a {
-    color: #37474F;
+    color: #3c763d;
 }
-
 .breadcrumb>li.disabled a {
     color: #90A4AE;
     cursor: default;
@@ -43,22 +63,33 @@ body{
 
 
 .breadcrumb>li a {
-    color: #2ad097;
+    color: #4a94b7;
     display: flex;
     align-items: center;
+    font-weight: 600;
 }
-
 .breadcrumb>li a:hover{
     text-decoration: none;
 }
+.step_head {
+    margin-top: -20px;
 
-.breadcrumb>li a i {
-    font-size: 18px;
+    text-align: center;
+    font-size: 30px;
+    font-family: 'Bernadette Rough' !important;
     padding: 10px;
-    background: white;
+    color: #60b1c8;
+    font-weight: 600;
+
+
+}
+.breadcrumb>li a i {
+    font-size: 22px;
+    padding: 0px;
     border-radius: 50%;
-    margin-right: 5px;
-    border: 1px solid;
+    margin-right: 10px;
+    top: 0px;
+    border: none;
 }
 
 .inputs{
@@ -89,6 +120,8 @@ canvas{
     position: relative;
     display: flex;
     justify-content: center;
+    background: rgba(0, 0, 0, 0.18);
+    border-radius: 5px;
 }
 
 .drop-box {
@@ -156,19 +189,21 @@ uib-accordion .alert {
     bottom: -5px;
     background: rgba(0, 0, 0, 0.08);
 }
-
+.buttonhover:hover {
+    text-decoration: none;
+    background: rgb(56, 172, 199) !important;
+}
 .field {
     position: relative;
     display: flex;
     align-items: center;
-    padding: 5px;
     color: #2196F3;
     margin-top: 5px;
     margin-bottom: 5px;
 }
 
 .field>* {
-    margin-right: 10px;
+    margin-right: 0px;
 }
 
 
@@ -351,14 +386,16 @@ uib-accordion .alert {
 }
 
 /* TABLE */
-.table-striped{
-    background-color: rgba(255, 255, 255, 0.5);
+.table-striped {
+    border: 1px solid #e6e6e6;
 }
-
 .table-striped>tbody>tr:nth-of-type(odd) {
     background-color: rgba(255, 255, 255, 0.7);
 }
-
+.table-striped input {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid #cecece;
+}
 .table-striped>tbody>tr:nth-of-type(even) {
     background-color: rgba(0, 0, 0, 0.1);
 }
@@ -369,11 +406,18 @@ uib-accordion .alert {
 
 .table>tfoot{
     vertical-align: middle;
-    background-color: white;
+    background-color: #d0edf5;
 }
 
 .table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th, .table>thead>tr>td, .table>thead>tr>th{
     vertical-align: middle;
+}
+
+.table .glyphicon.glyphicon-stop {
+    text-shadow: 0px 1px 1px rgba(0, 0, 0, 0.5);
+    margin-right: 3px;
+    vertical-align: baseline;
+    line-height: 1;
 }
 
 /* Carousel */
@@ -434,6 +478,10 @@ form .logo{
 
 
 /*GK MODAL*/
+.modal-full{
+    width: calc(100vw - 80px);
+}
+
 .gk-img-container{
     display: block;
     overflow: hidden;
@@ -453,7 +501,7 @@ form .logo{
 .gk-modal-pane-right{
     padding-top: 3px;
     padding-bottom: 3px;
-    max-height: 800px;
+    max-height: calc(100vh - 230px);
     overflow: auto;
 }
 
@@ -461,4 +509,299 @@ form .logo{
     margin: auto;
     max-height: 70vh;
     max-height: calc(100vh - 230px);
+}
+
+/* CS */
+
+.nav-wizard i {
+    float: left;
+}
+.boxes {
+    padding: 0px;
+    background: rgba(0,0,0,.075);
+    border: none;
+    box-shadow: 4px -4px 10px rgba(119, 119, 119, 0.39);
+}
+.boxes p {
+    margin-bottom: 0px;
+}
+.boxes button {
+    border-radius: 0px;
+    padding: 15px;
+    font-size: 14px;
+    color: #fff;
+}
+.boxes button {
+    border-radius: 0px;
+    padding: 10px;
+    font-size: 14px;
+    color: #fff;
+    border: none;
+    background: rgb(147,206,222);
+    background: -moz-linear-gradient(-45deg, rgba(147,206,222,1) 0%, rgba(117,189,209,1) 41%, rgba(73,165,191,1) 100%);
+    background: -webkit-linear-gradient(-45deg, rgba(147,206,222,1) 0%,rgba(117,189,209,1) 41%,rgba(73,165,191,1) 100%);
+    background: linear-gradient(135deg, rgba(147,206,222,1) 0%,rgba(117,189,209,1) 41%,rgba(73,165,191,1) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#93cede', endColorstr='#49a5bf',GradientType=1 );
+}
+.btn-new {
+    background: rgb(147,206,222);
+    background: -moz-linear-gradient(-45deg, rgba(147,206,222,1) 0%, rgba(117,189,209,1) 41%, rgba(73,165,191,1) 100%) !important;
+    background: -webkit-linear-gradient(-45deg, rgba(147,206,222,1) 0%,rgba(117,189,209,1) 41%,rgba(73,165,191,1) 100%) !important;;
+    background: linear-gradient(135deg, rgba(147,206,222,1) 0%,rgba(117,189,209,1) 41%,rgba(73,165,191,1) 100%) !important;;
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#93cede', endColorstr='#49a5bf',GradientType=1 ) !important;;
+    border: none;
+    padding: 10px;
+
+}
+
+.btn-new:focus {
+    background: rgb(147,206,222);
+    background: -moz-linear-gradient(-45deg, rgba(147,206,222,1) 0%, rgba(117,189,209,1) 41%, rgba(73,165,191,1) 100%) !important;
+    background: -webkit-linear-gradient(-45deg, rgba(147,206,222,1) 0%,rgba(117,189,209,1) 41%,rgba(73,165,191,1) 100%) !important;;
+    background: linear-gradient(135deg, rgba(147,206,222,1) 0%,rgba(117,189,209,1) 41%,rgba(73,165,191,1) 100%) !important;;
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#93cede', endColorstr='#49a5bf',GradientType=1 ) !important;;
+    border: none;
+    padding: 10px;
+    line-height: normal !important;
+    color: #fff !important;
+
+
+}
+.boxes:hover {
+    background: rgb(147,206,222);
+    background: -moz-linear-gradient(-45deg, rgba(147,206,222,1) 0%, rgba(117,189,209,1) 41%, rgba(73,165,191,1) 100%);
+    background: -webkit-linear-gradient(-45deg, rgba(147,206,222,1) 0%,rgba(117,189,209,1) 41%,rgba(73,165,191,1) 100%);
+    background: linear-gradient(135deg, rgba(147,206,222,1) 0%,rgba(117,189,209,1) 41%,rgba(73,165,191,1) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#93cede', endColorstr='#49a5bf',GradientType=1 );
+    text-decoration: none;
+}
+.boxes button:hover {
+    background: #1d4771;
+}
+.boxes .header {
+    font-size: 17px;
+    color: #2f669e;
+    padding: 10px;
+    margin-bottom: 0px;
+    min-height: 60px;
+    line-height: 21px;
+    vertical-align: middle;
+}
+
+.panel-group>.panel .panel-title:after {
+    float: right;
+    font-family: 'Glyphicons Halflings';
+    content: "\e114";
+    position: absolute;
+    right: 10px;
+    top: 1em;
+    color: white;
+    font-size: 13px;
+    transition: transform 0.3s ease;
+}
+
+.panel-group>.panel .panel-title {
+    position: relative;
+}
+
+.panel-group>.panel.panel-open .panel-title:after {
+    transform: rotate(90deg);
+}
+
+
+.boxes h3 {
+    padding: 7px;
+    margin-bottom: 0px;
+    margin-top: 0px;
+}
+.boxes:hover h3 {
+    color: #fff;
+}
+.boxes:hover p {
+    color: #fff;
+}
+.boxes .description {
+    color: #999;
+}
+.boxes .meta {
+    color: #999;
+    margin-bottom: 5px;
+}
+.tabsthree .panel-heading {
+    background: rgb(23, 57, 86);
+    color: #fff;
+    margin-top: 7px;
+    box-shadow: 0 0 rgb(0, 0, 0);
+}
+uib-accordion .panel-default>.panel-heading:hover {
+    background: white;
+}
+.newbtn label {
+    height: 40px;
+    font-size: 16px;
+    line-height: 24px;
+}
+.newbtn .btn-primary.active, .btn-primary:focus, .open>.dropdown-toggle.btn-primary {
+    background: #bac6cd;
+    border: none;
+    line-height: 30px;
+    color: #7d919c;
+}
+
+.newbtn .btn-primary {
+    color: #fff;
+    border: none;
+    background-color: #337ab7;
+    background: rgb(147,206,222);
+    background: -moz-linear-gradient(-45deg, rgba(147,206,222,1) 0%, rgba(117,189,209,1) 41%, rgba(73,165,191,1) 100%);
+    background: -webkit-linear-gradient(-45deg, rgba(147,206,222,1) 0%,rgba(117,189,209,1) 41%,rgba(73,165,191,1) 100%);
+    background: linear-gradient(135deg, rgba(147,206,222,1) 0%,rgba(117,189,209,1) 41%,rgba(73,165,191,1) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#93cede', endColorstr='#49a5bf',GradientType=1 );
+}
+uib-accordion .panel-default>.panel-heading a {
+    padding: 10px 15px;
+    display: block;
+    color: #fff;
+    background: -moz-linear-gradient(-45deg, rgba(147,206,222,1) 0%, rgba(117,189,209,1) 41%, rgba(73,165,191,1) 100%);
+    background: -webkit-linear-gradient(-45deg, rgba(147,206,222,1) 0%,rgba(117,189,209,1) 41%,rgba(73,165,191,1) 100%);
+    background: linear-gradient(135deg, rgba(147,206,222,1) 0%,rgba(117,189,209,1) 41%,rgba(73,165,191,1) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#93cede', endColorstr='#49a5bf',GradientType=1 );
+}
+uib-accordion .panel-default>.panel-heading a:hover {
+    text-decoration: none;
+    /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#4dc1dd+0,75bdd1+41,49a5bf+100 */
+    background: rgb(77,193,221); /* Old browsers */
+    background: -moz-linear-gradient(-45deg,  rgba(77,193,221,1) 0%, rgba(117,189,209,1) 41%, rgba(73,165,191,1) 100%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(-45deg,  rgba(77,193,221,1) 0%,rgba(117,189,209,1) 41%,rgba(73,165,191,1) 100%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(135deg,  rgba(77,193,221,1) 0%,rgba(117,189,209,1) 41%,rgba(73,165,191,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#4dc1dd', endColorstr='#49a5bf',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
+
+}
+.cont {
+    background: rgb(77,193,221);
+    background: -moz-linear-gradient(-45deg, rgba(77,193,221,1) 0%, rgba(117,189,209,1) 41%, rgba(73,165,191,1) 100%);
+    background: -webkit-linear-gradient(-45deg, rgba(77,193,221,1) 0%,rgba(117,189,209,1) 41%,rgba(73,165,191,1) 100%);
+    background: linear-gradient(135deg, rgba(77,193,221,1) 0%,rgba(117,189,209,1) 41%,rgba(73,165,191,1) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#4dc1dd', endColorstr='#49a5bf',GradientType=1 );
+    border: none;
+    height: 50px;
+    line-height: 38px;
+    font-size: 20px;
+}
+.panel-title {
+    margin-top: 0;
+    margin-bottom: 0;
+    font-size: 16px;
+    color: inherit;
+    text-align: left;
+    font-weight: 200;
+}
+.newbtn {
+    margin-bottom: 10px;
+}
+.tabstwo .panel-heading a {
+    /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#4ebfdb+0,48b1ce+41,0194bc+100 */
+    background: rgb(78,191,219) !important; /* Old browsers */
+    background: -moz-linear-gradient(-45deg,  rgba(78,191,219,1) 0%, rgba(72,177,206,1) 41%, rgba(1,148,188,1) 100%) !important; /* FF3.6-15 */
+    background: -webkit-linear-gradient(-45deg,  rgba(78,191,219,1) 0%,rgba(72,177,206,1) 41%,rgba(1,148,188,1) 100%) !important; /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(135deg,  rgba(78,191,219,1) 0%,rgba(72,177,206,1) 41%,rgba(1,148,188,1) 100%) !important; /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#4ebfdb', endColorstr='#0194bc',GradientType=1 ) !important; /* IE6-9 fallback on horizontal gradient */
+
+}
+.tabsfour .panel-heading a {
+    /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#4ebfdb+0,48b1ce+41,0194bc+100 */
+    background: rgb(78,191,219) !important; /* Old browsers */
+    background: -moz-linear-gradient(-45deg,  rgba(78,191,219,1) 0%, rgba(72,177,206,1) 41%, rgba(1,148,188,1) 100%) !important; /* FF3.6-15 */
+    background: -webkit-linear-gradient(-45deg,  rgba(78,191,219,1) 0%,rgba(72,177,206,1) 41%,rgba(1,148,188,1) 100%) !important; /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(135deg,  rgba(78,191,219,1) 0%,rgba(72,177,206,1) 41%,rgba(1,148,188,1) 100%) !important; /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#4ebfdb', endColorstr='#0194bc',GradientType=1 ) !important; /* IE6-9 fallback on horizontal gradient */
+
+}
+.tabssix .panel-heading a {
+    /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#4ebfdb+0,48b1ce+41,0194bc+100 */
+    background: rgb(78,191,219) !important; /* Old browsers */
+    background: -moz-linear-gradient(-45deg,  rgba(78,191,219,1) 0%, rgba(72,177,206,1) 41%, rgba(1,148,188,1) 100%) !important; /* FF3.6-15 */
+    background: -webkit-linear-gradient(-45deg,  rgba(78,191,219,1) 0%,rgba(72,177,206,1) 41%,rgba(1,148,188,1) 100%) !important; /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(135deg,  rgba(78,191,219,1) 0%,rgba(72,177,206,1) 41%,rgba(1,148,188,1) 100%) !important; /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#4ebfdb', endColorstr='#0194bc',GradientType=1 ) !important; /* IE6-9 fallback on horizontal gradient */
+
+}
+.tabsseven .panel-heading a {
+    /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#4ebfdb+0,48b1ce+41,0194bc+100 */
+    background: rgb(78,191,219) !important; /* Old browsers */
+    background: -moz-linear-gradient(-45deg,  rgba(78,191,219,1) 0%, rgba(72,177,206,1) 41%, rgba(1,148,188,1) 100%) !important; /* FF3.6-15 */
+    background: -webkit-linear-gradient(-45deg,  rgba(78,191,219,1) 0%,rgba(72,177,206,1) 41%,rgba(1,148,188,1) 100%) !important; /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(135deg,  rgba(78,191,219,1) 0%,rgba(72,177,206,1) 41%,rgba(1,148,188,1) 100%) !important; /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#4ebfdb', endColorstr='#0194bc',GradientType=1 ) !important; /* IE6-9 fallback on horizontal gradient */
+
+}
+.panel-body {
+    padding: 0px;
+}
+.panel-body .form-control {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border: none !important;
+    box-shadow: none;
+}
+.tabsthree .glyphicon {
+    font-size: 52px;
+}
+.carousel-control .glyphicon-chevron-left, .carousel-control .icon-prev {
+    margin-left: -20px;
+}
+.carousel-control .glyphicon-chevron-right, .carousel-control .icon-next {
+    margin-right: 0px;
+}
+.btn span.glyphicon {
+    opacity: 0;
+}
+.btn.active span.glyphicon {
+    opacity: 1 !important;
+}
+.colors label {
+    width: 43px;
+    height: 43px;
+    border-radius: 5px !important;
+    margin-right: 5px;
+    margin-bottom: 5px;
+}
+.colors {
+    padding: 10px;
+}
+.colors .btn:first-child {
+    margin-left: -1px;
+}
+.colors .btn.active span.glyphicon {
+    opacity: 1 !important;
+    line-height: 25px;
+    font-size: 22px;
+    left: -3px;
+}
+.nopadding .field.ng-scope {
+    padding: 0px;
+    margin: 0px;
+}
+.nopadding .field>* {
+    margin: 0px;
+}
+.last {
+    border: 1px solid #56acc4;
+    padding: 14px;
+    background: rgba(255, 255, 255, 0.2);
+    padding-bottom: 20px;
+}
+.tablehead thead {
+    background: #56acc4;
+    border: none !important;
+    color: #fff;
+}
+.padding {
+    background: #ffffff;
+    margin: 0px;
+    padding: 10px;
+    border: 3px solid #56acc4 !important;
+}
+.active .glyphicon-ok {
+    text-shadow: 1px 1px 10px #000;
 }

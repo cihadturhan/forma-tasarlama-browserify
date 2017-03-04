@@ -3,7 +3,7 @@
 var constants = require('../util/constants.js');
 var focus = require('../util/focus');
 
-module.exports = function ($http) {
+module.exports = function (colorService) {
 
     this.getFront = function (model) {
         return {
@@ -44,7 +44,7 @@ module.exports = function ($http) {
                     {value: 'ABDULLAH', position: {x: 400, y: 250}, style: {fontSize: '20px'}},
                     {value: '9', position: {x: 400, y: 320}, style: {fontSize: '100px'}}
                 ],
-                textColor: '#338',
+                textColor: colorService.get('mavi'),
                 logos: []
             }
         };

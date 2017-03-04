@@ -33,13 +33,13 @@ fields:
       width: 1/2
 
   smarts_bg_front:
-      label: Smarts Bg (On)
+      label: Tshirt (On)
       required: true
       type: image
       width: 1/2
 
   smarts_bg_back:
-    label: Smarts Bg (Arka)
+    label: Tshirt (Arka)
     required: true
     type: image
     width: 1/2
@@ -76,6 +76,18 @@ fields:
 
   uniform_shadows_back:
       label: Uniform Shadows (Arka)
+      required: true
+      type: image
+      width: 1/2
+
+  shorts_front:
+      label: Şort (Ön)
+      required: true
+      type: image
+      width: 1/2
+
+  shorts_back:
+      label: Şort (Arka)
       required: true
       type: image
       width: 1/2

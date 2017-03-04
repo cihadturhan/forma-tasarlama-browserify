@@ -46,8 +46,16 @@ Socks-back: socks.png
 
 ----
 
-Smarts-bg-front: smarts_bg-front.png
+Smarts-bg-front: tshirt-on.png
 
 ----
 
-Smarts-bg-back: smarts_bg.png
+Smarts-bg-back: tshirt.png
+
+----
+
+Shorts-front: short-front.png
+
+----
+
+Shorts-back: short.png

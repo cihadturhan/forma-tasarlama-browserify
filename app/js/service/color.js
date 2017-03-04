@@ -24,7 +24,7 @@ module.exports = function($http, $q, $timeout){
 
     this.get = function (name) {
         return colors.find(function (c) {
-            return c.name == name
+            return c.name.toLowerCase() == name.toLowerCase()
         });
     }
 };

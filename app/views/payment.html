@@ -7,19 +7,23 @@
         <div class="modal-body" id="modal-body">
 
             <div class="row">
-                <div class="col-sm-9 text-center">
+                <div class="col-sm-4 text-center">
                     <img class="gk-img-big" ng-src="{{getUrl(selected.gkUniform, 'image')}}" style="margin:auto;" class="img-responsive">
                 </div>
-                <div class="col-sm-3 gk-modal-pane-right">
-                    <a href="javascript:void(0)"
-                       class="text-center gk-img-container"
-                       ng-repeat="gkUniform in gkUniforms"
-                       ng-click="selected.gkUniform = gkUniform"
-                       ng-class="{active: selected.gkUniform == gkUniform}">
-                        <img ng-src="{{getUrl(gkUniform, 'image')}}" style="margin:auto;" class="img-responsive">
-                        <h4>{{gkUniform.content.title}}</h4>
-                        <p class="text-muted">Fiyat: {{gkUniform.content.price}}₺</p>
-                    </a>
+                <div class="col-sm-8 gk-modal-pane-right">
+                    <div class="row">
+                        <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2" ng-repeat="gkUniform in gkUniforms">
+                            <a href="javascript:void(0)"
+                               class="text-center gk-img-container"
+                               ng-click="selected.gkUniform = gkUniform"
+                               ng-class="{active: selected.gkUniform == gkUniform}">
+                                <img ng-src="{{getUrl(gkUniform, 'image')}}" style="margin:auto;" class="img-responsive">
+                                <h4>{{gkUniform.content.title}}</h4>
+                                <p class="text-muted">Fiyat: {{gkUniform.content.price}}₺</p>
+                            </a>
+                        </div>
+                    </div>
+
                 </div>
             </div>
 
@@ -53,7 +57,7 @@
         <tr ng-repeat="player in players">
             <td>{{$index + 1}}</td>
             <td>
-                <input type="text" class="form-control" style="max-width: 150px" ng-model="player.name" placeholder="Oyuncu İsmi">
+                <input type="text" class="form-control" style="max-width: 280px" ng-model="player.name" placeholder="Oyuncu İsmi">
             </td>
             <td>
                 <input type="number" class="form-control" style="max-width: 80px" ng-model="player.number"
@@ -112,7 +116,7 @@
 
     <hr>
 
-    <a href="#" class="btn btn-labeled btn-primary col-xs-4 col-xs-offset-4"
+    <a href="#" class="btn btn-labeled btn-new btn-primary col-xs-4 col-xs-offset-4"
        ui-sref="summary({collar: sp.collar, uniform: sp.uniform, colorUuid: sp.colorUuid, paymentUuid: sp.paymentUuid, summaryUuid: summaryUuid})">
         Sipariş Ekranı&nbsp;<i class="glyphicon glyphicon-chevron-right"></i>
     </a>

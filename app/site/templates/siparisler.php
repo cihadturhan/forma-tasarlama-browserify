@@ -14,16 +14,19 @@ $playerMap = function ($jsPlayer){
     );
 };
 
-$productFilter = function($product){
-    return $product['type'] != 'tax';
-};
-
 $priceMap = function($product) use($site) {
+    $colorStr = '';
+    if(isset($product['colors'])){
+        $colorStr = array_reduce( $product['colors'], function($p, $c){
+            $p .= ' '. $c['name'] .' ('. $c['hex'] .')';
+            return $p;
+        },'');
+    }
 
     $result = Array(
         'quantity' => $product['quantity'],
         'subtotal' => $product['totalPrice'],
-        'color' =>    $product['color']
+        'color' =>    $colorStr
     );
 
     switch($product['type']){
@@ -58,16 +61,16 @@ $priceMap = function($product) use($site) {
 if (true || $r->method() == 'POST') {
     $q = $r->data();
 
-    $title = 'Siparis ' . date('d/m/Y H:i:s') . ' ' . ucfirst($q['name']);
-
-    $playerData = array_map($playerMap, $q['players']);
-    $playerData = yaml::encode($playerData);
-
-    $priceData = array_map($priceMap, array_filter($q['products'], $productFilter));
-    $priceData = yaml::encode($priceData);
-
-
     try {
+
+        $title = 'Siparis ' . date('d/m/Y H:i:s') . ' ' . ucfirst($q['name']);
+
+        $playerData = array_map($playerMap, $q['players']);
+        $playerData = yaml::encode($playerData);
+
+        $priceData = array_map($priceMap, $q['products']);
+        $priceData = yaml::encode($priceData);
+
         $pageData = array(
             'title' => $title,
             'status' => 'new',
@@ -79,13 +82,11 @@ if (true || $r->method() == 'POST') {
             'address' => $q['address'],
             'note' => $q['note'],
             'players' => $playerData,
-            'prices' => $priceData
+            'prices' => $priceData,
+            'extra' => $q['extra']
         );
 
         $p = $page->create('siparisler' . DS . str::slug($title), 'siparis', $pageData);
-
-//        var_dump($_FILES);exit;
-
 
         if(isset($q['logoInfo']) && $q['logoInfo']['type'] == 'blob' && count($r->files())){
             $upload = new Upload($p->root() . DS . 'logo', array('input' => 'logoData', 'overwrite' => true));

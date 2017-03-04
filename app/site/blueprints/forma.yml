@@ -57,3 +57,9 @@ fields:
       required: true
       type: image
       width: 1/2
+
+  back_text:
+      label: Sırt İsim ve Numarası
+      required: true
+      type: image
+      width: 1/2

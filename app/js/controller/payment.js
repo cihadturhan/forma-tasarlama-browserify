@@ -1,15 +1,14 @@
 module.exports = function($uibModal, $scope, $rootScope, $stateParams, uuidService, uniformService, gkUniformService, collarService, uniformTypesService, cacheService){
 
     $scope.openModal = function (player) {
-
-
+        
         var modalInstance = $uibModal.open({
             animation: true,
             ariaLabelledBy: 'modal-title',
             ariaDescribedBy: 'modal-body',
             templateUrl: 'uniformModalContent.html',
             controller: 'uniformModalCtrl',
-            size: 'lg',
+            size: 'full',
             resolve: {
                 gkUniforms: function () {
                     return $scope.gkUniforms;

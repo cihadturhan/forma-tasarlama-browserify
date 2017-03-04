@@ -1,8 +1,9 @@
 <!-- Card -->
 <div class="col-md-12">
     <div class="row">
+        <div class="col-md-12"><h3 class="step_head">Yaka Stilini Seç, Kendi Tarzını Yarat.</h3></div>
         <div class="col-sm-3" ng-repeat="collar in collars">
-            <a ui-sref="uniform({collar: collar.uid})" class="thumbnail text-center">
+            <a ui-sref="uniform({collar: collar.uid})" class="boxes thumbnail text-center">
 
                 <img ng-src="{{getUrl(collar,'image')}}">
 

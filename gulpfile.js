@@ -116,7 +116,7 @@ gulp.task('browserify-min', ['ngAnnotate'], function () {
         .bundle()
         .on('error', handleError)
         .pipe(source('app.min.js'))
-        .pipe(gulpPlugins.streamify(gulpPlugins.uglify({mangle: true})))
+        .pipe(gulpPlugins.streamify(gulpPlugins.uglify({mangle: false})))
         .pipe(gulp.dest(paths.dist));
 });
 

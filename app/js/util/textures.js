@@ -10,6 +10,9 @@ module.exports = {
             {x:470, y:277}
         ];
 
+        //var dragLayer = new PIXI.DisplayGroup(0, false);
+
+
         limits = limits.concat(limits.reduceRight(function(p, c){
             p.push({x: 800 - c.x, y: c.y});
             return p;
@@ -24,6 +27,7 @@ module.exports = {
         logoLayer.scale.x = logoLayer.scale.y = scale;
         logoLayer.alpha = 0.8;
         logoLayer.anchor.set(0.5);
+        //logoLayer.displayGroup = dragLayer;
 
         position.x = logoLayer.x;
         position.y = logoLayer.y;
@@ -144,8 +148,10 @@ module.exports = {
             fontFamily: 'Arial',
             fontSize: '70px',
             fontWeight: 'bold',
-            fill: '#F7EDCA',
-            align: 'center'
+            fill: '#FFFFFF',
+            stroke: '#0F0F0F',
+            align: 'center',
+            strokeThickness: Math.round(Math.log(parseInt(text.style.fontSize)))
         };
 
         if (text.style)
@@ -155,6 +161,7 @@ module.exports = {
         textLayer.anchor.set(0.5, 0.5);
         textLayer.x = text.position.x;
         textLayer.y = text.position.y;
+        textLayer.alpha = 0.9;
         return textLayer;
     }
 };

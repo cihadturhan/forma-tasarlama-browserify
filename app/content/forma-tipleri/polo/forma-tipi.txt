@@ -50,8 +50,16 @@ Socks-back: socks.png
 
 ----
 
-Smarts-bg-front: smarts_bg-front.png
+Smarts-bg-front: tshirt-on.png
 
 ----
 
-Smarts-bg-back: smart_bg.png
+Smarts-bg-back: polo-tshirt-arka.png
+
+----
+
+Shorts-front: polo-sort-on.png
+
+----
+
+Shorts-back: short.png

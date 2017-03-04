@@ -6,7 +6,7 @@ var host = require('../util/constants').backendHost;
 var constants = require('../util/constants.js');
 var focus = require('../util/focus');
 
-module.exports = function ($http, $q, $rootScope, $timeout) {
+module.exports = function ($http, $q, $rootScope, colorService, $timeout) {
 
     var collarTypes = [
 
@@ -42,7 +42,8 @@ module.exports = function ($http, $q, $rootScope, $timeout) {
             socks: $rootScope.getUrl(uniform, 'socks_' + face),
             uniformHighlights: $rootScope.getUrl(uniform, 'uniform_highlights_' + face),
             uniformShadows: $rootScope.getUrl(uniform, 'uniform_shadows_' + face),
-            uniform: $rootScope.getUrl(uniform, 'uniform_' + face)
+            uniform: $rootScope.getUrl(uniform, 'uniform_' + face),
+            shorts: $rootScope.getUrl(uniform, 'shorts_' + face)
         };
     };
 
@@ -71,11 +72,7 @@ module.exports = function ($http, $q, $rootScope, $timeout) {
             },
             layers: getLayers(uniform, 'back'),
             extras: {
-                texts: [
-                    {value: 'OYUNCU', position: {x: 400, y: 250}, style: {fontSize: '20px'}},
-                    {value: '9', position: {x: 400, y: 320}, style: {fontSize: '100px'}}
-                ],
-                textColor: '#338',
+                texts: [],
                 logos: []
             }
         };

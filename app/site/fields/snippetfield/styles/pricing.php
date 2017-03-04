@@ -47,6 +47,21 @@
 
     <tr id="structure-entry-total">
         <td colspan="<? echo (count($field->fields())- 2)?>"></td>
+        <td> <a href="#">KDV %8</a></td>
+        <td>
+            <a href="#">
+                <?php
+                echo tpl::load(c::get( 'snippetfield.path', kirby()->roots()->snippets() ) . DS . 'table/tax.php', array(
+                    'entries' => $field->entries()
+                ), true);
+                ?>₺
+            </a>
+        </td>
+        <td> <a href="#">&nbsp;</a></td>
+    <tr/>
+
+    <tr id="structure-entry-total">
+        <td colspan="<? echo (count($field->fields())- 2)?>"></td>
         <td> <a href="#">Toplam</a></td>
         <td>
             <a href="#">
@@ -54,7 +69,7 @@
             echo tpl::load(c::get( 'snippetfield.path', kirby()->roots()->snippets() ) . DS . 'table/total.php', array(
               'entries' => $field->entries()
             ), true);
-        ?>
+        ?>₺
         </a>
         </td>
         <td> <a href="#">&nbsp;</a></td>

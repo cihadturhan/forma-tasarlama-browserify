@@ -47,8 +47,8 @@ app.config(function($stateProvider, $urlRouterProvider) {
     // Loop over the state definitions and register them
     states.forEach(function(state) {
         state.resolve = {
-            __: function($q, collarService, uniformService, uniformTypesService){
-                return $q.all([collarService.getAll(), uniformService.getAll(), uniformTypesService.getAll()]);
+            __: function($q, collarService, uniformService, uniformTypesService, colorService){
+                return $q.all([collarService.getAll(), uniformService.getAll(), uniformTypesService.getAll(), colorService.getAll()]);
             }
         };
         $stateProvider.state(state.name, state);

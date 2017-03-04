@@ -1,0 +1,121 @@
+Title: Siparis 26/02/2017 04:27:19 Asdfasd
+
+----
+
+Status: new
+
+----
+
+Datetime: 2017-02-26 04:27:00
+
+----
+
+Name: asdfasd
+
+----
+
+Tc: 23423423
+
+----
+
+Email: asd@asda.com
+
+----
+
+Tel: 2342323
+
+----
+
+Address: sadfasd asd fas
+
+----
+
+Note: as dfas dfasdf asdf
+
+----
+
+Players: 
+
+- 
+  name: a
+  number: "1"
+  goalkeeper: 'true'
+  size: M
+- 
+  name: b
+  number: "2"
+  goalkeeper: 'true'
+  size: M
+- 
+  name: c
+  number: "3"
+  goalkeeper: 'false'
+  size: M
+- 
+  name: d
+  number: "4"
+  goalkeeper: 'false'
+  size: M
+- 
+  name: e
+  number: "5"
+  goalkeeper: 'false'
+  size: S
+- 
+  name: f
+  number: "6"
+  goalkeeper: 'false'
+  size: M
+- 
+  name: g
+  number: "7"
+  goalkeeper: 'false'
+  size: XL
+- 
+  name: h
+  number: "8"
+  goalkeeper: 'false'
+  size: M
+
+----
+
+Prices: 
+
+- 
+  quantity: "6"
+  subtotal: "300"
+  color: ' Beyaz (#f2f2f2) Lacivert (#03003d)'
+  name: 'Point - Polo'
+  price: 50
+- 
+  quantity: "6"
+  subtotal: "60"
+  color: ' Lacivert (#03003d)'
+  name: 'Model 1 - Polo'
+  price: 10
+- 
+  quantity: "6"
+  subtotal: "30"
+  color: ' Yeşil (#215b33)'
+  name: Çorap
+  price: 5
+- 
+  quantity: "1"
+  subtotal: "50"
+  color: ""
+  name: 'Keeper Black - Polo'
+  price: 50
+- 
+  quantity: "1"
+  subtotal: "50"
+  color: ""
+  name: 'Keeper Yellow - Polo'
+  price: 50
+
+----
+
+Extra: 
+
+Font: Oswald
+Yazı rengi: Sarı(#ffe800)
+Logo koordinatı: (400,400)

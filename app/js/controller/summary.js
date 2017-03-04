@@ -27,7 +27,7 @@ module.exports = function ($q, $scope, $rootScope, $stateParams, cacheService, c
             type: 'tshirt',
             name: $scope.selectedUniform.content.title+ ' - Üst',
             quantity: $scope.playerCount(),
-            color: c.general.colors[0].value + ' ' +c.tshirt.colors[0].value,
+            colors: [c.general.colors[0].value, c.tshirt.colors[0].value],
             totalPrice: $scope.playerCount() * parseInt($scope.selectedUniform.content.price)
         };
 
@@ -36,7 +36,7 @@ module.exports = function ($q, $scope, $rootScope, $stateParams, cacheService, c
             type: 'shorts',
             name: $scope.colorCache.currentShort.content.title + ' - Şort',
             quantity: $scope.playerCount(),
-            color: c.short.colors[0].value,
+            colors: [c.short.colors[0].value],
             totalPrice: $scope.playerCount() * parseInt($scope.colorCache.currentShort.content.price)
         };
 
@@ -47,7 +47,7 @@ module.exports = function ($q, $scope, $rootScope, $stateParams, cacheService, c
             type: 'socks',
             uid: 'socks',
             quantity: $scope.playerCount(),
-            color: c.socks.colors[0].value,
+            colors: [c.socks.colors[0].value],
             totalPrice: 5 * $scope.playerCount()
         };
 
@@ -76,30 +76,37 @@ module.exports = function ($q, $scope, $rootScope, $stateParams, cacheService, c
                 uid: o.uniform.uid,
                 type: 'gkUniform',
                 quantity: o.count,
-                color: '',
+                colors: [],
                 totalPrice: o.count * parseInt(o.uniform.content.price)
             }
         });
 
         var products = [].concat(tshirts, shorts, socks, gkUniforms);
 
-        var subTotal = products.reduce(function(p,c){
+        return products;
+    };
+
+    $scope.getSubtotal = function(){
+        return $scope.products.reduce(function(p,c){
             return p + c.totalPrice;
         },0);
+    };
 
-        var tax = {
+    $scope.getTax = function(){
+        var subTotal = $scope.getSubtotal();
+
+        return {
             name: 'KDV Tutari %8',
             quantity: '',
             type: 'tax',
-            color: '',
+            colors: [],
             totalPrice: subTotal * 0.08
         };
-
-        return products.concat(tax);
     };
 
     $scope.getTotalPrice = function(){
         return $scope.products
+            .concat($scope.tax)
             .reduce(function (p, c) {
                 return p + c.totalPrice;
             }, 0);
@@ -159,6 +166,7 @@ module.exports = function ($q, $scope, $rootScope, $stateParams, cacheService, c
 
     $scope.sendForm = function(){
         var content = $scope.colorCache.content;
+        var logoText = '', chestLogoText = '';
 
         if(content.logo.enabled){
             $scope.fields.logoInfo = {
@@ -166,6 +174,7 @@ module.exports = function ($q, $scope, $rootScope, $stateParams, cacheService, c
                 position: content.logo.position
             };
             $scope.fields.logoData = content.logo.data
+            logoText = content.logo.type == 'url' ? 'Logo Resim Adresi: ' + content.logo.data : '';
         }
 
         if(content.chestLogo.enabled){
@@ -173,7 +182,8 @@ module.exports = function ($q, $scope, $rootScope, $stateParams, cacheService, c
                 type: content.chestLogo.type,
                 position: content.chestLogo.position
             };
-            $scope.fields.chestLogoData = content.chestLogo.data
+            $scope.fields.chestLogoData = content.chestLogo.data;
+            chestLogoText = content.chestLogo.type == 'url' ? 'Logo Resim Adresi: ' + content.logo.data : '';
         }
 
         $scope.fields.models = $scope.products.reduce(function(p, c){
@@ -192,6 +202,14 @@ module.exports = function ($q, $scope, $rootScope, $stateParams, cacheService, c
         };
 
         $scope.fields.products = $scope.getProducts();
+        $scope.fields.extra = [
+            'Font: ' + content.number.fontFamily,
+            'Yazı rengi: ' + content.number.colors[0].value.name + '(' + content.number.colors[0].value.hex + ')',
+            content.logo.enabled ? 'Logo koordinatı: (' + content.logo.position.x + ',' + content.logo.position.x + ')': '',
+            logoText,
+            chestLogoText
+
+        ].join('\n');
 
         $scope.fields.players = $scope.paymentCache.players;
 
@@ -206,6 +224,7 @@ module.exports = function ($q, $scope, $rootScope, $stateParams, cacheService, c
     };
 
     $scope.products = $scope.getProducts();
+    $scope.tax = $scope.getTax();
     $scope.sizeCount = $scope.getSizeCount();
 
 };

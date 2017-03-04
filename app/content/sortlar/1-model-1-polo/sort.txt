@@ -18,7 +18,7 @@ Short-front: front_shorts.png
 
 ----
 
-Short-back: back.png
+Short-back: polo-transparent.png
 
 ----
 
