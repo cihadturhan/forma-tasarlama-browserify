@@ -33,12 +33,11 @@
              class="panel-default"
              is-open="true"
              heading="{{content.general.title}}"
-
              uib-popover="Gövde Rengi Seçiniz"
-             popover-placement="left"
+             popover-placement="{{popupDirection()}}"
              popover-append-to-body="true"
              popover-trigger="'none'"
-             popover-is-open="content.general.error && opts.didClickNext">
+             popover-is-open="hasError('general')">
 
             <color-picker ng-repeat="color in content.general.colors" selected-color="color.value"
                           on-change="changeTint(color.layers, newColor)"></color-picker>
@@ -51,10 +50,10 @@
              heading="{{content.tshirt.title}}"
 
              uib-popover="Desen Rengi Seçiniz"
-             popover-placement="left"
+             popover-placement="{{popupDirection()}}"
              popover-append-to-body="true"
              popover-trigger="'none'"
-             popover-is-open="content.tshirt.error && opts.didClickNext">
+             popover-is-open="hasError('tshirt')">
 
             <color-picker ng-repeat="color in content.tshirt.colors" selected-color="color.value"
                           on-change="changeTint(color.layers, newColor)"></color-picker>
@@ -67,10 +66,10 @@
              heading="{{content.short.title}}"
 
              uib-popover="Şort Modeli Seçiniz"
-             popover-placement="left"
+             popover-placement="{{popupDirection()}}"
              popover-append-to-body="true"
              popover-trigger="'none'"
-             popover-is-open="content.short.error && opts.didClickNext">
+             popover-is-open="hasError('short')">
 
             <div style="height: 250px">
                 <div uib-carousel active="opts.activeShort">
@@ -92,10 +91,10 @@
              heading="{{content.shortBg.title}}"
 
              uib-popover="Şort Rengi Seçiniz"
-             popover-placement="left"
+             popover-placement="{{popupDirection()}}"
              popover-append-to-body="true"
              popover-trigger="'none'"
-             popover-is-open="content.short.error && opts.didClickNext">
+             popover-is-open="hasError('shortBg')">
 
             <div class="field" ng-repeat="color in content.shortBg.colors">
                 <color-picker selected-color="color.value"
@@ -109,10 +108,10 @@
              heading="{{content.shortFg.title}}"
 
              uib-popover="Şort Deseni Seçiniz"
-             popover-placement="left"
+             popover-placement="{{popupDirection()}}"
              popover-append-to-body="true"
              popover-trigger="'none'"
-             popover-is-open="content.short.error && opts.didClickNext">
+             popover-is-open="hasError('shortFg')">
 
             <div class="field" ng-repeat="color in content.shortFg.colors">
                 <color-picker selected-color="color.value"
@@ -126,13 +125,15 @@
              heading="{{content.socks.title}}"
 
              uib-popover="Çorap Rengi Seçiniz"
-             popover-placement="left"
+             popover-placement="{{popupDirection()}}"
              popover-append-to-body="true"
              popover-trigger="'none'"
-             popover-is-open="content.socks.error && opts.didClickNext">
+             popover-is-open="hasError('socks')">
             <div class="form-control">
-                <label><input type="checkbox" ng-model="content.socks.enabled" ng-change="changeSockStatus()"/>
-                    Çorap İstiyorum</label>
+                <label>Çorap İstiyorum
+                    <input class="simple-switch-input" type="checkbox" ng-model="content.socks.enabled" ng-change="changeSockStatus()">
+                    <span class="simple-switch dark"></span>
+                </label>
             </div>
             <div class="field" ng-class="{disabled: !content.socks.enabled}"
                  ng-repeat="color in content.socks.colors">
@@ -145,43 +146,56 @@
         <div uib-accordion-group
              class="panel-default tabsfive"
              heading="{{content.logo.title}}"
+
+             uib-popover="Göğüs Logo Seçim(ler)ini Yapınız"
+             popover-placement="{{popupDirection()}}"
+             popover-append-to-body="true"
+             popover-trigger="'none'"
+             popover-is-open="hasError('logo')"
         >
             <div class="form-control">
-                <label><input type="checkbox" ng-model="content.logo.enabled"
-                              ng-change="changeLogoStatus(content.logo)"/> Göğüs Logosu İstiyorum</label>
+                <label>Göğüs Logosu İstiyorum
+                    <input class="simple-switch-input" type="checkbox" ng-model="content.logo.enabled" ng-change="changeLogoStatus(content.logo)">
+                    <span class="simple-switch dark"></span>
+                </label>
             </div>
 
             <div uib-alert style="background-color: #90A4AE; color: white;" ng-if="!opts.logoDragAlert"
                  close="opts.logoDragAlert = true">Logoyu fare ile istediginiz yere sürükleyebilirsiniz.
             </div>
 
-            <div class="field" ng-class="{disabled: !content.logo.enabled}"
-                 ng-repeat="movable in content.logo.movables">
+            <div class="field" ng-class="{disabled: !content.logo.enabled}">
 
-                <uib-tabset active="0">
-                    <uib-tab index="0" heading="Kütüphaneden Seç">
+                <uib-tabset active="0" class="col-xs-12">
+                    <uib-tab index="0" heading="İlk Logo">
 
                         <div class="logo-library">
+                            <a class="logo-container no-logo" href="javascript:void(0)"
+                               ng-click="unSelectLogoFromLibrary()" ng-class="{active: logoIndex == -1}">Logo Yok</a>
+
                             <a class="logo-container" ng-repeat="logo in ::logos" href="javascript:void(0)"
-                               ng-click="selectLogoFromLibrary($index)" ng-class="{active: logoIndex == $index}"><img
-                                    ng-src="{{logo.url}}" style="max-width: 60px;" class=""/></a>
+                               ng-click="selectLogoFromLibrary($index)" ng-class="{active: logoIndex == $index}">
+                                <img ng-src="{{logo.url}}" style="max-width: 60px;" class=""/>
+                            </a>
                         </div>
 
                     </uib-tab>
-                    <uib-tab index="1" heading="Resim Yükle">
-                        <div class="drop-box"
+                    <uib-tab index="1" heading="İkinci Logo">
+                        <div class="drop-box mt10"
                              ngf-select
                              ngf-drop
                              ngf-change="selectLogo($file)"
-                             ng-model="file"
-                             name="file"
+
+                             ngf-background="content.logo.movables[1].data || ' '"
                              ngf-pattern="'image/*'"
                              ngf-accept="'image/*'"
                              ngf-max-size="20MB"
                              ngf-min-height="100"
                              ng-drag-over-class="{accept:'dragover', reject:'dragover-err', pattern:'image/*,audio/*,video/*,text/*'}">
-                            Resim sürükleyin veya buraya tıklayın.
+                            <span ng-show="!content.logo.movables[1].data">Resim sürükleyin veya buraya tıklayın.</span>
                         </div>
+
+                        <i class="glyphicon glyphicon-remove cancel" ng-show="content.logo.movables[1].data" ng-click="unselectLogo()"></i>
                     </uib-tab>
                 </uib-tabset>
 
@@ -193,56 +207,76 @@
         <!-- Chest Logo -->
         <div uib-accordion-group
              class="panel-default tabssix"
-             heading="{{content.chestLogo.title}}">
+             heading="{{content.chestLogo.title}}"
+
+             uib-popover="Sponsor Logosu Seçiniz"
+             popover-placement="{{popupDirection()}}"
+             popover-append-to-body="true"
+             popover-trigger="'none'"
+             popover-is-open="hasError('chestLogo')"
+
+        >
             <div class="form-control">
-                <label><input type="checkbox" ng-model="content.chestLogo.enabled"
-                              ng-change="changeLogoStatus(content.chestLogo)"/> Sponsor Logosu İstiyorum</label>
+                <label>Sponsor Logosu İstiyorum
+                    <input class="simple-switch-input" type="checkbox" ng-model="content.chestLogo.enabled" ng-change="changeLogoStatus(content.chestLogo)">
+                    <span class="simple-switch dark"></span>
+                </label>
             </div>
 
-            <div class="field" ng-class="{disabled: !content.chestLogo.enabled}"
-                 ng-repeat="movable in content.logo.movables">
+            <div class="field" ng-class="{disabled: !content.chestLogo.enabled}" >
 
-                <uib-tabset active="0">
-                    <uib-tab index="0" heading="Kütüphaneden Seç">
+                <div class="col-sm-12 text-center mv10">
+                    <div class="btn-group">
+                        <label class="btn btn-primary" ng-model="content.chestLogo.type" uib-btn-radio="'text'" uncheckable>Sponsor
+                            Yazısı</label>
+                        <label class="btn btn-primary" ng-model="content.chestLogo.type" uib-btn-radio="'blob'" uncheckable>Sponsor
+                            Logosu</label>
+                    </div>
 
-                        <div class="logo-library">
-                            <a class="logo-container" ng-repeat="logo in logos" href="javascript:void(0)"
-                               ng-click="selectChestLogoFromLibrary($index)"
-                               ng-class="{active: chestLogoIndex == $index}">
-                                <img ng-src="{{logo.url}}" style="max-width: 60px;"/>
-                            </a>
-                        </div>
-                    </uib-tab>
 
-                    <uib-tab index="1" heading="Resim Yükle">
+                    <div class="logo-library" ng-show="content.chestLogo.type == 'text'">
+                        <textarea class="form-control sp-text" rows="1"
+                                  ng-model="content.chestLogo.texts[0].value"
+                                  placeholder="Sponsor yazınızı yazınız."
+                                  ng-change="changeText(content.chestLogo.texts[0].layers, content.chestLogo.texts[0].value)"></textarea>
 
+                        <font-picker selected-font="content.chestLogo.fontFamily"
+                                     on-change="changeFont(content.chestLogo.texts, newFont)"></font-picker>
+                    </div>
+
+                    <div ng-show="content.chestLogo.type == 'blob'" class="mt10" style="position: relative">
                         <div class="drop-box"
                              ngf-select
                              ngf-drop
                              ngf-change="selectChestLogo($file)"
-                             ng-model="file"
-                             name="file"
+                             ngf-background="content.chestLogo.movables[0].data || ' '"
                              ngf-pattern="'image/*'"
                              ngf-accept="'image/*'"
                              ngf-max-size="20MB"
                              ngf-min-height="100"
-                             ngf-resize="{width: 100, height: 100}"
                              ng-drag-over-class="{accept:'dragover', reject:'dragover-err', pattern:'image/*,audio/*,video/*,text/*'}">
-                            Resim sürükleyin veya buraya tıklayın.
+                            <span ng-show="!content.chestLogo.movables[0].data">Resim sürükleyin veya buraya tıklayın.</span>
                         </div>
-                    </uib-tab>
-                </uib-tabset>
+
+                        <i class="glyphicon glyphicon-remove cancel" ng-show="content.chestLogo.movables[0].data"
+                           ng-click="unselectChestLogo()"></i>
+                    </div>
+                </div>
             </div>
         </div>
 
         <div uib-accordion-group
              class="panel-default tabsfive"
              heading="{{content.number.title}}"
+
+             uib-popover="Sırt Numarası Rengi Seçiniz"
+             popover-placement="{{popupDirection()}}"
+             popover-append-to-body="true"
+             popover-trigger="'none'"
+             popover-is-open="hasError('number')"
         >
             <color-picker ng-repeat="color in content.number.colors" selected-color="color.value"
                           on-change="changeTint(color.layers, newColor)"></color-picker>
-            <font-picker selected-font="content.number.fontFamily"
-                         on-change="changeFont(content.number.texts, newFont)"></font-picker>
         </div>
 
     </uib-accordion>

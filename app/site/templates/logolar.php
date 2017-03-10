@@ -1,1 +1,2 @@
-<?php echo json_encode($page->images()->toArray()) ?>
+<?php
+echo json_encode($page->images()->toArray()) ?>

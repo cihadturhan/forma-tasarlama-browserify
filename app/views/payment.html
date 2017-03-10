@@ -61,9 +61,16 @@
             </td>
             <td>
                 <input type="number" class="form-control" style="max-width: 80px" ng-model="player.number"
+                       min="0"
+                       max="999"
                        placeholder="Numara">
             </td>
-            <td class="text-center">
+            <td class="text-center"
+                uib-popover="Kaleci ve Beden Bilgilerini Kontrol Ediniz"
+                popover-placement="bottom-right"
+                popover-append-to-body="true"
+                popover-trigger="'none'"
+                popover-is-open="hasError(player)">
                 <div class="row">
                     <label>Kaleci Yap
                         <input id="goal-keeper{{$index}}" class="simple-switch-input" type="checkbox"
@@ -79,14 +86,9 @@
 
             </td>
             <td>
-                <select class="form-control" ng-model="player.size">
-                    <option value="XXS">XXS</option>
-                    <option value="XS">XS</option>
-                    <option value="S">S</option>
-                    <option value="M">M</option>
-                    <option value="L">L</option>
-                    <option value="XL">XL</option>
-                    <option value="XXL">XXL</option>
+                <select
+                        class="form-control" ng-model="player.size" ng-options="size for size in sizes">
+                    <option value="">Beden</option>
                 </select>
             </td>
             <td>
@@ -116,8 +118,9 @@
 
     <hr>
 
-    <a href="#" class="btn btn-labeled btn-new btn-primary col-xs-4 col-xs-offset-4"
-       ui-sref="summary({collar: sp.collar, uniform: sp.uniform, colorUuid: sp.colorUuid, paymentUuid: sp.paymentUuid, summaryUuid: summaryUuid})">
+    <a href="javascript:void(0)" class="btn btn-labeled btn-new btn-primary col-xs-4 col-xs-offset-4"
+       ng-click="next()"
+       >
         Sipariş Ekranı&nbsp;<i class="glyphicon glyphicon-chevron-right"></i>
     </a>
 

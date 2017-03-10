@@ -38,14 +38,6 @@ module.exports = function (colorService) {
                 uniformHighlights: "img/" + model + "/back/uniform_highlights.png",
                 uniformShadows: "img/" + model + "/back/uniform_shadows.png",
                 uniform: "img/" + model + "/back/uniform.png"
-            },
-            extras: {
-                texts: [
-                    {value: 'ABDULLAH', position: {x: 400, y: 250}, style: {fontSize: '20px'}},
-                    {value: '9', position: {x: 400, y: 320}, style: {fontSize: '100px'}}
-                ],
-                textColor: colorService.get('mavi'),
-                logos: []
             }
         };
     }

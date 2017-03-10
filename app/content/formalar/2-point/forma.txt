@@ -23,3 +23,7 @@ Min: 6
 ----
 
 Price: 50
+
+----
+
+Back-text: arka-kontorlu-numara.png

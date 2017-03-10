@@ -1,4 +1,12 @@
-module.exports = function($uibModal, $scope, $rootScope, $stateParams, uuidService, uniformService, gkUniformService, collarService, uniformTypesService, cacheService){
+module.exports = function($uibModal, $scope, $rootScope, $stateParams, $state, uuidService, uniformService, gkUniformService, collarService, uniformTypesService, cacheService){
+
+    $scope.sizes = ["XXS",
+        "XS",
+        "S",
+        "M",
+        "L",
+        "XL",
+        "XXL"];
 
     $scope.openModal = function (player) {
         
@@ -38,8 +46,16 @@ module.exports = function($uibModal, $scope, $rootScope, $stateParams, uuidServi
     $scope.paymentUuid = $stateParams.paymentUuid;
     $scope.summaryUuid=  uuidService.generate();
     $scope.gkUniforms = [];
-    $scope.opts = {activeGkUniform: 0, startCount: undefined};
+    $scope.opts = {
+        activeGkUniform: 0,
+        startCount: undefined,
+        didClickNext: false
+    };
     $scope.numberOfPlayersArr = [];
+    $scope.colorCache = cacheService.get($scope.sp.colorUuid);
+
+    if(!$scope.colorCache)
+        return $state.transitionTo('color', $scope.sp);
 
     for (var i = +$scope.selectedUniform.content.min; i < 30; i++) {
         $scope.numberOfPlayersArr.push({
@@ -61,7 +77,7 @@ module.exports = function($uibModal, $scope, $rootScope, $stateParams, uuidServi
     $scope.createPlayer = function(){
       return {
           name: '',
-          number: 0,
+          number: '',
           size: 'M',
           goalkeeper: false,
           goalkeeperSocks: true
@@ -118,5 +134,41 @@ module.exports = function($uibModal, $scope, $rootScope, $stateParams, uuidServi
             players: $scope.players
         });
     });
+
+    $scope.next = function(){
+        $scope.opts.didClickNext = true;
+
+        var hasError = $scope.players.find(function (p) {
+            return !p.size || (p.goalkeeper && !p.gkUniform)
+        });
+
+        if (!hasError)
+            $state.transitionTo('summary', {
+                collar: $scope.sp.collar,
+                uniform: $scope.sp.uniform,
+                colorUuid: $scope.sp.colorUuid,
+                paymentUuid: $scope.sp.paymentUuid,
+                summaryUuid: $scope.summaryUuid
+            });
+    };
+
+
+    $scope.hasError = function (player) {
+
+        if(!$scope.opts.didClickNext)
+            return false;
+
+        var playerIndex = $scope.players.indexOf(player);
+        var p;
+
+        for (var errorIndex = 0; errorIndex < $scope.players.length; errorIndex++) {
+            p = $scope.players[errorIndex];
+            if(!p.size || (p.goalkeeper && !p.gkUniform)){
+                break;
+            }
+        }
+
+        return playerIndex == errorIndex;
+    };
 
 };

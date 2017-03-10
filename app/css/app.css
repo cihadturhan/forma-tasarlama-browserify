@@ -131,6 +131,9 @@ canvas{
     padding: 50px 10px;
     margin-left: 10px;
     cursor: pointer;
+    background-size: contain;
+    background-position: center center;
+    background-repeat: no-repeat;
 }
 
 .drop-box.dragover{
@@ -200,6 +203,7 @@ uib-accordion .alert {
     color: #2196F3;
     margin-top: 5px;
     margin-bottom: 5px;
+    flex-direction: column;
 }
 
 .field>* {
@@ -588,7 +592,13 @@ form .logo{
     vertical-align: middle;
 }
 
-.panel-group>.panel .panel-title:after {
+.panel-group>.panel.passed .panel-title>a>span:after{
+    margin-left: 10px;
+    font-family: 'Glyphicons Halflings';
+    content: "\e013";
+}
+
+.panel-group>.panel .panel-title:after{
     float: right;
     font-family: 'Glyphicons Halflings';
     content: "\e114";
@@ -804,4 +814,88 @@ uib-accordion .panel-default>.panel-heading a:hover {
 }
 .active .glyphicon-ok {
     text-shadow: 1px 1px 10px #000;
+}
+
+.no-logo{
+    font-weight: bold;
+    text-align: center;
+    color: #33a9c9;
+    background-color: rgba(255, 255, 255, 0.42);
+}
+
+.drop-box + .cancel {
+    position: absolute;
+    right: 0px;
+    top: 0px;
+    padding: 4px;
+    background: white;
+    border-radius: 50%;
+    box-shadow: 0 1px 1px 1px rgba(0, 0, 0, 0.35);
+    color: #455A64;
+    cursor: pointer;
+}
+
+.drop-box + .cancel:hover{
+    color: #2196F3;
+}
+
+.tab-pane {
+    position: relative;
+}
+
+.mt10{
+    margin-top: 10px;
+}
+
+.mb10{
+    margin-bottom: 10px;
+}
+
+.mh10{
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.mv10{
+    margin-bottom: 10px;
+    margin-top: 10px;
+}
+
+.sp-text.form-control{
+    box-shadow: inset 0 1px 1px #1fa0c4;
+    background: #eafaff;
+    font-weight: bold;
+    font-size: 18px;
+    line-height: 1;
+    text-align: center;
+}
+
+.popover {
+    background: #E91E63;
+    color: white;
+    animation: 0.2s 2 wiggle linear;
+}
+
+.popover.left>.arrow:after{
+    border-left-color: #E91E63;
+}
+
+
+.popover.top>.arrow:after{
+    border-top-color: #E91E63;
+}
+
+.popover.bottom>.arrow:after{
+    border-bottom-color: #E91E63;
+}
+
+@keyframes wiggle{
+    0%{transform: translateX(0)}
+    25%{transform: translateX(5px)}
+    75%{transform: translateX(-5px)}
+    100%{transform: translateX(0)}
+}
+
+.modal{
+    z-index: 1070 !important;
 }

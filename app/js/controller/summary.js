@@ -1,8 +1,16 @@
 var host = require('../util/constants').backendHost;
+var absScale = require('../util/constants').absScale;
 
-module.exports = function ($q, $scope, $rootScope, $stateParams, cacheService, collarTypesService, uniformService, shortService, uniformTypesService, collarService, Upload, logoService) {
+module.exports = function ($q, $scope, $state, $rootScope, $stateParams, cacheService, collarTypesService, uniformService, shortService, uniformTypesService, collarService, Upload, logoService) {
 
-    $scope.fields = {};
+    $scope.fields = {
+        name: '',
+        tel: '',
+        tc: '',
+        email: '',
+        address: '',
+        note: ''
+    };
 
     $scope.sp = $stateParams;
     $scope.selectedUniform = uniformService.get($stateParams.uniform);//$scope.uniforms[$stateParams.uniform];
@@ -13,11 +21,17 @@ module.exports = function ($q, $scope, $rootScope, $stateParams, cacheService, c
     $scope.colorUuid = $stateParams.colorUuid;
 
     $scope.gkUniforms = [];
-    $scope.opts = {activeGkUniform: 0, startCount: undefined};
+    $scope.opts = {activeGkUniform: 0, startCount: undefined, didClickNext: false};
     $scope.numberOfPlayersArr = [];
 
     $scope.colorCache = cacheService.get($scope.colorUuid);
     $scope.paymentCache = cacheService.get($scope.paymentUuid);
+
+    if(!$scope.colorCache)
+        return $state.transitionTo('color', $scope.sp);
+
+    if(!$scope.paymentCache)
+        return $state.transitionTo('payment', $scope.sp);
 
     $scope.getProducts = function(){
         var c = $scope.colorCache.content;
@@ -36,7 +50,7 @@ module.exports = function ($q, $scope, $rootScope, $stateParams, cacheService, c
             type: 'shorts',
             name: $scope.colorCache.currentShort.content.title + ' - Şort',
             quantity: $scope.playerCount(),
-            colors: [c.short.colors[0].value],
+            colors: [c.shortBg.colors[0].value, c.shortFg.colors[0].value],
             totalPrice: $scope.playerCount() * parseInt($scope.colorCache.currentShort.content.price)
         };
 
@@ -164,26 +178,65 @@ module.exports = function ($q, $scope, $rootScope, $stateParams, cacheService, c
         }).length;
     };
 
+    $scope.hasErrorVar = false;
+
     $scope.sendForm = function(){
+        if($scope.inProgress)
+            return;
+
+        $scope.opts.didClickNext = true;
+
+        $scope.hasErrorVar = $scope.requiredFields.find(function (f) {
+            return !$scope.fields[f] || $scope.fields[f].trim() == '';
+        });
+
+        if($scope.hasErrorVar) {
+            document.body.scrollTop = 0;
+            return;
+        }
+
         var content = $scope.colorCache.content;
-        var logoText = '', chestLogoText = '';
+        var logoUrlText = '', logoUrlCoordinate = '', logoFileText = '', logoFileCoordinate = '', chestLogoText = '', chestLogoFont = '';
 
         if(content.logo.enabled){
-            $scope.fields.logoInfo = {
-                type: content.logo.type,
-                position: content.logo.position
-            };
-            $scope.fields.logoData = content.logo.data
-            logoText = content.logo.type == 'url' ? 'Logo Resim Adresi: ' + content.logo.data : '';
+            var movables = content.logo.movables;
+            var m = movables[0];
+            if(m && m.enabled){
+                $scope.fields.logoUrlInfo = {
+                    type: m.type,
+                    position: m.position
+                };
+                $scope.fields.logoUrl = m.data;
+                logoUrlText = 'İlk Logo Resim Adresi: Resim (' + m.data + ')';
+                logoUrlCoordinate = 'İlk Logo Koordinatı: (' + m.position.x/absScale + ',' + m.position.y/absScale + ')';
+            }
+
+            m = movables[1];
+
+            if(m && m.enabled){
+                $scope.fields.logoFileInfo = {
+                    type: m.type,
+                    position: m.position
+                };
+                $scope.fields.logoData = m.data;
+                logoFileText = 'İkinci Logo Resim Adresi: Dosya (Sol Panelde Ekli) ';
+                logoFileCoordinate = 'İkinci Logo Koordinatı: (' + m.position.x/absScale + ',' + m.position.y/absScale + ')';
+            }
         }
 
         if(content.chestLogo.enabled){
+            if(content.chestLogo.type == 'blob'){
+                chestLogoText = 'Sponsor Logosu: Dosya (Sol Panelde Ekli)';
+                $scope.fields.chestLogoData = content.chestLogo.movables[0].data;
+            }else if(content.chestLogo.type == 'text'){
+                var text = content.chestLogo.texts[0];
+                chestLogoFont = 'Sponsor Fontu: ' + text.fontFamily;
+                chestLogoText = 'Sponsor Logosu: Yazı (' + text.value.trim() + ')';
+                $scope.fields.chestLogoData = text.value;
+            }
             $scope.fields.chestLogoInfo = {
-                type: content.chestLogo.type,
-                position: content.chestLogo.position
+                type: content.chestLogo.type
             };
-            $scope.fields.chestLogoData = content.chestLogo.data;
-            chestLogoText = content.chestLogo.type == 'url' ? 'Logo Resim Adresi: ' + content.logo.data : '';
         }
 
         $scope.fields.models = $scope.products.reduce(function(p, c){
@@ -197,28 +250,39 @@ module.exports = function ($q, $scope, $rootScope, $stateParams, cacheService, c
         $scope.fields.colors = {
             general: content.general.colors[0].value,
             tshirt: content.tshirt.colors[0].value,
-            short: content.short.colors[0].value,
+            shortBg: content.shortBg.colors[0].value,
+            shortFg: content.shortFg.colors[0].value,
             socks: content.socks.colors[0].value
         };
 
         $scope.fields.products = $scope.getProducts();
         $scope.fields.extra = [
-            'Font: ' + content.number.fontFamily,
-            'Yazı rengi: ' + content.number.colors[0].value.name + '(' + content.number.colors[0].value.hex + ')',
-            content.logo.enabled ? 'Logo koordinatı: (' + content.logo.position.x + ',' + content.logo.position.x + ')': '',
-            logoText,
-            chestLogoText
+            logoUrlText,
+            logoUrlCoordinate,
+            logoFileText,
+            logoFileCoordinate,
+            chestLogoText,
+            chestLogoFont,
+            'Sırt Yazı Rengi: ' + content.number.colors[0].value.name + '(' + content.number.colors[0].value.hex + ')',
 
         ].join('\n');
 
         $scope.fields.players = $scope.paymentCache.players;
+        $scope.inProgress = true;
 
         Upload.upload({
-            url: host + '/siparisler',//host + '/wp-admin/admin-ajax.php',
+            url: host + '/siparisler',
             data: $scope.fields
-        }).then(function(){
-            console.log(arguments);
+        }).then(function(response){
+            $scope.inProgress = false;
+
+            if(response.data && response.data.status == 'success'){
+                $state.transitionTo('final', { });
+            }else{
+                alert(response.data.data);
+            }
         }).catch(function(){
+            $scope.inProgress = false;
             console.error(arguments);
         });
     };
@@ -226,5 +290,26 @@ module.exports = function ($q, $scope, $rootScope, $stateParams, cacheService, c
     $scope.products = $scope.getProducts();
     $scope.tax = $scope.getTax();
     $scope.sizeCount = $scope.getSizeCount();
+
+    $scope.requiredFields = ['name', 'email', 'tel', 'address'];
+
+    $scope.hasError = function (field) {
+
+        if(!$scope.opts.didClickNext)
+            return false;
+
+        var playerIndex = $scope.requiredFields.indexOf(field);
+        var currField;
+
+        for (var errorIndex = 0; errorIndex < $scope.requiredFields.length; errorIndex++) {
+            currField = $scope.requiredFields[errorIndex];
+            if(!$scope.fields[currField] || $scope.fields[currField].trim() == ''){
+                break;
+            }
+        }
+
+        return playerIndex == errorIndex;
+    };
+
 
 };

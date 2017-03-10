@@ -8,7 +8,17 @@
             <div class="row">
                 <div class="form-group col-md-6">
                     <label for="field-1">İsim Soyisim / Ünvan</label>
-                    <input type="text" class="form-control" ng-required id="field-1" ng-model="fields.name"
+                    <input
+                            uib-popover="İsim Soyisim / Ünvan Giriniz"
+                            popover-placement="top"
+                            popover-append-to-body="true"
+                            popover-trigger="'none'"
+                            popover-is-open="hasError('name')"
+
+                            type="text"
+                            class="form-control"
+                            id="field-1"
+                            ng-model="fields.name"
                            placeholder="Ör. Mehmet Yılmaz">
                 </div>
 
@@ -23,13 +33,28 @@
             <div class="row">
                 <div class="form-group col-md-6">
                     <label for="field-3">E-Mail Adresi</label>
-                    <input type="email" class="form-control" ng-required id="field-3" ng-model="fields.email"
+                    <input
+                            uib-popover="E-Mail Adresi Giriniz"
+                            popover-placement="top"
+                            popover-append-to-body="true"
+                            popover-trigger="'none'"
+                            popover-is-open="hasError('email')"
+                            type="email" class="form-control" ng-required id="field-3" ng-model="fields.email"
                            placeholder="ali@gmail.com">
                 </div>
 
                 <div class="form-group col-md-6">
                     <label for="field-4">Telefon</label>
-                    <input type="tel" class="form-control" id="field-4" ng-model="fields.tel"
+                    <input type="tel"
+                           class="form-control"
+                           id="field-4"
+                           ng-model="fields.tel"
+
+                           uib-popover="Telefon Numarası Giriniz"
+                           popover-placement="top"
+                           popover-append-to-body="true"
+                           popover-trigger="'none'"
+                           popover-is-open="hasError('tel')"
                            placeholder="Ör: 0533 123 45 67">
                 </div>
             </div>
@@ -37,8 +62,16 @@
             <div class="row">
                 <div class="form-group col-md-6">
                     <label for="field-5">Teslimat & Fatura Adresi</label>
-                    <textarea class="form-control" ng-required id="field-5" ng-model="fields.address"
-                              placeholder="Örnek:Ataturk Mah. 20/1 Cankaya/ANKARA"></textarea>
+                    <textarea
+                            class="form-control"
+                            ng-required id="field-5"
+                            ng-model="fields.address"
+                            uib-popover="Adres Giriniz"
+                            popover-placement="top"
+                            popover-append-to-body="true"
+                            popover-trigger="'none'"
+                            popover-is-open="hasError('address')"
+                            placeholder="Örnek:Ataturk Mah. 20/1 Cankaya/ANKARA"></textarea>
                 </div>
 
                 <div class="form-group col-md-6">

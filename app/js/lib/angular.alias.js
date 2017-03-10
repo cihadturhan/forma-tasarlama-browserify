@@ -22,8 +22,6 @@ app.directive('ngAlias',
                         : object = object[value] === null ? object[value] = {} : object[value];
                 });
 
-                console.log(object)
-
                 scope[args[0]] = object;
             }
         };

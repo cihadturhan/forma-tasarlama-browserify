@@ -1,1 +1,2 @@
-<?php echo json_encode($page->children()->toArray());
+<?php
+echo json_encode($page->children()->toArray());

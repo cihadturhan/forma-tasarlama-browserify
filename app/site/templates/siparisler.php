@@ -3,8 +3,6 @@
 $r = kirby()->request();
 
 $playerMap = function ($jsPlayer){
-    if(!$jsPlayer['name'])
-        throw new Exception('Oyuncu ismi boş verilemez');
 
     return Array(
         'name' => $jsPlayer['name'],
@@ -73,6 +71,7 @@ if (true || $r->method() == 'POST') {
 
         $pageData = array(
             'title' => $title,
+            'visible' => true,
             'status' => 'new',
             'datetime' => date('Y-m-d H:i:00'),
             'name' => $q['name'],
@@ -86,29 +85,32 @@ if (true || $r->method() == 'POST') {
             'extra' => $q['extra']
         );
 
+
         $p = $page->create('siparisler' . DS . str::slug($title), 'siparis', $pageData);
 
-        if(isset($q['logoInfo']) && $q['logoInfo']['type'] == 'blob' && count($r->files())){
+        try {
+            $p->sort(1);
+        } catch(Exception $e) {
+
+        }
+
+
+        if(isset($q['logoFileInfo']) && count($r->files())){
+
             $upload = new Upload($p->root() . DS . 'logo', array('input' => 'logoData', 'overwrite' => true));
+
             if($file = $upload->file()){
-                dump(array(
-                    'file'     => $file->filename(),
-                    'mime'     => $file->mime(),
-                    'size'     => $file->size(),
-                    'niceSize' => $file->niceSize()
-                ));
+
             } else {
-                echo $upload->error();
                 throw(new Exception('Logo Dosyasi Yüklenemedi. Dosyayi kontrol ediniz.'));
             }
         }
 
 
         if(isset($q['chestLogoInfo']) && $q['chestLogoInfo']['type'] == 'blob' && count($r->files())){
-            $upload = new Upload($p->root() . DS . 'gogus-logosu', array('input' => 'chestLogoData', 'overwrite' => true));
+            $upload = new Upload($p->root() . DS . 'sponsor-logosu', array('input' => 'chestLogoData', 'overwrite' => true));
             if(!$upload->file()){
-                echo $upload->error();
-                throw(new Exception('Göğüs Logosu Dosyasi Yüklenemedi. Dosyayi kontrol ediniz.'));
+                throw(new Exception('Sponsor Logo Dosyasi Yüklenemedi. Dosyayi kontrol ediniz.'));
             }
         }
 

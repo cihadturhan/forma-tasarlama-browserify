@@ -1,14 +1,30 @@
 var app = angular.module('main');
 
-app.run(['$rootScope', function($rootScope) {
+app.run(['$rootScope', '$window', function ($rootScope, $window) {
 
-        $rootScope.getUrl = function (obj, key) {
-            return obj.contentUrl + '/' + obj['content'][key];
+    $rootScope.isMobile = $window.innerWidth < 992;
 
-        };
-    }]);
+    angular.element($window).bind('resize', function () {
 
-app.config(function($stateProvider, $urlRouterProvider) {
+        $rootScope.isMobile = $window.innerWidth < 992;
+
+        // manuall $digest required as resize event
+        // is outside of angular
+        $rootScope.$digest();
+    });
+
+    $rootScope.popupDirection = function(){
+        return $rootScope.isMobile ? 'top': 'left';
+    };
+
+
+    $rootScope.getUrl = function (obj, key) {
+        return obj.contentUrl + '/' + obj['content'][key];
+
+    };
+}]);
+
+app.config(function ($stateProvider, $urlRouterProvider) {
     $urlRouterProvider.otherwise('/yaka-secimi/');
     // An array of state definitions
     var states = [
@@ -41,13 +57,19 @@ app.config(function($stateProvider, $urlRouterProvider) {
             url: '/:collar/:uniform/:colorUuid/:paymentUuid/:summaryUuid/',
             controller: 'summaryCtrl',
             templateUrl: 'views/summary.html'
+        },
+        {
+            name: 'final',
+            url: '/final/',
+            controller: 'finalCtrl',
+            templateUrl: 'views/final.html'
         }
     ];
 
     // Loop over the state definitions and register them
-    states.forEach(function(state) {
+    states.forEach(function (state) {
         state.resolve = {
-            __: function($q, collarService, uniformService, uniformTypesService, colorService){
+            __: function ($q, collarService, uniformService, uniformTypesService, colorService) {
                 return $q.all([collarService.getAll(), uniformService.getAll(), uniformTypesService.getAll(), colorService.getAll()]);
             }
         };

@@ -30,6 +30,11 @@ module.exports = {
         scale: 3,
         face: faces.FRONT
     },
+    sponsor: {
+        transform: {x: sizes.wHalf, y: 1700},
+        scale: 2,
+        face: faces.FRONT
+    },
     backNumber: {
         transform: {x: sizes.wHalf, y: 1700},
         scale: 2,

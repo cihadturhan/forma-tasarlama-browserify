@@ -3,8 +3,7 @@ files: false
 deletable: false
 pages:
   template: siparis
-  sort: date desc time desc
-  format: YmdHi
+  sort: title desc
 
 
 options:

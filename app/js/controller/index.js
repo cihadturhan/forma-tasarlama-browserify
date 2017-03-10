@@ -9,3 +9,4 @@ app.controller('summaryCtrl', require('./summary'));
 app.controller('uniformCtrl', require('./uniform'));
 app.controller('navCtrl', require('./nav'));
 app.controller('uniformModalCtrl', require('./uniformModal'));
+app.controller('finalCtrl', require('./final'));

@@ -1,4 +1,3 @@
-
 var constants = require('../util/constants');
 var textureUtil = require('../util/textures');
 var focus = require('../util/focus');
@@ -12,30 +11,48 @@ module.exports = function ($q, $scope, $timeout, $rootScope, $stateParams, $stat
 
     var front, back;
     var running = true;
+    var contentKeys = [];
     var models_tshirt = [], models_short = [], socks = [], smarts_tshirt = [], smarts_short = [];
     var backTexts = [];
-    var logos = [];
+    var logo1 = [], logo2 = [];
     var chestLogos = [];
+    var chestTexts = [];
     var renderer, stage;
+    var emptyImage = {
+        url: '',
+        dimensions: {
+            width: 10,
+            height: 10
+        }
+    };
 
-    $scope.htmlPopover = $sce.trustAsHtml('<b style="color: red">I can</b> <br/> have <div class="label label-success">HTML</div> content');
+    $scope.logoIndex = -1;
+    $scope.files = {
+        logo: undefined,
+        chestLogo: undefined
+    };
 
-    $scope.next = function(){
+    $scope.next = function () {
         $scope.opts.didClickNext = true;
 
-        var hasError = Object.keys($scope.content).find(function(key){
-            return  $scope.content[key].error;
+        var hasError = Object.keys($scope.content).find(function (key) {
+            return $scope.content[key].errorCond();
         });
 
-        if(!hasError)
-            $state.transitionTo('payment',{collar: $scope.sp.collar, uniform: $scope.sp.uniform, colorUuid: $scope.sp.colorUuid, paymentUuid: $scope.paymentUuid});
+        if (!hasError)
+            $state.transitionTo('payment', {
+                collar: $scope.sp.collar,
+                uniform: $scope.sp.uniform,
+                colorUuid: $scope.sp.colorUuid,
+                paymentUuid: $scope.paymentUuid
+            });
 
     };
 
 
     $scope.opts = {activeShort: undefined, didClickNext: false};
 
-    logoService.getAll().then(function (response) {
+    var logoPromise = logoService.getAll().then(function (response) {
         $scope.logos = response.data;
     });
 
@@ -44,78 +61,97 @@ module.exports = function ($q, $scope, $timeout, $rootScope, $stateParams, $stat
     $scope.paymentUuid = uuidService.generate();
     var cache = cacheService.get($scope.colorUuid);
 
-    $scope.selectLogo = function(blob){
+    $scope.unSelectLogoFromLibrary = function () {
+        $scope.logoIndex = -1;
+
         var clogo = $scope.content.logo;
-        clogo.enabled = true;
-        clogo.data = blob;
-        clogo.type = 'blob';
-
-        var urlCreator = window.URL || window.webkitURL;
-        var logoUrl = urlCreator.createObjectURL(blob);
-        var logoTexture = new PIXI.Texture.fromImage(logoUrl);
-        var logoLayer = logos[0];
-
-        var img = new Image();
-        img.onload = function(){
-            var scale = clogo.size/Math.max(img.width, img.height);
-            logoLayer.scale.x = logoLayer.scale.y = scale;
-        };
-        img.src = logoUrl;
-
-        logoLayer.texture = logoTexture;
+        var movable = clogo.movables[0];
+        movable.enabled = false;
+        movable.data = '';
+        movable.type = 'url';
+        logo1[0].renderable = false;
     };
 
-    $scope.selectLogoFromLibrary = function(index){
+    $scope.selectLogoFromLibrary = function (index) {
         $scope.logoIndex = index;
         var logo = $scope.logos[index];
 
         var clogo = $scope.content.logo;
+        var movable = clogo.movables[0];
 
-        clogo.enabled = true;
-        clogo.data = logo.url;
-        clogo.type = 'url';
-        var logoLayer = logos[0];
+        movable.enabled = true;
+        movable.data = logo.url;
+        movable.type = 'url';
+        var logoLayer = logo1[0];
+        logoLayer.renderable = true;
         logoLayer.texture = new PIXI.Texture.fromImage(logo.url);
 
-        var scale = clogo.size/Math.max(logo.dimensions.width, logo.dimensions.height);
+        var scale = clogo.size / Math.max(logo.dimensions.width, logo.dimensions.height);
         logoLayer.scale.x = logoLayer.scale.y = scale;
     };
 
-    $scope.selectChestLogo = function(blob){
-        var cchestLogo = $scope.content.chestLogo;
-        cchestLogo.enabled = true;
-        cchestLogo.data = blob;
-        cchestLogo.type = 'blob';
+    $scope.unselectLogo = function () {
+        var clogo = $scope.content.logo;
+        var movable = clogo.movables[1];
+
+        movable.enabled = false;
+        movable.data = '';
+        movable.type = 'blob';
+        var logoLayer = logo2[0];
+        logoLayer.renderable = false;
+    };
+
+    $scope.selectLogo = function (blob) {
+        var clogo = $scope.content.logo;
+        var movable = clogo.movables[1];
+
+        movable.enabled = true;
+        movable.data = blob;
 
         var urlCreator = window.URL || window.webkitURL;
         var logoUrl = urlCreator.createObjectURL(blob);
-        console.log(logoUrl);
         var logoTexture = new PIXI.Texture.fromImage(logoUrl);
-        var logoLayer = chestLogos[0];
-        logoLayer.texture = logoTexture;
+        var logoLayer = logo2[0];
+        logoLayer.renderable = true;
 
         var img = new Image();
-        img.onload = function(){
-            var scale = cchestLogo.size/Math.max(img.width, img.height);
+        img.onload = function () {
+            var scale = clogo.size / Math.max(img.width, img.height);
+            logoLayer.scale.x = logoLayer.scale.y = scale;
+        };
+        img.src = logoUrl;
+
+        logoLayer.texture = logoTexture;
+    };
+
+     $scope.selectChestLogo = function (blob) {
+        var cchestLogo = $scope.content.chestLogo;
+        var movable = cchestLogo.movables[0];
+        var logoLayer = chestLogos[0];
+
+        var urlCreator = window.URL || window.webkitURL;
+        var logoUrl = urlCreator.createObjectURL(blob);
+        var logoTexture = new PIXI.Texture.fromImage(logoUrl);
+
+        logoLayer.texture = logoTexture;
+        movable.data = blob;
+
+        var img = new Image();
+        img.onload = function () {
+            var scale = cchestLogo.size / Math.max(img.width, img.height);
             logoLayer.scale.x = logoLayer.scale.y = scale;
         };
         img.src = logoUrl;
     };
 
-    $scope.selectChestLogoFromLibrary = function(index){
-        $scope.chestLogoIndex = index;
-        var logo = $scope.logos[index];
-
+    $scope.unselectChestLogo = function () {
         var cchestLogo = $scope.content.chestLogo;
-        cchestLogo.enabled = true;
-        cchestLogo.data = logo.url;
-        cchestLogo.type = 'url';
+        var movable = cchestLogo.movables[0];
+
         var logoLayer = chestLogos[0];
-        logoLayer.texture = new PIXI.Texture.fromImage(logo.url);
+        logoLayer.texture = new PIXI.Texture.fromImage('');
 
-        var scale = cchestLogo.size/Math.max(logo.dimensions.width, logo.dimensions.height);
-        logoLayer.scale.x = logoLayer.scale.y = scale;
-
+        movable.data = '';
     };
 
     var selectedUniform = uniformService.get($stateParams.uniform);//$scope.uniforms[$stateParams.uniform];
@@ -123,11 +159,10 @@ module.exports = function ($q, $scope, $timeout, $rootScope, $stateParams, $stat
     var selectedUniformType = uniformTypesService.get(selectedUniform.content.type);
 
 
-
-    var shortPromise = shortService.getAll().then(function(response){
-        $scope.shorts = response.data.filter(function(short){
+    var shortPromise = shortService.getAll().then(function (response) {
+        $scope.shorts = response.data.filter(function (short) {
             return short.content.type == selectedCollar.uid;
-        }).map(function(s, i){
+        }).map(function (s, i) {
             s.id = i;
             return s;
         });
@@ -142,19 +177,25 @@ module.exports = function ($q, $scope, $timeout, $rootScope, $stateParams, $stat
     $scope.faces = constants.faces;
     $scope.face = $scope.faces.FRONT;
 
-    function createContentTemplate(){
+    function createContentTemplate() {
         return {
             general: {
                 title: 'Ana Renk Seçimi',
                 focus: focus.body,
-                error: true,
+                seen: false,
+                errorCond: function () {
+                    return !this.seen;
+                },
                 colors: [
                     {value: colorService.get('beyaz'), layers: smarts_tshirt}
                 ]
             },
             tshirt: {
                 title: 'TShirt Rengi',
-                error: true,
+                seen: false,
+                errorCond: function () {
+                    return !this.seen;
+                },
                 focus: focus.tshirt,
                 colors: [
                     {value: colorService.get('lacivert'), layers: models_tshirt}
@@ -162,13 +203,19 @@ module.exports = function ($q, $scope, $timeout, $rootScope, $stateParams, $stat
             },
             short: {
                 title: 'Şort Modeli',
-                error: true,
+                seen: false,
+                errorCond: function () {
+                    return !this.seen;
+                },
                 focus: focus.shorts,
                 colors: []
             },
             shortBg: {
                 title: 'Şort Rengi',
-                error: true,
+                seen: false,
+                errorCond: function () {
+                    return !this.seen;
+                },
                 focus: focus.shorts,
                 colors: [
                     {value: colorService.get('beyaz'), layers: smarts_short}
@@ -176,7 +223,10 @@ module.exports = function ($q, $scope, $timeout, $rootScope, $stateParams, $stat
             },
             shortFg: {
                 title: 'Şort Deseni',
-                error: true,
+                seen: false,
+                errorCond: function () {
+                    return !this.seen;
+                },
                 focus: focus.shorts,
                 colors: [
                     {value: colorService.get('lacivert'), layers: models_short}
@@ -184,7 +234,10 @@ module.exports = function ($q, $scope, $timeout, $rootScope, $stateParams, $stat
             },
             socks: {
                 title: 'Çoraplar',
-                error: true,
+                seen: false,
+                errorCond: function () {
+                    return false;
+                },
                 focus: focus.socks,
                 enabled: false,
                 colors: [
@@ -193,48 +246,79 @@ module.exports = function ($q, $scope, $timeout, $rootScope, $stateParams, $stat
             },
             logo: {
                 title: 'Göğüs Logosu',
-                error: false,
-                focus: focus.logo,
+                seen: false,
                 enabled: false,
-                type: 'url',
-                data: '',
-                position: angular.copy(focus.logo.transform),
-                movables: [{
-                    value: function () {
-                        return $scope.accordion.index == 4
-                    },
-                    layers: logos
-                }],
+                errorCond: function () {
+                    return this.enabled && !(this.movables[0].enabled ||  this.movables[1].enabled);
+                },
+                focus: focus.logo,
+                movables: [
+                    {
+                        layers: logo1,
+                        type: 'url',
+                        enabled: false,
+                        data: '',
+                        position: {x: 1750, y: 1250}
+                    }, {
+                        layers: logo2,
+                        enabled: false,
+                        type: 'blob',
+                        data: '',
+                        position: {x: 2250, y: 1250}
+                    }
+                ],
                 size: 30,
                 colors: []
             },
             chestLogo: {
                 title: 'Sponsor Logosu',
-                error: false,
-                focus: focus.tshirt,
+                seen: false,
                 enabled: false,
-                type: 'url',
-                data: '',
-                movable: false,
-                position: {x: focus.logo.transform.x, y: 1800},
+                errorCond: function () {
+                    if(!this.enabled)
+                        return false;
+
+                    var text = this.texts[0];
+                    var movable = this.movables[0];
+
+                    if(text.enabled)
+                        return text.value == 'SPONSOR' || text.value.trim() == '';
+
+                    if(movable.enabled)
+                        return movable.data == '';
+
+                    return true;
+                },
+                focus: focus.sponsor,
+                static: true,
+                type: 'text',
                 movables: [{
-                    value: function () {
-                        return $scope.accordion.index == 4
-                    },
-                    layers: chestLogos
+                    position: {x: focus.logo.transform.x, y: 1800},
+                    layers: chestLogos,
+                    enabled: false,
+                    type: 'blob',
+                    data: '',
                 }],
                 size: 100,
+                fontFamily: 'Arial',
+                texts: [
+                    {
+                        layers: chestTexts,
+                        enabled: true,
+                        value: 'SPONSOR',
+                        position: {x: 400, y: 360},
+                        style: {fontSize: '25px'}
+                    },
+                ],
                 colors: []
             },
             number: {
                 title: 'Forma Arkası - İsim ve Numara Rengi',
                 focus: focus.backNumber,
-                error: false,
-                fontFamily: 'Arial',
-                texts: [
-                    {value: 'OYUNCU', position: {x: 400, y: 250}, style: {fontSize: '20px'}},
-                    {value: '9', position: {x: 400, y: 360}, style: {fontSize: '150px'}}
-                ],
+                seen: false,
+                errorCond: function () {
+                    return !this.seen;
+                },
                 colors: [
                     {value: colorService.get('beyaz'), layers: backTexts}
                 ]
@@ -243,35 +327,39 @@ module.exports = function ($q, $scope, $timeout, $rootScope, $stateParams, $stat
     }
 
     function initVars() {
-        if (cache){
-            logos = cache.logos;
+        if (cache) {
+            logo1 = cache.logo1;
+            logo2 = cache.logo2;
             chestLogos = cache.chestLogos;
             $scope.content = cache.content;
             var template = createContentTemplate();
 
-            Object.keys($scope.content).map(function(key){
+
+            Object.keys($scope.content).map(function (key) {
                 var d = $scope.content[key];
                 var tpl = template[key];
 
-                if(d.colors && d.colors.length)
-                    d.colors.forEach(function(c, i){
+                if (d.colors && d.colors.length)
+                    d.colors.forEach(function (c, i) {
                         c.layers = tpl.colors[i].layers;
                     });
 
-                if(d.movables && d.movables.length)
-                    d.movables.forEach(function(m, i){
+                if (d.movables && d.movables.length)
+                    d.movables.forEach(function (m, i) {
                         m.layers = tpl.movables[i].layers;
                     });
 
-                if(d.texts && d.texts.length)
-                    d.texts.forEach(function(t, i){
+                if (d.texts && d.texts.length)
+                    d.texts.forEach(function (t, i) {
                         t.layers = tpl.texts[i].layers;
                     });
             })
 
-        }else {
+        } else {
             $scope.content = createContentTemplate();
         }
+
+        contentKeys = Object.keys($scope.content);
 
         //Change Texture
         //smarts_body.texture = PIXI.Texture.fromImage('img2/smarts_body_'+newValue+'.png');
@@ -285,52 +373,57 @@ module.exports = function ($q, $scope, $timeout, $rootScope, $stateParams, $stat
         };
 
         $scope.changeText = function (layers, newText) {
+            var fontSize = newText.length < 10 ? 25 : 25 * 10 / newText.length;
             layers && layers.forEach(function (layer) {
-                if (layer)
+                if (layer) {
                     layer.text = newText;
+                    layer.style.fontSize = fontSize + 'px';
+                }
             });
         };
 
-        $scope.changeInteraction = function(layers, isInteractive){
+        $scope.changeInteraction = function (layers, isInteractive) {
             layers && layers.forEach(function (layer) {
                 if (layer)
                     layer.interactive = isInteractive
             });
         };
 
-        $scope.changeFont = function(texts, fontFamily){
+        $scope.changeFont = function (texts, fontFamily) {
             texts && texts.forEach(function (text) {
-                if (text.layers.length){
+                if (text.layers.length) {
                     text.layers[0].style.fontFamily = fontFamily;
                     text.fontFamily = fontFamily;
                 }
             });
         };
 
-        $scope.changeSockStatus = function(){
+        $scope.changeSockStatus = function () {
             var socks = $scope.content.socks;
             var enabled = socks.enabled;
-            if(enabled){
+            if (enabled) {
                 $scope.changeTint(socks.colors[0].layers, socks.colors[0].value)
-            }else{
+            } else {
                 $scope.changeTint(socks.colors[0].layers, colorService.get('beyaz'))
             }
         };
 
-        $scope.changeLogoStatus = function(section){
+        $scope.changeLogoStatus = function (section) {
 
-            var movableLayers = section.movables[0].layers;
-            if(section.enabled){
-                movableLayers[0].renderable = true;
-            }else{
-                movableLayers[0].renderable = false;
-            }
+            section.movables.concat(section.texts ? section.texts : []).forEach(function (m) {
+                if (section.enabled && m.enabled) {
+                    m.layers[0].renderable = true;
+                } else {
+                    m.layers[0].renderable = false;
+                }
+            })
+
         }
     }
 
-    function initWatchers(){
+    function initWatchers() {
 
-        $scope.$watch('face', function(newValue){
+        $scope.$watch('face', function (newValue) {
 
             var x = newValue == $scope.faces.FRONT ? 0 : -collarTypesService.getBack(selectedUniformType).position.x + containerSize.wHalf;
             new TWEEN
@@ -343,26 +436,29 @@ module.exports = function ($q, $scope, $timeout, $rootScope, $stateParams, $stat
                 .start();
         });
 
-        var accordionIndex = function(){
+        var accordionIndex = function () {
             var sag = $scope.accordion.groups;
-            return sag.indexOf(sag.find(function(g){return g.isOpen}));
+            return sag.indexOf(sag.find(function (g) {
+                return g.isOpen
+            }));
         };
 
         $scope.$watchCollection(accordionIndex, function (index, oldIndex) {
             var sc = $scope.content;
 
-            if(typeof index == 'undefined' || index == -1)
+            if (typeof index == 'undefined' || index == -1)
                 return;
 
             var content = sc[Object.keys(sc)[index]];
-            content.error = false;
+            content.seen = true;
+            $scope.opts.didClickNext = false;
             var oldContent = sc[Object.keys(sc)[oldIndex]];
 
-            if(content.movables)
+            if (content.movables && !content.static)
                 content.movables.forEach(function (movable) {
                     $scope.changeInteraction(movable.layers, true);
                 });
-            else if(oldContent && oldContent.movables)
+            else if (oldContent && oldContent.movables)
                 oldContent.movables.forEach(function (movable) {
                     $scope.changeInteraction(movable.layers, false);
                 });
@@ -371,6 +467,32 @@ module.exports = function ($q, $scope, $timeout, $rootScope, $stateParams, $stat
 
             tweenTo(_focus);
         }, true);
+
+
+        $scope.$watch('content.chestLogo.type', function(type){
+            var cchestLogo = $scope.content.chestLogo;
+            var movable = cchestLogo.movables[0];
+            var text = cchestLogo.texts[0];
+            var logoLayer = chestLogos[0];
+
+            if(!cchestLogo.enabled)
+                return;
+
+            if(type == 'blob'){
+                movable.enabled = true;
+                logoLayer.renderable = true;
+
+                text.enabled = false;
+                chestTexts[0].renderable = false;
+            }else if(type == 'text'){
+                movable.enabled = false;
+                logoLayer.renderable = false;
+
+                text.enabled = true;
+                chestTexts[0].renderable = true;
+            }
+        });
+
     }
 
 
@@ -382,7 +504,7 @@ module.exports = function ($q, $scope, $timeout, $rootScope, $stateParams, $stat
         if (typeof duration == 'undefined')
             duration = 1000;
 
-        if(part.face)
+        if (part.face)
             $scope.face = part.face;
 
         var cons = absScale * part.scale;
@@ -417,9 +539,12 @@ module.exports = function ($q, $scope, $timeout, $rootScope, $stateParams, $stat
     }
 
 
-
     function initScene() {
-        renderer = PIXI.autoDetectRenderer(containerSize.width, containerSize.height, {antialias: false, transparent: true, resolution: 1});
+        renderer = PIXI.autoDetectRenderer(containerSize.width, containerSize.height, {
+            antialias: false,
+            transparent: true,
+            resolution: 1
+        });
 
         document.querySelector("#pixi-scene").appendChild(renderer.view);
 
@@ -427,7 +552,7 @@ module.exports = function ($q, $scope, $timeout, $rootScope, $stateParams, $stat
         stage = new PIXI.Container();
     }
 
-    function prepareVars(){
+    function prepareVars() {
         angular.forEach($scope.content, function (parts) {
             parts.colors && parts.colors.forEach(function (color) {
                 $scope.changeTint(color.layers, color.value);
@@ -436,12 +561,10 @@ module.exports = function ($q, $scope, $timeout, $rootScope, $stateParams, $stat
                 $scope.changeText(text.layers, text.value);
             });
             parts.movables && parts.movables.forEach(function (movable) {
-                $scope.changeInteraction(movable.layers, movable.value());
+                $scope.changeInteraction(movable.layers, !parts.static);
             });
         });
     }
-
-
 
 
     function initContainer(options) {
@@ -471,6 +594,7 @@ module.exports = function ($q, $scope, $timeout, $rootScope, $stateParams, $stat
         var tshirtTexture = PIXI.Texture.fromImage($scope.getUrl(selectedUniform, 'tshirt_' + options.name));
         var shortTexture = PIXI.Texture.fromImage('');
 
+
         var _models_tshirt = new PIXI.Sprite(tshirtTexture);
         models_tshirt.push(_models_tshirt);
 
@@ -492,6 +616,42 @@ module.exports = function ($q, $scope, $timeout, $rootScope, $stateParams, $stat
         container.addChild(_smarts_tshirt);
         container.addChild(_smarts_short);
         container.addChild(_models_tshirt);
+
+        if (options.name == 'back') {
+            var backTexture = PIXI.Texture.fromImage($scope.getUrl(selectedUniform, 'back_text'));
+            var _backText = new PIXI.Sprite(backTexture);
+            backTexts.push(_backText)
+            container.addChild(_backText);
+        } else {
+            [$scope.content.logo, $scope.content.chestLogo].forEach(function (section) {
+
+                var callback = function () {
+                    $scope.$apply();
+                };
+                if (section.movable == false) {
+                    callback = false;
+                }
+
+                section.movables.forEach(function (m) {
+                    var logoLayer = textureUtil.createLogo(emptyImage, m.position, section.size, callback);
+                    logoLayer.renderable = section.enabled;
+                    m.layers.push(logoLayer);
+                    container.addChild(logoLayer);
+                });
+            });
+
+            var section = $scope.content.chestLogo;
+            section.texts.forEach(function (text, i) {
+                text.style.fontFamily = section.fontFamily;
+                var textLayer = textureUtil.createText(text);
+                textLayer.renderable = text.enabled && section.enabled;
+                text.layers = [textLayer];
+                chestTexts.push(textLayer);
+
+                container.addChild(textLayer);
+            });
+        }
+
         container.addChild(_models_short);
         container.addChild(_socks);
 
@@ -511,64 +671,32 @@ module.exports = function ($q, $scope, $timeout, $rootScope, $stateParams, $stat
         running && requestAnimationFrame(animate);
     }
 
-    function addFrontSpecificLayers(){
-        [$scope.content.logo, $scope.content.chestLogo].forEach(function(section){
-
-            var callback = function(){ $scope.$apply();};
-            if(section.movable == false){
-                callback = false;
-            }
-
-            var logoLayer = textureUtil.createLogo($scope.logos[0], section.position, section.size, callback);
-            var movableLayers = section.movables[0].layers;
-            logoLayer.renderable = section.enabled;
-            movableLayers.push(logoLayer);
-            front.addChild(logoLayer);
-        })
-    }
-
-    function addBackSpecificLayers(){
-
-        var section = $scope.content.number;
-
-        section.texts.forEach(function (text, i) {
-            text.style.fontFamily = section.fontFamily;
-            var textLayer = textureUtil.createText(text);
-
-            text.layers = [textLayer];
-            backTexts.push(textLayer);
-
-            back.addChild(textLayer);
-        });
-    }
-
-    var collarTypePromise = collarTypesService.getAll().then(function(response){
+    var collarTypePromise = collarTypesService.getAll().then(function (response) {
+        console.log('collar types resolved');
         initVars();
-
         initScene();
+
+    }).catch(function (e) {
+        console.error(e);
+    });
+
+    $q.all([shortPromise, collarTypePromise, logoPromise]).then(function () {
+
         var frontOptions = collarTypesService.getFront(selectedUniformType);
         var backOptions = collarTypesService.getBack(selectedUniformType);
         front = initContainer(frontOptions);
-        addFrontSpecificLayers();
         back = initContainer(backOptions);
-        addBackSpecificLayers();
 
         prepareVars();
         initWatchers();
 
         requestAnimationFrame(animate);
-
-
         tweenTo(focus.infinity, 0);
-    }).catch(function (e) {
-        console.error(e);
-    });
 
-    $q.all([shortPromise, collarTypePromise]).then(function () {
-        $scope.$watch('opts.activeShort', function(newIndex){
-            if(typeof newIndex != 'undefined'){
+        $scope.$watch('opts.activeShort', function (newIndex) {
+            if (typeof newIndex != 'undefined') {
                 $scope.currentShort = $scope.shorts[newIndex];
-                if(models_short.length > 1){
+                if (models_short.length > 1) {
                     models_short[0].texture = new PIXI.Texture.fromImage($rootScope.getUrl($scope.currentShort, 'short_front'));
                     models_short[1].texture = new PIXI.Texture.fromImage($rootScope.getUrl($scope.currentShort, 'short_back'));
                 }
@@ -577,29 +705,30 @@ module.exports = function ($q, $scope, $timeout, $rootScope, $stateParams, $stat
         $scope.opts.activeShort = 0;
     });
 
-    $scope.$on('$stateChangeStart', function(){
+    $scope.$on('$stateChangeStart', function () {
         cacheService.set($scope.colorUuid, {
-            content: Object.keys($scope.content).reduce(function(p, key){
-                var d = angular.copy($scope.content[key]);
-                if(d.colors && d.colors.length)
-                    d.colors.forEach(function(c){
+            content: Object.keys($scope.content).reduce(function (p, key) {
+                var d = $scope.content[key];
+                if (d.colors && d.colors.length)
+                    d.colors.forEach(function (c) {
                         c.layers = [];
                     });
 
-                if(d.movables && d.movables.length)
-                    d.movables.forEach(function(m){
+                if (d.movables && d.movables.length)
+                    d.movables.forEach(function (m) {
                         m.layers = [];
                     });
 
-                if(d.texts && d.texts.length)
-                    d.texts.forEach(function(t){
+                if (d.texts && d.texts.length)
+                    d.texts.forEach(function (t) {
                         t.layers = [];
                     });
 
                 p[key] = d;
                 return p;
             }, {}),
-            logos: logos,
+            logo1: logo1,
+            logo2: logo2,
             chestLogos: chestLogos,
             currentShort: $scope.currentShort
         });
@@ -607,7 +736,21 @@ module.exports = function ($q, $scope, $timeout, $rootScope, $stateParams, $stat
     });
 
 
+
+    $scope.hasError = function (contentIndex) {
+
+        for (var errorIndex = 0; errorIndex < contentKeys.length; errorIndex++) {
+            if($scope.content[contentKeys[errorIndex]].errorCond()){
+                break;
+            }
+        }
+
+        var index = contentKeys.indexOf(contentIndex);
+        return index == errorIndex && $scope.opts.didClickNext;
+    };
+
+
     /*setTimeout(function () {
-        tweenTo(focus.body)
-    }, 4000);*/
+     tweenTo(focus.body)
+     }, 4000);*/
 };

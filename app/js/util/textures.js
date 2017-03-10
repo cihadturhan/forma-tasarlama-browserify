@@ -25,7 +25,6 @@ module.exports = {
         logoLayer.y = position.y * absScale;
         var scale = size/Math.max(image.dimensions.width, image.dimensions.height);
         logoLayer.scale.x = logoLayer.scale.y = scale;
-        logoLayer.alpha = 0.8;
         logoLayer.anchor.set(0.5);
         //logoLayer.displayGroup = dragLayer;
 
@@ -61,7 +60,7 @@ module.exports = {
         }
 
         function onDragEnd() {
-            this.alpha = 0.8;
+            this.alpha = 1.0;
 
             this.dragging = false;
 
@@ -161,7 +160,6 @@ module.exports = {
         textLayer.anchor.set(0.5, 0.5);
         textLayer.x = text.position.x;
         textLayer.y = text.position.y;
-        textLayer.alpha = 0.9;
         return textLayer;
     }
 };
