@@ -1,4 +1,4 @@
-module.exports = function ($scope, $uibModalInstance, gkUniforms, selectedGlIndex) {
+angular.module('main').controller('uniformModalCtrl', function ($scope, $uibModalInstance, gkUniforms, selectedGlIndex) {
     console.log(gkUniforms);
     $scope.gkUniforms = gkUniforms;
     $scope.selected = {
@@ -12,4 +12,4 @@ module.exports = function ($scope, $uibModalInstance, gkUniforms, selectedGlInde
     $scope.cancel = function () {
         $uibModalInstance.dismiss('cancel');
     };
-};
+});

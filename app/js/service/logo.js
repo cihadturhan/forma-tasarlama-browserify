@@ -1,7 +1,7 @@
 'use strict';
 var host = require('../util/constants').backendHost;
 
-module.exports = function($http, $q, $timeout, Upload){
+angular.module('main').service('logoService', function($http, $q, $timeout, Upload){
 
     var logos = [
     ];
@@ -41,4 +41,4 @@ module.exports = function($http, $q, $timeout, Upload){
             console.error(arguments);
         })
     }
-};
+});

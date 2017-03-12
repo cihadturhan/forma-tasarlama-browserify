@@ -1,4 +1,4 @@
-module.exports = function() {
+angular.module('main').service('uuidService', function() {
 
     this.generate = function() {
         var d = new Date().getTime();
@@ -9,4 +9,4 @@ module.exports = function() {
         });
         return uuid;
     }
-};
+});

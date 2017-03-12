@@ -6,7 +6,7 @@ var host = require('../util/constants').backendHost;
 var constants = require('../util/constants.js');
 var focus = require('../util/focus');
 
-module.exports = function ($http, $q, $rootScope, colorService, $timeout) {
+angular.module('main').service('collarTypesService', function ($http, $q, $rootScope, colorService, $timeout) {
 
     var collarTypes = [
 
@@ -77,4 +77,4 @@ module.exports = function ($http, $q, $rootScope, colorService, $timeout) {
             }
         };
     }
-};
+});

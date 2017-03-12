@@ -87,7 +87,7 @@ module.exports = {
 
         function closestPoint(point){
             var j = limits.length - 1;
-            var c = false;
+
             var minPoint = point, proj;
             var min = Infinity;
 

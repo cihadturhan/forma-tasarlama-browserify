@@ -1,12 +1,10 @@
 'use strict';
 
-var app = angular.module('main');
-
-app.controller('collarCtrl', require('./collar'));
-app.controller('colorCtrl', require('./color'));
-app.controller('paymentCtrl', require('./payment'));
-app.controller('summaryCtrl', require('./summary'));
-app.controller('uniformCtrl', require('./uniform'));
-app.controller('navCtrl', require('./nav'));
-app.controller('uniformModalCtrl', require('./uniformModal'));
-app.controller('finalCtrl', require('./final'));
+require('./collar');
+require('./color');
+require('./payment');
+require('./summary');
+require('./uniform');
+require('./nav');
+require('./uniformModal');
+require('./final');

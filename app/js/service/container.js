@@ -3,7 +3,7 @@
 var constants = require('../util/constants.js');
 var focus = require('../util/focus');
 
-module.exports = function (colorService) {
+angular.module('main').service('containerService', function (colorService) {
 
     this.getFront = function (model) {
         return {
@@ -41,4 +41,4 @@ module.exports = function (colorService) {
             }
         };
     }
-};
+});

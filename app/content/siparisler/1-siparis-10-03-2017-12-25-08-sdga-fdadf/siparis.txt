@@ -1,0 +1,113 @@
+Title: Siparis 10/03/2017 12:25:08 SDGA FDADF
+
+----
+
+Visible: 1
+
+----
+
+Status: new
+
+----
+
+Datetime: 2017-03-10 12:25:00
+
+----
+
+Name: SDGA FDADF
+
+----
+
+Tc: 23423423
+
+----
+
+Email: sdfasdf@sdfs.om
+
+----
+
+Tel: 234234234
+
+----
+
+Address: sadf asdf asdfasdf
+
+----
+
+Note: 
+
+----
+
+Players: 
+
+- 
+  name: ""
+  number: ""
+  goalkeeper: 'true'
+  size: M
+- 
+  name: ""
+  number: ""
+  goalkeeper: 'true'
+  size: XS
+- 
+  name: ""
+  number: ""
+  goalkeeper: 'false'
+  size: M
+- 
+  name: ""
+  number: ""
+  goalkeeper: 'false'
+  size: M
+- 
+  name: ""
+  number: ""
+  goalkeeper: 'false'
+  size: M
+- 
+  name: ""
+  number: ""
+  goalkeeper: 'false'
+  size: M
+
+----
+
+Prices: 
+
+- 
+  quantity: "4"
+  subtotal: "200"
+  color: ' Premium Sarı (#fb8917) Yeşil (#215b33)'
+  name: 'Point - Polo'
+  price: 50
+- 
+  quantity: "4"
+  subtotal: "40"
+  color: ' Beyaz (#f2f2f2) Neon Pembe (#ff0080)'
+  name: 'Model 1 - Polo'
+  price: 10
+- 
+  quantity: "1"
+  subtotal: "50"
+  color: ""
+  name: 'Keeper Black - Polo'
+  price: 50
+- 
+  quantity: "1"
+  subtotal: "50"
+  color: ""
+  name: 'Keeper Green - Polo'
+  price: 50
+
+----
+
+Extra: 
+
+İlk Logo Resim Adresi: Resim (http://formatasarlama/content/logolar/bulldog.png)
+İlk Logo Koordinatı: (1750,1250)
+İkinci Logo Resim Adresi: Dosya (Sol Panelde Ekli) 
+İkinci Logo Koordinatı: (2250,1250)
+Sponsor Logosu: Yazı (asdfa)
+Sponsor Fontu: Mada
+Sırt Yazı Rengi: Beyaz(#f2f2f2)

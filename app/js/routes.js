@@ -1,6 +1,6 @@
 var app = angular.module('main');
 
-app.run(['$rootScope', '$window', function ($rootScope, $window) {
+app.run(function ($rootScope, $window) {
 
     $rootScope.isMobile = $window.innerWidth < 992;
 
@@ -22,7 +22,7 @@ app.run(['$rootScope', '$window', function ($rootScope, $window) {
         return obj.contentUrl + '/' + obj['content'][key];
 
     };
-}]);
+});
 
 app.config(function ($stateProvider, $urlRouterProvider) {
     $urlRouterProvider.otherwise('/yaka-secimi/');
@@ -69,9 +69,9 @@ app.config(function ($stateProvider, $urlRouterProvider) {
     // Loop over the state definitions and register them
     states.forEach(function (state) {
         state.resolve = {
-            __: function ($q, collarService, uniformService, uniformTypesService, colorService) {
+            __: ['$q', 'collarService', 'uniformService', 'uniformTypesService', 'colorService', function ($q, collarService, uniformService, uniformTypesService, colorService) {
                 return $q.all([collarService.getAll(), uniformService.getAll(), uniformTypesService.getAll(), colorService.getAll()]);
-            }
+            }]
         };
         $stateProvider.state(state.name, state);
     });

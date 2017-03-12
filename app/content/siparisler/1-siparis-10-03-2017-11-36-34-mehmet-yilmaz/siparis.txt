@@ -1,0 +1,122 @@
+Title: Siparis 10/03/2017 11:36:34 Mehmet Yılmaz
+
+----
+
+Visible: 1
+
+----
+
+Status: new
+
+----
+
+Datetime: 2017-03-10 11:36:00
+
+----
+
+Name: Mehmet Yılmaz
+
+----
+
+Tc: 13154846848
+
+----
+
+Email: cihadturhan@hotmail.com
+
+----
+
+Tel: 5314874845
+
+----
+
+Address: Mustafa Kemalpasa Mah. 20/1 Ankara
+
+----
+
+Note: Acil lazim
+
+----
+
+Players: 
+
+- 
+  name: ""
+  number: ""
+  goalkeeper: 'true'
+  size: M
+- 
+  name: ""
+  number: ""
+  goalkeeper: 'false'
+  size: L
+- 
+  name: ""
+  number: ""
+  goalkeeper: 'false'
+  size: M
+- 
+  name: ""
+  number: ""
+  goalkeeper: 'false'
+  size: M
+- 
+  name: ""
+  number: ""
+  goalkeeper: 'false'
+  size: M
+- 
+  name: ""
+  number: ""
+  goalkeeper: 'false'
+  size: S
+- 
+  name: ""
+  number: ""
+  goalkeeper: 'false'
+  size: XS
+- 
+  name: ""
+  number: ""
+  goalkeeper: 'false'
+  size: M
+- 
+  name: ""
+  number: ""
+  goalkeeper: 'false'
+  size: M
+
+----
+
+Prices: 
+
+- 
+  quantity: "8"
+  subtotal: "400"
+  color: ' Beyaz (#f2f2f2) Yeşil (#215b33)'
+  name: 'Point - Polo'
+  price: 50
+- 
+  quantity: "8"
+  subtotal: "80"
+  color: ' Beyaz (#f2f2f2) Neon Pembe (#ff0080)'
+  name: 'Model 1 - Polo'
+  price: 10
+- 
+  quantity: "1"
+  subtotal: "50"
+  color: ""
+  name: 'Keeper Black - Polo'
+  price: 50
+
+----
+
+Extra: 
+
+İlk Logo Resim Adresi: Resim (http://formatasarlama/content/logolar/bulldog.png)
+İlk Logo Koordinatı: (1750,1250)
+
+
+Sponsor Logosu: Yazı (TLM DESİGN)
+Sponsor Fontu: Arial
+Sırt Yazı Rengi: Bordo(#880d29)

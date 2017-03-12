@@ -116,7 +116,7 @@ gulp.task('browserify-min', ['ngAnnotate'], function () {
         .bundle()
         .on('error', handleError)
         .pipe(source('app.min.js'))
-        .pipe(gulpPlugins.streamify(gulpPlugins.uglify({mangle: false})))
+        .pipe(gulpPlugins.streamify(gulpPlugins.uglify({mangle: true})))
         .pipe(gulp.dest(paths.dist));
 });
 
@@ -179,6 +179,26 @@ gulp.task('watch', function () {
         );
     });
 });
+
+
+gulp.task('watch-min', function () {
+    gulp.start('browserify-min');
+    var watcher = gulp.watch([
+        paths.src + '**/*.js',
+        '!' + paths.src + 'third-party/**',
+        paths.test + '**/*.js'
+    ], ['browserify-min']);
+
+    watcher.on('change', function(event) {
+        gutil.log(
+            'File ' ,
+            gutil.colors.yellow(event.path),
+            ' was ',
+            gutil.colors.blue(event.type)
+        );
+    });
+});
+
 
 gulp.task('fast', ['clean'], function () {
     gulp.start('browserify');

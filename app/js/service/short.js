@@ -1,7 +1,7 @@
 'use strict';
 var host = require('../util/constants').backendHost;
 
-module.exports = function($http, $q, $timeout){
+angular.module('main').service('shortService', function($http, $q, $timeout){
 
     var shorts = [];
 
@@ -27,4 +27,4 @@ module.exports = function($http, $q, $timeout){
             return c.uid == uid
         });
     }
-};
+});

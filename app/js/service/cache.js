@@ -2,7 +2,7 @@
 
 var isLocal = false;require('../util/constants').isLocal;
 
-module.exports = function ($http, $q, $timeout) {
+angular.module('main').service('cacheService', function ($http, $q, $timeout) {
 
     var caches = {};
 
@@ -36,4 +36,4 @@ module.exports = function ($http, $q, $timeout) {
         }*/
 
     }
-};
+});

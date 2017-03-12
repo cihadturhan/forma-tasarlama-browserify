@@ -1,8 +1,6 @@
 var app = angular.module('main');
 
-app.directive('ngAlias',
-
-    function ngAlias($compile) {
+app.directive('ngAlias', function () {
         return {
             restrict: "A",
             link: function (scope, element, attrs) {

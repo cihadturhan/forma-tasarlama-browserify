@@ -111,10 +111,35 @@ table.table.table-striped.table-hover {
     margin-top: 190px;
 }
 
-canvas{
-    width: 400px;
-    height: 577px;
+@media (min-width: 320px) {
+    canvas {
+        width: 300px;
+        height: 433px;
+    }
 }
+
+@media (min-width: 640px) {
+    canvas {
+        width: 400px;
+        height: 577px;
+    }
+}
+
+@media (min-width: 992px) {
+    canvas {
+        width: 600px;
+        height: 864px;
+    }
+}
+
+@media (min-width: 1400px) {
+    canvas {
+        width: 800px;
+        height: 1152px;
+    }
+}
+
+
 
 #pixi-scene{
     position: relative;
@@ -770,14 +795,16 @@ uib-accordion .panel-default>.panel-heading a:hover {
     opacity: 1 !important;
 }
 .colors label {
-    width: 43px;
-    height: 43px;
+    width: calc(100% * (1/7) - 5px);
+    padding: 0;
     border-radius: 5px !important;
     margin-right: 5px;
     margin-bottom: 5px;
+    height: 35px;
 }
 .colors {
     padding: 10px;
+    width: 100%;
 }
 .colors .btn:first-child {
     margin-left: -1px;
@@ -898,4 +925,31 @@ uib-accordion .panel-default>.panel-heading a:hover {
 
 .modal{
     z-index: 1070 !important;
+}
+
+.btn-left, .btn-right{
+    position: absolute;
+    bottom: 10px;
+    color: rgb(255, 255, 255);
+    height: 50px;
+    border: none;
+    background-color: rgba(47, 167, 199, 0.5);
+    background-size: 25%;
+    background-repeat: no-repeat;
+    width: 140px;
+    color: white;
+}
+
+.btn-left{
+    background-image: url(../img/arrow-leftgrey.png);
+    background-position: 5%;
+    left: 30px;
+    text-align: right;
+}
+
+.btn-right{
+    background-image: url(../img/arrow-rightgrey.png);
+    background-position: 90%;
+    right: 30px;
+    text-align: left;
 }

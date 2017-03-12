@@ -2,13 +2,11 @@
 
 var host = require('../util/constants').backendHost;
 
-module.exports = function ($http, $q, $timeout) {
+angular.module('main').service('collarService', function ($http, $q, $timeout) {
 
     var collars = [
 
     ];
-
-
 
     this.getAll = function () {
         console.log('collar started', performance.now());
@@ -34,4 +32,4 @@ module.exports = function ($http, $q, $timeout) {
             return c.uid == uid;
         });
     }
-};
+});

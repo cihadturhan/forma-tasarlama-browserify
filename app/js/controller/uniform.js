@@ -1,4 +1,4 @@
-module.exports = function ($scope, $q, $stateParams, uuidService, collarService, uniformService, uniformTypesService) {
+angular.module('main').controller('uniformCtrl', function ($scope, $q, $stateParams, uuidService, collarService, uniformService, uniformTypesService) {
     $scope.collar = $stateParams.collar;
     $scope.collarObj = collarService.get($scope.collar);
     $scope.currentUniformType = uniformTypesService.getElements().find(function (uniformType) {
@@ -19,4 +19,4 @@ module.exports = function ($scope, $q, $stateParams, uuidService, collarService,
         throw e;
     });
 
-};
+});

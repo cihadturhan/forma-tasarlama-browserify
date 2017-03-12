@@ -1,4 +1,4 @@
-module.exports = function($uibModal, $scope, $rootScope, $stateParams, $state, uuidService, uniformService, gkUniformService, collarService, uniformTypesService, cacheService){
+angular.module('main').controller('paymentCtrl', function($uibModal, $scope, $rootScope, $stateParams, $state, uuidService, uniformService, gkUniformService, collarService, uniformTypesService, cacheService){
 
     $scope.sizes = ["XXS",
         "XS",
@@ -171,4 +171,4 @@ module.exports = function($uibModal, $scope, $rootScope, $stateParams, $state, u
         return playerIndex == errorIndex;
     };
 
-};
+});

@@ -1,7 +1,7 @@
 'use strict';
 var host = require('../util/constants').backendHost;
 
-module.exports = function($http, $q, $timeout){
+angular.module('main').service('uniformTypesService', function($http, $q, $timeout){
 
     var uniformTypes = [
     ];
@@ -34,4 +34,4 @@ module.exports = function($http, $q, $timeout){
     this.getElements = function(){
         return uniformTypes;
     }
-};
+});

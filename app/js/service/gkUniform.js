@@ -1,7 +1,7 @@
 'use strict';
 var host = require('../util/constants').backendHost;
 
-module.exports = function($http, $q, $timeout){
+angular.module('main').service('gkUniformService', function($http, $q, $timeout){
 
     var gkUniforms = [
     ];
@@ -28,4 +28,4 @@ module.exports = function($http, $q, $timeout){
             return c.uid == uid
         });
     }
-};
+});

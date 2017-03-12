@@ -7,7 +7,7 @@ var absScale = constants.absScale;
 var containerSize = constants.container;
 
 
-module.exports = function ($q, $scope, $timeout, $rootScope, $stateParams, $state, cacheService, colorService, collarTypesService, uniformService, shortService, uniformTypesService, collarService, uuidService, logoService, $sce) {
+angular.module('main').controller('colorCtrl', function ($q, $scope, $timeout, $rootScope, $stateParams, $state, cacheService, colorService, collarTypesService, uniformService, shortService, uniformTypesService, collarService, uuidService, logoService, $sce) {
 
     var front, back;
     var running = true;
@@ -201,15 +201,6 @@ module.exports = function ($q, $scope, $timeout, $rootScope, $stateParams, $stat
                     {value: colorService.get('lacivert'), layers: models_tshirt}
                 ]
             },
-            short: {
-                title: 'Şort Modeli',
-                seen: false,
-                errorCond: function () {
-                    return !this.seen;
-                },
-                focus: focus.shorts,
-                colors: []
-            },
             shortBg: {
                 title: 'Şort Rengi',
                 seen: false,
@@ -220,6 +211,15 @@ module.exports = function ($q, $scope, $timeout, $rootScope, $stateParams, $stat
                 colors: [
                     {value: colorService.get('beyaz'), layers: smarts_short}
                 ]
+            },
+            short: {
+                title: 'Şort Modeli',
+                seen: false,
+                errorCond: function () {
+                    return !this.seen;
+                },
+                focus: focus.shorts,
+                colors: []
             },
             shortFg: {
                 title: 'Şort Deseni',
@@ -258,13 +258,14 @@ module.exports = function ($q, $scope, $timeout, $rootScope, $stateParams, $stat
                         type: 'url',
                         enabled: false,
                         data: '',
-                        position: {x: 1750, y: 1250}
+                        position: {x: 2250, y: 1250}
                     }, {
                         layers: logo2,
                         enabled: false,
                         type: 'blob',
                         data: '',
-                        position: {x: 2250, y: 1250}
+                        position: {x: 1750, y: 1250}
+
                     }
                 ],
                 size: 30,
@@ -293,7 +294,7 @@ module.exports = function ($q, $scope, $timeout, $rootScope, $stateParams, $stat
                 static: true,
                 type: 'text',
                 movables: [{
-                    position: {x: focus.logo.transform.x, y: 1800},
+                    position: {x: focus.logo.transform.x, y: 1570},
                     layers: chestLogos,
                     enabled: false,
                     type: 'blob',
@@ -306,7 +307,7 @@ module.exports = function ($q, $scope, $timeout, $rootScope, $stateParams, $stat
                         layers: chestTexts,
                         enabled: true,
                         value: 'SPONSOR',
-                        position: {x: 400, y: 360},
+                        position: {x: 400, y: 1570*0.2},
                         style: {fontSize: '25px'}
                     },
                 ],
@@ -317,7 +318,7 @@ module.exports = function ($q, $scope, $timeout, $rootScope, $stateParams, $stat
                 focus: focus.backNumber,
                 seen: false,
                 errorCond: function () {
-                    return !this.seen;
+                    return false;
                 },
                 colors: [
                     {value: colorService.get('beyaz'), layers: backTexts}
@@ -546,6 +547,8 @@ module.exports = function ($q, $scope, $timeout, $rootScope, $stateParams, $stat
             resolution: 1
         });
 
+        renderer.plugins.interaction.autoPreventDefault = false;
+
         document.querySelector("#pixi-scene").appendChild(renderer.view);
 
         // create the root of the scene graph
@@ -753,4 +756,4 @@ module.exports = function ($q, $scope, $timeout, $rootScope, $stateParams, $stat
     /*setTimeout(function () {
      tweenTo(focus.body)
      }, 4000);*/
-};
+});

@@ -1,7 +1,7 @@
 var host = require('../util/constants').backendHost;
 var absScale = require('../util/constants').absScale;
 
-module.exports = function ($q, $scope, $state, $rootScope, $stateParams, cacheService, collarTypesService, uniformService, shortService, uniformTypesService, collarService, Upload, logoService) {
+angular.module('main').controller('summaryCtrl',function ($q, $scope, $state, $rootScope, $stateParams, cacheService, collarTypesService, uniformService, shortService, uniformTypesService, collarService, Upload, logoService) {
 
     $scope.fields = {
         name: '',
@@ -312,4 +312,4 @@ module.exports = function ($q, $scope, $state, $rootScope, $stateParams, cacheSe
     };
 
 
-};
+});
