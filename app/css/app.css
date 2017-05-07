@@ -8,6 +8,10 @@ body {
     /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#f2f9fe+0,d6f0fd+100;White+3D+%232 */
 }
 
+.container{
+    padding: 0;
+}
+
 @font-face {
     font-family: 'Bernadette Rough';
     src: url('font/BernadetteRough.eot');
@@ -111,12 +115,11 @@ table.table.table-striped.table-hover {
     margin-top: 190px;
 }
 
-@media (min-width: 320px) {
-    canvas {
-        width: 300px;
-        height: 433px;
-    }
+canvas {
+    width: 300px;
+    height: 433px;
 }
+
 
 @media (min-width: 640px) {
     canvas {

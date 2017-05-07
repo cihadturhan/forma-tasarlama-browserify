@@ -26,13 +26,14 @@ constants.faces = {
     BOTH: 'BOTH'
 };
 
+var wl = window.location;
 
-constants.isLocal = window.location.hostname == 'formatasarlama';
+constants.isLocal = wl.hostname == 'formatasarlama';
 
 if (constants.isLocal)
     constants.backendHost = 'http://formatasarlama';
 else
-    constants.backendHost = 'http://formatasarla.org/beta';
+    constants.backendHost = wl.protocol +'//' + wl.hostname + wl.pathname.replace(/\/$/, '');
 
 
 

@@ -20,49 +20,50 @@
 
 <body>
 
-<div class="container">
-    <div class="row" ng-controller="navCtrl">
-        <div class="col-xs-12 text-center">
-            <ol class="nav nav-wizard breadcrumb" >
-                <li ui-sref-active="active">
-                    <a ui-sref="collar">
-                        <i class="glyphicon glyphicon-menu-down"></i>
+<div class="row">
+    <div class="col-xs-12 text-center" ng-controller="navCtrl">
+        <ol class="nav nav-wizard breadcrumb" >
+            <li ui-sref-active="active">
+                <a ui-sref="collar">
+                    <i class="glyphicon glyphicon-menu-down"></i>
 
-                        <div class="title">1. Yaka Seçimi</div>
-                    </a>
-                </li>
-                <li ui-sref-active="active" ng-class="{disabled: !sp.collar}">
-                    <a ui-sref="uniform(sp)" >
-                        <i class="glyphicon glyphicon-th"></i>
+                    <div class="title">1. Yaka Seçimi</div>
+                </a>
+            </li>
+            <li ui-sref-active="active" ng-class="{disabled: !sp.collar}">
+                <a ui-sref="uniform(sp)" >
+                    <i class="glyphicon glyphicon-th"></i>
 
-                        <div class="title">2. Model Seçimi</div>
-                    </a>
-                </li>
-                <li ui-sref-active="active" ng-class="{disabled: !sp.colorUuid}">
-                    <a ui-sref="color(sp)">
-                        <i class="glyphicon glyphicon-blackboard"></i>
+                    <div class="title">2. Model Seçimi</div>
+                </a>
+            </li>
+            <li ui-sref-active="active" ng-class="{disabled: !sp.colorUuid}">
+                <a ui-sref="color(sp)">
+                    <i class="glyphicon glyphicon-blackboard"></i>
 
-                        <div class="title">3. Forma Detayları</div>
-                    </a>
-                </li>
-                <li ng-class="{disabled: !sp.paymentUuid}" ui-sref-active="active">
-                    <a ui-sref="payment(sp)">
-                        <i class="glyphicon glyphicon-list"></i>
+                    <div class="title">3. Forma Detayları</div>
+                </a>
+            </li>
+            <li ng-class="{disabled: !sp.paymentUuid}" ui-sref-active="active">
+                <a ui-sref="payment(sp)">
+                    <i class="glyphicon glyphicon-list"></i>
 
-                        <div class="title">4. Oyuncu Bilgileri</div>
-                    </a>
-                </li>
-                <li class="disabled" ui-sref-active="active">
-                    <a ui-sref="summary">
-                        <i class="glyphicon glyphicon-shopping-cart"></i>
+                    <div class="title">4. Oyuncu Bilgileri</div>
+                </a>
+            </li>
+            <li class="disabled" ui-sref-active="active">
+                <a ui-sref="summary">
+                    <i class="glyphicon glyphicon-shopping-cart"></i>
 
-                        <div class="title">5. Sipariş</div>
-                    </a>
-                </li>
-            </ol>
+                    <div class="title">5. Sipariş</div>
+                </a>
+            </li>
+        </ol>
 
-        </div>
     </div>
+</div>
+
+<div class="container">
 
     <ui-view class="row">
 
@@ -78,7 +79,12 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/4.3.0/min/dropzone.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pixi.js/4.3.4/pixi.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/tween.js/16.6.0/Tween.min.js"></script>
+
+<?php if($_SERVER['HTTP_HOST'] == 'formatasarla'): ?>
+<script src="dist/app.js"></script>
+<?php else:?>
 <script src="dist/app.min.js"></script>
+<?php endif?>
 
 </body>
 </html>

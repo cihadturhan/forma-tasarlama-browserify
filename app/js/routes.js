@@ -22,6 +22,15 @@ app.run(function ($rootScope, $window) {
         return obj.contentUrl + '/' + obj['content'][key];
 
     };
+
+    $rootScope.$on('$stateChangeError', function (e, toState, toParams, fromState, fromParams, error) {
+        if (error && error.redirect) {
+            e.preventDefault();
+            return $state.go(error.redirect);
+        }
+
+        console.error(error);
+    });
 });
 
 app.config(function ($stateProvider, $urlRouterProvider) {
