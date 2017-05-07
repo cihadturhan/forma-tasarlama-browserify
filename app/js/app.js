@@ -5,6 +5,7 @@ require('es5-sham');
 
 require('angular-ui-router');
 require('ng-file-upload');
+require('./util/functions');
 
 var app = angular.module('main', [ 'ui.router', 'ngFileUpload', 'ngAnimate', 'ui.bootstrap']);
 
